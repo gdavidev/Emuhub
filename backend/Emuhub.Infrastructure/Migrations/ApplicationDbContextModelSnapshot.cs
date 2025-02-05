@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RestAPI.Data;
+using Emuhub.Domain.Entities;
+using Emuhub.Infrastructure.DataAccess;
 
 #nullable disable
 
-namespace RestAPI.Migrations
+namespace Emuhub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -21,7 +22,7 @@ namespace RestAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RestAPI.Models.Entities.Game", b =>
+            modelBuilder.Entity("Emuhub.Domain.Entities.Game", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace RestAPI.Migrations
+namespace Emuhub.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
