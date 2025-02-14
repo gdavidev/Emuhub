@@ -6,6 +6,7 @@ namespace Emuhub.Infrastructure.DataAccess;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Game> Games { get; set; }
+    public DbSet<Emulator> Emulators { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
