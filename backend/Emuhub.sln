@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.API", "Emuhub.API\Em
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Communication", "Emuhub.Communication\Emuhub.Communication.csproj", "{690199FF-7065-4D3E-AD7B-BB0B3E942109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emuhub.Domain", "Emuhub.Domain\Emuhub.Domain.csproj", "{9807F49A-6DD5-428E-A213-45789F20119E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Domain", "Emuhub.Domain\Emuhub.Domain.csproj", "{9807F49A-6DD5-428E-A213-45789F20119E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emuhub.Infrastructure", "Emuhub.Infrastructure\Emuhub.Infrastructure.csproj", "{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Infrastructure", "Emuhub.Infrastructure\Emuhub.Infrastructure.csproj", "{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4765B17E-AFF9-4716-A055-8238A9EF8272}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
