@@ -1,4 +1,5 @@
 ﻿using Emuhub.Infrastructure.DataAccess;
+using Emuhub.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,5 +20,11 @@ public static class DependencyInjection
                 )
             )
         );
+        AddRepositories(services);
+    }
+
+    private static void AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<GameRepository>();
     }
 }

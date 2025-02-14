@@ -2,29 +2,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Emuhub.Communication.Data;
 using Emuhub.Domain.Entities;
-using Emuhub.Infrastructure.DataAccess;
+using Emuhub.Infrastructure.Repositories;
 
 namespace Emuhub.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
-public class GamesController(ApplicationDbContext context) : ControllerBase
+public class GamesController(GameRepository games) : ControllerBase
 {
-	private readonly ApplicationDbContext _context = context;
+	[HttpGet]
+    [Route("api/Game")]
+    public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames([FromQuery] int page)
+	{
+		List<Game> gameList = await games.GetAll(page);
+		List<GameDTO> dtoList = gameList.Select(g => g.AsDTO()).ToList();
+
+		return dtoList;
+    }
 
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames()
+    [Route("api/Games/{id}")]
+    public async Task<ActionResult<GameDTO>> GetGame(long id)
 	{
-		return await _context.Games
-				.AsNoTracking()
-				.Select(g => g.AsDTO())
-				.ToListAsync();
-	}
-
-	[HttpGet("{id}")]
-	public async Task<ActionResult<GameDTO>> GetGame(long id)
-	{
-		var game = await _context.Games.FindAsync(id);
+		var game = await games.Get(id);
 
 		if (game == null)
 			return NotFound();
@@ -32,61 +31,45 @@ public class GamesController(ApplicationDbContext context) : ControllerBase
 		return game.AsDTO();
 	}
 
-	[HttpPut("{id}")]
-	public async Task<IActionResult> PutGame(long id, Game game)
+	[HttpPut]
+    [Route("api/Games")]
+    public async Task<IActionResult> PutGame([FromBody] Game game)
 	{
-		if (id != game.Id)
-		{
-			return BadRequest();
-		}
+        try
+        {
+            await games.Update(game);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!await games.Exists(game.Id))
+                return NotFound();
+            else
+                throw;
+        }
 
-		_context.Entry(game).State = EntityState.Modified;
-
-		try
-		{
-			await _context.SaveChangesAsync();
-		}
-		catch (DbUpdateConcurrencyException)
-		{
-			if (!GameExists(id))
-			{
-				return NotFound();
-			}
-			else
-			{
-				throw;
-			}
-		}
-
-		return NoContent();
+        return NoContent();
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<GameDTO>> PostGame(Game game)
+    [Route("api/Games")]
+    public async Task<ActionResult<GameDTO>> PostGame(Game game)
 	{
-		_context.Games.Add(game);
-		await _context.SaveChangesAsync();
+		await games.Add(game);
 
-		return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game.AsDTO());
+		return CreatedAtAction(nameof(GetGame), new { id = game.Id });
 	}
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> DeleteGame(long id)
+	[HttpDelete]
+    [Route("api/Games/{id}")]
+    public async Task<IActionResult> DeleteGame(long id)
 	{
-		var game = await _context.Games.FindAsync(id);
-		if (game == null)
-		{
-			return NotFound();
-		}
+        var game = await games.Get(id);
 
-		_context.Games.Remove(game);
-		await _context.SaveChangesAsync();
+        if (game == null)
+            return NotFound();
+        
+        await games.Delete(game);        
 
-		return NoContent();
-	}
-
-	private bool GameExists(long id)
-	{
-		return _context.Games.Any(e => e.Id == id);
-	}
+        return NoContent();
+	}	
 }
