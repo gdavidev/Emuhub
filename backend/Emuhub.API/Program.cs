@@ -18,7 +18,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger(options => options.RouteTemplate = "/openapi/{documentName}.json");
-app.MapScalarApiReference();
+app.MapScalarApiReference(options => options.WithTitle("Emuhub - API docs"));
 
 // Middlewares
 app.UseHttpsRedirection();
