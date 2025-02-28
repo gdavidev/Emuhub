@@ -8,7 +8,7 @@ import GameEditModal from '@apps/admin/components/modal/GameEditModal';
 import { IconButton } from '@mui/material';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import useStatefulArray from '@/hooks/useStatefulArray';
-import useGames, { useDeleteGame } from '@/hooks/useGames';
+import useGames, { useDeleteGame } from '@/hooks/api/useGames.ts';
 import useMessageBox from '@/hooks/interaction/useMessageBox.ts';
 import { MessageBoxResult, MessageBoxType } from '@shared/components/MessageBox.tsx';
 

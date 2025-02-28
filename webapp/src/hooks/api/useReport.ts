@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import ApiService from '@api/ApiService.ts';
 import Report from '@models/Report.ts';
-import * as DTO from '@models/data/ReportDTOs.ts'
+import * as DTO from '@models/data/ReportTypes.ts'
 import { useCallback } from 'react';
 
 const endpoints = {
@@ -19,7 +19,7 @@ type useReportOptions<T> = {
 export default function useSendReport(token: string, options?: useReportOptions<any>) {
 	const postReport =
 			useCallback(async (report: Report) => {
-				return await ApiService.post<DTO.ReportGetResponseDTO>(
+				return await ApiService.post<DTO.ReportGetResponse>(
 						endpoints.post,
 						report.toCreateDTO(),
 						{ headers: { 'Authorization': 'Bearer ' + token } });
@@ -37,9 +37,9 @@ export default function useSendReport(token: string, options?: useReportOptions<
 export function useReports(token: string, options?: useReportOptions<Report[]>) {
 	const fetchReports = useCallback(async () => {
 		const resp =
-				await ApiService.get<DTO.ReportGetResponseDTO[]>(endpoints.get,
+				await ApiService.get<DTO.ReportGetResponse[]>(endpoints.get,
 						{ headers: { 'Authorization': 'Bearer ' + token } });
-		return resp.data.map((rep: DTO.ReportGetResponseDTO) => Report.fromGetDTO(rep));
+		return resp.data.map((rep: DTO.ReportGetResponse) => Report.fromGetDTO(rep));
 	}, [token])
 
 	const { data: reports, isLoading: isReportsLoading, refetch: reloadReports, ...rest } =
@@ -55,7 +55,7 @@ export function useReports(token: string, options?: useReportOptions<Report[]>) 
 export function useResolveReport(token: string, options?: useReportOptions<Report>) {
 	const postResolveReport =
 			useCallback(async (report: Report) => {
-				const res = await ApiService.post<DTO.ReportGetResponseDTO>(
+				const res = await ApiService.post<DTO.ReportGetResponse>(
 						endpoints.resolve,
 						report.toResolveDTO(),
 						{ headers: { 'Authorization': 'Bearer ' + token } });

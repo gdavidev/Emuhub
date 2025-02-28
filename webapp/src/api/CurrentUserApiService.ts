@@ -1,5 +1,5 @@
 import CurrentUser from "@models/CurrentUser";
-import * as DTO from '@models/data/CurrentUserDTOs.ts';
+import * as DTO from '@models/data/CurrentUserTypes.ts';
 import ApiService from './ApiService';
 
 export default class UserApiService {
@@ -13,7 +13,7 @@ export default class UserApiService {
     delete: 'api/users/delete/',
   }
 
-  public static async register(dto: DTO.CurrentUserRegisterDTO): Promise<string> {
+  public static async register(dto: DTO.CurrentUserRegisterRequest): Promise<string> {
     const response =
         await ApiService.post(
           UserApiService.endpoints.register,
@@ -23,16 +23,16 @@ export default class UserApiService {
     return response.data;
   }
     
-  public static async login(dto: DTO.CurrentUserLoginDTO): Promise<CurrentUser> {
+  public static async login(dto: DTO.CurrentUserLoginRequest): Promise<CurrentUser> {
     const response = await ApiService.post(UserApiService.endpoints.login, dto);
     return CurrentUser.fromLoginResponseDTO(response.data);
   }
 
-  public static async forgotPassword(dto: DTO.CurrentUserForgotPasswordDTO): Promise<void> {
+  public static async forgotPassword(dto: DTO.CurrentUserForgotPassword): Promise<void> {
     await ApiService.post(UserApiService.endpoints.forgotPassword, dto);
   }
 
-  public static async resetPassword(dto: DTO.CurrentUserResetPasswordDTO, token: string) {
+  public static async resetPassword(dto: DTO.CurrentUserResetPassword, token: string) {
     await ApiService.post(
       UserApiService.endpoints.resetPassword,
       { password: dto.newPassword },
@@ -40,7 +40,7 @@ export default class UserApiService {
     })
   }
 
-  public static async delete(dto: DTO.CurrentUserDeleteDTO, token: string) {
+  public static async delete(dto: DTO.CurrentUserDelete, token: string) {
     await ApiService.delete(
         UserApiService.endpoints.delete, {
           data: { user_id: dto.user_id },
@@ -48,7 +48,7 @@ export default class UserApiService {
         });
   }
 
-  public static async update(dto: DTO.CurrentUserUpdateDTO, token: string): Promise<void> {
+  public static async update(dto: DTO.CurrentUserUpdate, token: string): Promise<void> {
     await ApiService.put(
       UserApiService.endpoints.put,
       dto,

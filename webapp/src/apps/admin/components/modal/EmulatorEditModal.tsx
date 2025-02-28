@@ -3,7 +3,7 @@ import ModalPopup, { ModalPopupProps } from '@/apps/shared/components/ModalPopup
 import Emulator from '@/models/Emulator';
 import { Controller, useForm } from 'react-hook-form';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { useStoreEmulator } from '@/hooks/useEmulators';
+import { useStoreEmulator } from '@/hooks/api/useEmulators.ts';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import { AxiosError } from 'axios';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';

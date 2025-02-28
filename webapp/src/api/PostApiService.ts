@@ -1,4 +1,4 @@
-import * as DTO from "@/models/data/PostDTOs";
+import * as DTO from "@models/data/PostTypes.ts";
 import Post from "@models/Post";
 import ApiService from "./ApiService";
 
@@ -14,28 +14,28 @@ export default class PostApiService {
 
   static async getAll(token?: string): Promise<Post[]> {
     const res  =
-        await ApiService.get<DTO.PostGetResponseDTO[]>(PostApiService.endpoints.get, {
+        await ApiService.get<DTO.PostGetResponse[]>(PostApiService.endpoints.get, {
           headers: token !== undefined ? { 'Authorization': 'Bearer ' + token } : undefined
         });
-    return res.data.map(dto => Post.fromGetDTO(dto));
+    return res.data.map(dto => Post.fromGetResponse(dto));
   }
 
   static async get(id: number, token?: string): Promise<Post> {
     const res =
-        await ApiService.get<DTO.PostGetResponseDTO>(PostApiService.endpoints.detail, {
+        await ApiService.get<DTO.PostGetResponse>(PostApiService.endpoints.detail, {
           params: { topico_id: id },
           headers: token !== undefined ? { 'Authorization': 'Bearer ' + token } : undefined
         });
-    return Post.fromGetDTO(res.data);
+    return Post.fromGetResponse(res.data);
   }
 
   static async search(search: string, token?: string): Promise<Post[]> {
     const res =
-        await ApiService.get<{ topicos: DTO.PostGetResponseDTO[] }>(PostApiService.endpoints.search, {
+        await ApiService.get<{ topicos: DTO.PostGetResponse[] }>(PostApiService.endpoints.search, {
           params: { search: search },
           headers: token !== undefined ? { 'Authorization': 'Bearer ' + token } : undefined
         });
-    return res.data.topicos.map(dto => Post.fromGetDTO(dto));
+    return res.data.topicos.map(dto => Post.fromGetResponse(dto));
   }
 
   public static async delete(post: Post, token: string): Promise<void> {
@@ -48,8 +48,8 @@ export default class PostApiService {
     );
   }
 
-  public static async create(dto: DTO.PostCreateDTO, token: string): Promise<DTO.PostGetResponseDTO> {
-    const res = await ApiService.post<DTO.PostGetResponseDTO>(
+  public static async create(dto: DTO.PostCreateRequest, token: string): Promise<DTO.PostGetResponse> {
+    const res = await ApiService.post<DTO.PostGetResponse>(
       PostApiService.endpoints.post,
       dto,
       { headers: {
@@ -60,8 +60,8 @@ export default class PostApiService {
     return res.data
   }
 
-  public static async update(dto: DTO.PostUpdateDTO, token: string): Promise<DTO.PostGetResponseDTO> {
-    const res = await ApiService.put<DTO.PostGetResponseDTO>(
+  public static async update(dto: DTO.PostUpdateRequest, token: string): Promise<DTO.PostGetResponse> {
+    const res = await ApiService.put<DTO.PostGetResponse>(
       PostApiService.endpoints.put,
       dto,
       { headers: {

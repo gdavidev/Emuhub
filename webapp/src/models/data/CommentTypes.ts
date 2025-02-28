@@ -1,7 +1,7 @@
-import { UseGetResponseDTO } from '@models/data/UserDTOs.ts';
+import { UserGetResponse } from '@models/data/UserTypes.ts';
 
 /* CREATE */
-export type CommentCreateDTO = {
+export type CommentCreateRequest = {
 	id_topico: number,
 	descricao: string,
 	is_helpful: boolean,
@@ -9,31 +9,31 @@ export type CommentCreateDTO = {
 }
 
 /* UPDATE */
-export type CommentUpdateDTO = {
+export type CommentUpdateRequest = {
 	id_topico: number,
 	descricao: string,
 	comentario_delete: boolean
 }
 
 /* DELETE */
-export type CommentDeleteDTO = {
+export type CommentDeleteRequest = {
 	id: number
 }
 
 /* GET */
-export type CommentGetDTO = {
+export type CommentGetRequest = {
 	id: number,
 }
-export type CommentGetResponseDTO = {
+export type CommentGetResponse = {
 	id: number;
 	id_topico: number;
 	descricao: string;
 	type_content: string;
-	user: UseGetResponseDTO;
+	user: UserGetResponse;
 	is_helpful: boolean;
 	id_parent: number | 'None';
 	created_at: Date;
 	updated_at: Date;
 	has_liked: boolean;
-	children: CommentGetResponseDTO[]
+	children: CommentGetResponse[]
 }

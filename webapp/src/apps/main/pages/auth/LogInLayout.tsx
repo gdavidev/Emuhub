@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IonIcon } from "@ionic/react";
 import { mailOutline } from "ionicons/icons";
 import PasswordHiddenToggle from "@apps/main/components/PasswordHiddenToggle.tsx";
-import useAuth from "@/hooks/useAuth.ts";
+import useAuth from "@/hooks/api/useAuth.ts";
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import Validation from '@libs/Validation.ts';
 

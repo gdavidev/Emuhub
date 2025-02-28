@@ -1,36 +1,36 @@
 /* CREATE */
-export type EmulatorCreateResponseDTO ={
-  id: number,
+export type EmulatorCreateRequest = {
   nome: string,
   console: string,
   empresa: string,
 }
-export type EmulatorCreateDTO = {
+export type EmulatorCreateResponse ={
+  id: number,
   nome: string,
   console: string,
   empresa: string,
 }
 
 /* UPDATE */
-export type EmulatorUpdateDTO = {
+export type EmulatorUpdateRequest = {
   id: number,
   nome: string,
   console: string,
   empresa: string,
 }
-export type EmulatorUpdateResponseDTO = {}
+export type EmulatorUpdateResponse = {}
 
 /* DELETE */
-export type EmulatorDeleteDTO = {
+export type EmulatorDeleteRequest = {
   id: number
 }
-export type EmulatorDeleteResponseDTO = {}
+export type EmulatorDeleteResponse = {}
 
 /* GET */
-export type EmulatorGetDTO = {  
+export type EmulatorGetRequest = {
   emulador_id: number,
 }
-export type EmulatorGetResponseDTO = {
+export type EmulatorGetResponse = {
   id: number,
   nome: string,
   console: string,

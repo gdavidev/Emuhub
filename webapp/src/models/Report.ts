@@ -1,4 +1,4 @@
-import * as DTO from '@models/data/ReportDTOs.ts'
+import * as Requests from '@models/data/ReportTypes.ts'
 
 export enum ReportContentType {
 	POST,
@@ -63,7 +63,7 @@ export default class Report {
 		this.updatedDate = updatedDate;
 	}
 
-	public static fromGetDTO(dto: DTO.ReportGetResponseDTO): Report {
+	public static fromGetDTO(dto: Requests.ReportGetResponse): Report {
 		return new Report(
 				dto.content_id,
 				Report.parseContentType(dto.content_type_name),
@@ -78,7 +78,7 @@ export default class Report {
 		);
 	}
 
-	public toCreateDTO(): DTO.ReportCreateDTO {
+	public toCreateDTO(): Requests.ReportCreateRequest {
 		return {
 			reported_by: this.reportedBy,
 			content_type: Report.serializeContentType(this.contentType),
@@ -87,7 +87,7 @@ export default class Report {
 		}
 	}
 
-	public toResolveDTO(): DTO.ReportResolveDTO {
+	public toResolveDTO(): Requests.ReportResolveRequest {
 		return {
 			reported_by: this.reportedBy,
 			content_type: Report.serializeContentType(this.contentType),

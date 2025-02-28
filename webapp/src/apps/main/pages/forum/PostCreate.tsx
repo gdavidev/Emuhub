@@ -1,8 +1,8 @@
 import TextArea from '@/apps/shared/components/formComponents/TextArea';
 import TextInput from '@/apps/shared/components/formComponents/TextInput';
-import useCategories, { CategoryType } from '@/hooks/useCategories.ts';
+import useCategories, { CategoryType } from '@/hooks/api/useCategories.ts';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { useCreatePost } from '@/hooks/usePosts';
+import { useCreatePost } from '@/hooks/api/usePosts.ts';
 import Category from '@/models/Category';
 import Post from '@/models/Post';
 import SelectInput, { SelectInputSource } from '@apps/shared/components/formComponents/SelectInput';

@@ -1,10 +1,10 @@
 import CurrentUser from '@/models/CurrentUser';
 import { useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import { CurrentUserUpdateDTO } from '@models/data/CurrentUserDTOs.ts';
+import { CurrentUserUpdate } from '@models/data/CurrentUserTypes.ts';
 import Validation from '@/libs/Validation';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/api/useAuth.ts';
 import { Controller, useForm } from 'react-hook-form';
 import TextInput from '@/apps/shared/components/formComponents/TextInput';
 import { IonIcon } from '@ionic/react';
@@ -71,7 +71,7 @@ export default function ProfilePage() {
   // ---- API Calls Setup ----
   const { update, deleteAccount } = useAuth({
     onUpdate: {
-      onSuccess: (_, dto: CurrentUserUpdateDTO) => updateCurrentUser(dto),
+      onSuccess: (_, dto: CurrentUserUpdate) => updateCurrentUser(dto),
       onError: (err: AxiosError | Error) => handleRequestError(err),
     },
     onDelete: {
@@ -132,7 +132,7 @@ export default function ProfilePage() {
   }, [user])
 
   // ---- Updating Session ----
-  const updateCurrentUser = useCallback(async (dto: CurrentUserUpdateDTO) => {
+  const updateCurrentUser = useCallback(async (dto: CurrentUserUpdate) => {
     if (!user)
       return exit('/', 'Por favor faça o login novamente')
 

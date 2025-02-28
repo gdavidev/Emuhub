@@ -1,4 +1,4 @@
-export type UseGetResponseDTO = {
+export type UserGetResponse = {
 	id: number,
 	admin: boolean,
 	email: string,

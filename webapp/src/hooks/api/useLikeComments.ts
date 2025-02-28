@@ -1,4 +1,4 @@
-import ApiService from "@/api/ApiService"
+import ApiService from "@api/ApiService.ts"
 import { useMutation } from "react-query"
 import { AxiosError } from 'axios';
 import { useCallback } from 'react';

@@ -1,9 +1,9 @@
 /* CREATE */
-import { CategoryGetResponseDTO } from '@models/data/CategoryDTOs.ts';
-import { UseGetResponseDTO } from '@models/data/UserDTOs.ts';
-import { CommentGetResponseDTO } from '@models/data/CommentDTOs.ts';
+import { CategoryGetResponse } from '@models/data/CategoryTypes.ts';
+import { UserGetResponse } from '@models/data/UserTypes.ts';
+import { CommentGetResponse } from '@models/data/CommentTypes.ts';
 
-export type PostCreateDTO = {
+export type PostCreateRequest = {
   titulo: string,
   descricao: string,
   id_categoria: number,
@@ -13,7 +13,7 @@ export type PostCreateDTO = {
 }
 
 /* UPDATE */
-export type PostUpdateDTO = {
+export type PostUpdateRequest = {
   titulo?: string,
   descricao?: string,
   id_categoria?: number,
@@ -23,25 +23,25 @@ export type PostUpdateDTO = {
 }
 
 /* DELETE */
-export type PostDeleteDTO = {
+export type PostDeleteRequest = {
   topico_id: number
 }
 
 /* GET */
-export type PostGetDTO = {  
+export type PostGetRequest = {
   topico_id: number,
   id_usuario: string,
 }
-export type PostGetResponseDTO = {
+export type PostGetResponse = {
   id: 1;
   titulo: string;
   img_topico64: string;
   tags: string[] | 'None';
   descricao: string;
-  categoria: CategoryGetResponseDTO
-  user: UseGetResponseDTO
+  categoria: CategoryGetResponse
+  user: UserGetResponse
   comentarios: number;
-  obj_comentarios: CommentGetResponseDTO[]
+  obj_comentarios: CommentGetResponse[]
   likes: number;
   created_at: Date;
   updated_at: Date;

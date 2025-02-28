@@ -1,4 +1,4 @@
-import * as DTO from "@models/data/GameDTOs";
+import * as Requests from "@models/data/GameTypes.ts";
 import Game from "@models/Game";
 import ApiService from "./ApiService";
 import { AxiosResponse } from 'axios'
@@ -7,19 +7,19 @@ export default class GameApiService {
   private static readonly endpoints = {
     get: 'api/roms/',
     detail: 'api/roms/detail/',
-		search: 'api/roms/search/',
+    search: 'api/roms/search/',
     post: 'api/roms/create/',
     put: 'api/roms/update/',
     delete: 'api/roms/delete/'
   };
 
   static async getAll(): Promise<Game[]> {
-    const res: AxiosResponse<DTO.GameGetResponseDTO[]> = await ApiService.get(GameApiService.endpoints.get);
+    const res: AxiosResponse<Requests.GameGetResponse[]> = await ApiService.get(GameApiService.endpoints.get);
     return res.data.map(g => Game.fromGetDTO(g))
   }
 
   static async get(id: number): Promise<Game> {
-    const res: AxiosResponse<DTO.GameGetResponseDTO> = await ApiService.get(
+    const res: AxiosResponse<Requests.GameGetResponse> = await ApiService.get(
         GameApiService.endpoints.detail, {
           params: { rom_id: id }
         });
@@ -27,7 +27,7 @@ export default class GameApiService {
   }
 
 	static async search(search: string): Promise<Game[]> {
-		const res: AxiosResponse<{ roms: DTO.GameGetResponseDTO[] }> = await ApiService.get(
+		const res: AxiosResponse<{ roms: Requests.GameGetResponse[] }> = await ApiService.get(
 				GameApiService.endpoints.search, {
 					params: { search: search }
 				});
@@ -52,7 +52,7 @@ export default class GameApiService {
   }
 
   private static async post(game: Game, token: string): Promise<Game> {    
-    const res: AxiosResponse<DTO.GameCreateResponseDTO> = await ApiService.post(
+    const res: AxiosResponse<Requests.GameCreateResponse> = await ApiService.post(
         GameApiService.endpoints.post,
         game.toCreateDTO(),
         { headers: {

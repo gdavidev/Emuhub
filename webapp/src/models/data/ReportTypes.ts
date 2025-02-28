@@ -1,5 +1,5 @@
 /* CREATE */
-export type ReportCreateDTO = {
+export type ReportCreateRequest = {
 	reported_by: number,
 	content_type: string,
 	content_id: number,
@@ -7,7 +7,7 @@ export type ReportCreateDTO = {
 }
 
 /* RESOLVE */
-export type ReportResolveDTO = {
+export type ReportResolveRequest = {
 	reported_by: number,
 	content_type: string,
 	content_id: number,
@@ -18,15 +18,15 @@ export type ReportResolveDTO = {
 }
 
 /* DELETE */
-export type ReportDeleteDTO = {
+export type ReportDeleteRequest = {
 	id: number,
 }
 
 /* GET */
-export type ReportGetDTO = {
+export type ReportGetRequest = {
 	id: number,
 }
-export type ReportGetResponseDTO = {
+export type ReportGetResponse = {
 	id: number,
 	reported_by: number,
 	content_type: number,

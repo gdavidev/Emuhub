@@ -1,4 +1,4 @@
-import * as DTO from "@models/data/EmulatorDTOs";
+import * as DTO from "@models/data/EmulatorTypes.ts";
 import Emulator from "@models/Emulator";
 import ApiService from "./ApiService";
 import { AxiosResponse } from 'axios'
@@ -12,13 +12,13 @@ export default class EmulatorApiService {
   };
 
   static async getAll(): Promise<Emulator[]> {
-    const res: AxiosResponse<DTO.EmulatorGetResponseDTO[]> =
+    const res: AxiosResponse<DTO.EmulatorGetResponse[]> =
         await ApiService.get(EmulatorApiService.endpoints.get);
     return res.data.map(dto => Emulator.fromGetDTO(dto));
   }
 
   static async get(id: number): Promise<Emulator> {
-    const res: AxiosResponse<DTO.EmulatorGetResponseDTO> = 
+    const res: AxiosResponse<DTO.EmulatorGetResponse> =
         await ApiService.get(EmulatorApiService.endpoints.get, { data: { id: id } });
     return Emulator.fromGetDTO(res.data);
   }  
@@ -40,7 +40,7 @@ export default class EmulatorApiService {
   }
 
   private static async post(emulator: Emulator, token: string): Promise<Emulator> {
-    const res: AxiosResponse<DTO.EmulatorCreateResponseDTO> = await ApiService.post(
+    const res: AxiosResponse<DTO.EmulatorCreateResponse> = await ApiService.post(
       EmulatorApiService.endpoints.post,
       emulator.toCreateDTO(),
       { headers: { 

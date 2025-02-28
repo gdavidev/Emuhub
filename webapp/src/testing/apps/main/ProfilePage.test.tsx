@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest'
 import { it, expect, describe, vi } from 'vitest'
 import { cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import useAuth from '@/hooks/useAuth.ts';
+import useAuth from '@/hooks/api/useAuth.ts';
 import useAlert from '@/hooks/feedback/useAlert.tsx';
 import useCurrentUser from '@/hooks/useCurrentUser.tsx';
 import useEmergencyExit from '@/hooks/useEmergencyExit.ts';

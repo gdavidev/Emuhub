@@ -3,7 +3,7 @@ import ModalPopup, { ModalPopupProps } from '@/apps/shared/components/ModalPopup
 import { Controller, useForm } from 'react-hook-form';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import Report, { ReportStatus } from '@models/Report';
-import { useResolveReport } from '@/hooks/useReport.ts';
+import { useResolveReport } from '@/hooks/api/useReport.ts';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import { AxiosError } from 'axios';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';

@@ -1,4 +1,4 @@
-import * as DTO from "@models/data/CategoryDTOs";
+import * as Requests from "@models/data/CategoryTypes.ts";
 
 export default class Category {
   id: number;
@@ -9,22 +9,22 @@ export default class Category {
     this.name = name  || "";
   }
 
-  toCreateDTO(): DTO.CategoryCreateDTO {
+  toCreateDTO(): Requests.CategoryCreateRequest {
     return { nome: this.name }
   }
 
-  toUpdateDTO(): DTO.CategoryUpdateDTO {
+  toUpdateDTO(): Requests.CategoryUpdateRequest {
     return {
       id: this.id,
       nome: this.name,
     }
   }
 
-  toDeleteDTO(): DTO.CategoryDeleteDTO {
+  toDeleteDTO(): Requests.CategoryDeleteRequest {
     return { id: this.id }
   }
 
-  static fromGetDTO(dto: DTO.CategoryGetResponseDTO): Category {
+  static fromGetDTO(dto: Requests.CategoryGetResponse): Category {
     return new Category(
       dto.id,
       dto.nome,

@@ -1,4 +1,4 @@
-import useCategories, { CategoryType } from '@/hooks/useCategories.ts';
+import useCategories, { CategoryType } from '@/hooks/api/useCategories.ts';
 import { IonIcon } from '@ionic/react';
 import { add, arrowForward } from 'ionicons/icons';
 import { Link, useNavigate } from 'react-router-dom';

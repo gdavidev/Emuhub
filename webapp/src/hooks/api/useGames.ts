@@ -1,5 +1,5 @@
-import GameApiService from '@/api/GameApiService';
-import Game from '@models/Game';
+import GameApiService from '@api/GameApiService.ts';
+import Game from '@models/Game.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, UseQueryResult } from 'react-query';
 

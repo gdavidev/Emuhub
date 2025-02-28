@@ -5,7 +5,7 @@ import PasswordHiddenToggle from "@apps/main/components/PasswordHiddenToggle.tsx
 import { Controller, useForm } from "react-hook-form";
 import FormGroup from "@apps/shared/components/formComponents/FormGroup.tsx";
 import CurrentUser from '@models/CurrentUser.ts';
-import useAuth from '@/hooks/useAuth.ts';
+import useAuth from '@/hooks/api/useAuth.ts';
 import useTypeSafeSearchParams from '@/hooks/useTypeSafeSearchParams.ts';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import Validation from '@libs/Validation.ts';

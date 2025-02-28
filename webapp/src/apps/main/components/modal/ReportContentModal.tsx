@@ -2,7 +2,7 @@ import ModalPopup, { ModalPopupProps } from '@shared/components/ModalPopup.tsx';
 import TextArea from '@shared/components/formComponents/TextArea.tsx';
 import { Controller, useForm } from 'react-hook-form';
 import Report, { ReportContentType } from '@models/Report.ts';
-import useSendReport from '@/hooks/useReport.ts';
+import useSendReport from '@/hooks/api/useReport.ts';
 import useCurrentUser from '@/hooks/useCurrentUser.tsx';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import { useCallback, useEffect } from 'react';

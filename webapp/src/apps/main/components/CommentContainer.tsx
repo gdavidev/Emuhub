@@ -3,15 +3,15 @@ import User from '@models/User.ts';
 import CommentRow from '@apps/main/components/CommentRow.tsx';
 import { useCallback } from 'react';
 import useCurrentUser from '@/hooks/useCurrentUser.tsx';
-import { useLikeComment } from '@/hooks/useLikeComments.ts';
-import { useCommentIsUseful, useCreateComment, useDeleteComment } from '@/hooks/useComment.ts';
+import { useLikeComment } from '@/hooks/api/useLikeComments.ts';
+import { useCommentIsUseful, useCreateComment, useDeleteComment } from '@/hooks/api/useComment.ts';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import { AxiosError } from 'axios';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import useMessageBox from '@/hooks/interaction/useMessageBox.ts';
 import { MessageBoxResult, MessageBoxType } from '@shared/components/MessageBox.tsx';
 import Post from '@models/Post.ts';
-import useBan from '@/hooks/useBan.ts';
+import useBan from '@/hooks/api/useBan.ts';
 
 type CommentContainerProps = {
 	comments: Comment[];

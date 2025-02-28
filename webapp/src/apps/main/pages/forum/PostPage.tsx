@@ -1,4 +1,4 @@
-import { useLikePost, UseLikePostVariables } from '@/hooks/useLikePost.ts';
+import { useLikePost, UseLikePostVariables } from '@/hooks/api/useLikePost.ts';
 import { useCallback, useEffect, useState } from 'react';
 import useEmergencyExit from '@/hooks/useEmergencyExit.ts';
 import { IonIcon } from '@ionic/react';
@@ -17,14 +17,14 @@ import { ReportContentType } from '@models/Report.ts';
 import { AxiosError } from 'axios';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
-import { useCreateComment } from '@/hooks/useComment.ts';
-import { useDeletePost, usePost } from '@/hooks/usePosts.ts';
+import { useCreateComment } from '@/hooks/api/useComment.ts';
+import { useDeletePost, usePost } from '@/hooks/api/usePosts.ts';
 import Loading from '@shared/components/Loading.tsx';
 import PostActionBar from '@apps/main/components/PostActionBar.tsx';
 import CommentContainer from '@apps/main/components/CommentContainer.tsx';
 import { MessageBoxResult, MessageBoxType } from '@shared/components/MessageBox.tsx';
 import useMessageBox from '@/hooks/interaction/useMessageBox.ts';
-import useBan from '@/hooks/useBan.ts';
+import useBan from '@/hooks/api/useBan.ts';
 
 type PostPageParams = {
   postId: string;

@@ -1,8 +1,8 @@
-import PostApiService from "@/api/PostApiService";
-import Post from "@models/Post"
+import PostApiService from "@api/PostApiService.ts";
+import Post from "@models/Post.ts"
 import { AxiosError } from 'axios';
 import { useMutation, useQuery } from "react-query";
-import * as DTO from "@models/data/PostDTOs";
+import * as DTO from "@models/data/PostTypes.ts";
 import { useCallback } from 'react';
 
 type UsePostsOptions<T> = { 
@@ -30,8 +30,8 @@ export function usePost(id: number, token?: string, options?: UsePostsOptions<Po
 
 export function useCreatePost(token: string, options?: UsePostsOptions<Post>) {
   const postPost = useCallback(async (post: Post) => {
-    const res: DTO.PostGetResponseDTO = await PostApiService.create(post.toCreateDTO(), token)
-    return Post.fromGetDTO(res);
+    const res: DTO.PostGetResponse = await PostApiService.create(post.toCreateRequest(), token)
+    return Post.fromGetResponse(res);
   }, [])
 
   const { mutate: createPost, isLoading: isCreatePostLoading, ...rest } =
@@ -44,8 +44,8 @@ export function useCreatePost(token: string, options?: UsePostsOptions<Post>) {
 
 export function useUpdatePost(token: string, options?: UsePostsOptions<Post>) {
   const putPost = useCallback(async (post: Post) => {
-    const res: DTO.PostGetResponseDTO = await PostApiService.update(post.toUpdateDTO(), token);
-    return Post.fromGetDTO(res)
+    const res: DTO.PostGetResponse = await PostApiService.update(post.toUpdateRequest(), token);
+    return Post.fromGetResponse(res)
   }, [])
 
   const { mutate: updatePost, isLoading: isUpdatePostLoading, ...rest } =

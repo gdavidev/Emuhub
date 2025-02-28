@@ -7,7 +7,7 @@ import { IconButton } from '@mui/material';
 import Emulator from '@models/Emulator';
 import EmulatorEditModal from '../components/modal/EmulatorEditModal';
 import useStatefulArray from '@/hooks/useStatefulArray';
-import useEmulators, { useDeleteEmulator } from '@/hooks/useEmulators';
+import useEmulators, { useDeleteEmulator } from '@/hooks/api/useEmulators.ts';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import { AxiosError } from 'axios';

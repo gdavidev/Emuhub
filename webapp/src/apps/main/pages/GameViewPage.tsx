@@ -1,6 +1,6 @@
 import { IonIcon } from '@ionic/react';
 import { play } from 'ionicons/icons';
-import { useGame } from '@/hooks/useGames';
+import { useGame } from '@/hooks/api/useGames.ts';
 import Loading from '@shared/components/Loading.tsx';
 import useEmergencyExit from '@/hooks/useEmergencyExit.ts';
 import { useParams } from 'react-router-dom';

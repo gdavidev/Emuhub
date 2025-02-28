@@ -3,7 +3,7 @@ import React, { PropsWithoutRef, useCallback, useEffect, useLayoutEffect, useSta
 import { personOutline, mailOutline } from "ionicons/icons"
 import { Link } from "react-router-dom";
 import { AxiosError } from 'axios';
-import useAuth from "@/hooks/useAuth.ts";
+import useAuth from "@/hooks/api/useAuth.ts";
 import FormGroup from "@apps/shared/components/formComponents/FormGroup.tsx";
 import { Controller, useForm } from "react-hook-form";
 import { IonIcon } from "@ionic/react";

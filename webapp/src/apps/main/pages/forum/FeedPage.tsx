@@ -2,7 +2,7 @@ import PostContainer from '@apps/main/components/PostContainer';
 import useEmergencyExit from '@/hooks/useEmergencyExit.ts';
 import Loading from '@shared/components/Loading.tsx';
 import Category from '@models/Category.ts';
-import usePosts, { useSearchPosts } from '@/hooks/usePosts.ts';
+import usePosts, { useSearchPosts } from '@/hooks/api/usePosts.ts';
 import { AxiosError } from 'axios';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import Post from '@models/Post.ts';

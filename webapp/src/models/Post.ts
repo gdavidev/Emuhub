@@ -1,9 +1,9 @@
-import * as DTO from "@models/data/PostDTOs";
+import * as Requests from "@models/data/PostTypes.ts";
 import User from "./User";
 import Category from '@models/Category.ts';
 import Thumbnail from '@models/utility/Thumbnail.ts';
 import Comment from '@models/Comment.ts';
-import { CommentGetResponseDTO } from '@models/data/CommentDTOs.ts';
+import { CommentGetResponse } from '@models/data/CommentTypes.ts';
 
 export default class Post {
   id: number;
@@ -71,27 +71,27 @@ export default class Post {
     this.comments     = comments;
   }
 
-  static fromGetDTO(dto: DTO.PostGetResponseDTO): Post {
+  static fromGetResponse(res: Requests.PostGetResponse): Post {
     return new Post(
-      dto.titulo,
-      new User(dto.user.id, dto.user.username, new Thumbnail({ base64: dto.user.img_perfil })),
-      new Category(dto.categoria.id, dto.categoria.nome),
-      dto.descricao,
-      dto.tags !== 'None' ? dto.tags : [],
-      dto.img_topico64 ? new Thumbnail({ base64: dto.img_topico64 }) : null,
-      dto.id,
-      dto.has_liked,
-      dto.likes,
-      dto.comentarios,
-      new Date(dto.created_at),
-      new Date(dto.updated_at),
-      dto.obj_comentarios ?
-          dto.obj_comentarios.map((comm: CommentGetResponseDTO) => Comment.fromGetDTO(comm)) :
+      res.titulo,
+      new User(res.user.id, res.user.username, new Thumbnail({ base64: res.user.img_perfil })),
+      new Category(res.categoria.id, res.categoria.nome),
+      res.descricao,
+      res.tags !== 'None' ? res.tags : [],
+      res.img_topico64 ? new Thumbnail({ base64: res.img_topico64 }) : null,
+      res.id,
+      res.has_liked,
+      res.likes,
+      res.comentarios,
+      new Date(res.created_at),
+      new Date(res.updated_at),
+      res.obj_comentarios ?
+          res.obj_comentarios.map((comm: CommentGetResponse) => Comment.fromGetDTO(comm)) :
           []
     )
   }
 
-  public toCreateDTO(): DTO.PostCreateDTO {
+  public toCreateRequest(): Requests.PostCreateRequest {
     return {
       titulo: this.title,
       descricao: this.content,
@@ -102,7 +102,7 @@ export default class Post {
     }
   }
 
-  public toUpdateDTO(): DTO.PostUpdateDTO {
+  public toUpdateRequest(): Requests.PostUpdateRequest {
     return {
       titulo: this.title,
       descricao: this.content,

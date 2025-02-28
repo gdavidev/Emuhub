@@ -1,5 +1,5 @@
-import EmulatorApiService from '@/api/EmulatorApiService';
-import Emulator from '@models/Emulator';
+import EmulatorApiService from '@api/EmulatorApiService.ts';
+import Emulator from '@models/Emulator.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, UseQueryResult } from "react-query";
 

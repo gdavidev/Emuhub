@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import Comment from '@models/Comment.ts';
 import { useMutation, useQuery } from 'react-query';
 import ApiService from '@api/ApiService.ts';
-import * as DTO from '@models/data/CommentDTOs'
+import * as DTO from '@models/data/CommentTypes.ts'
 import { useCallback } from 'react';
 
 const endpoints = {
@@ -21,7 +21,7 @@ type UseCommentOptions<T> = {
 export default function useComments(options?: UseCommentOptions<Comment[]>) {
 	const fetchComments = useCallback(async () => {
 		const comments =
-				await ApiService.get<DTO.CommentGetResponseDTO[]>(endpoints.get);
+				await ApiService.get<DTO.CommentGetResponse[]>(endpoints.get);
 		return comments.data.map(dto => Comment.fromGetDTO(dto))
 	}, []);
 
@@ -36,7 +36,7 @@ export default function useComments(options?: UseCommentOptions<Comment[]>) {
 export function useCreateComment(token: string, options?: UseCommentOptions<Comment>) {
 	const postComment = useCallback(async (comment: Comment) => {
 		const res =
-				await ApiService.post<DTO.CommentGetResponseDTO>(
+				await ApiService.post<DTO.CommentGetResponse>(
 						endpoints.post,
 						comment.toCreateDTO(),
 						{ headers: { 'Authorization': 'Bearer ' + token } });

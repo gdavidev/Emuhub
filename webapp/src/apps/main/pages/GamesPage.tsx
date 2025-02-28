@@ -1,7 +1,7 @@
 import Game from "@models/Game";
 import { AxiosError } from 'axios';
 import GameCard from "@apps/main/components/displayComponents/GameCard.tsx";
-import useGames, { useSearchGames } from '@/hooks/useGames';
+import useGames, { useSearchGames } from '@/hooks/api/useGames.ts';
 import Loading from '@shared/components/Loading.tsx';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import SearchGamesSideBar from '@apps/main/components/SearchGamesSideBar.tsx';

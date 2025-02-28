@@ -1,6 +1,6 @@
 import User from "./User";
-import * as DTO from '@models/data/CommentDTOs'
-import { CommentGetResponseDTO } from '@models/data/CommentDTOs';
+import * as Requests from '@models/data/CommentTypes.ts'
+import { CommentGetResponse } from '@models/data/CommentTypes.ts';
 
 export type CommentParent = {
   postId: number,
@@ -54,7 +54,7 @@ export default class Comment {
     this.responses   = responses;
   }
 
-  static fromGetDTO(dto: DTO.CommentGetResponseDTO): Comment {
+  static fromGetDTO(dto: Requests.CommentGetResponse): Comment {
     return new Comment(
         { postId: dto.id_topico, parentId: dto.id_parent } as CommentParent,
         new User(dto.user.id, dto.user.username),
@@ -64,11 +64,11 @@ export default class Comment {
         dto.is_helpful,
         new Date(dto.created_at),
         new Date(dto.updated_at),
-        dto.children.map((comm: CommentGetResponseDTO) => Comment.fromGetDTO(comm))
+        dto.children.map((comm: CommentGetResponse) => Comment.fromGetDTO(comm))
     )
   }
 
-  public toCreateDTO(): DTO.CommentCreateDTO {
+  public toCreateDTO(): Requests.CommentCreateRequest {
     return {
       id_topico: this.parent.postId,
       id_parent: this.parent.parentId ?? undefined,

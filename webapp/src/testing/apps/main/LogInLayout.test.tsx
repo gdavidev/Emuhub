@@ -4,7 +4,7 @@ import { cleanup, render } from '@testing-library/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LogInLayout from '@apps/main/pages/auth/LogInLayout.tsx';
 import userEvent from '@testing-library/user-event'
-import useAuth from '@/hooks/useAuth.ts';
+import useAuth from '@/hooks/api/useAuth.ts';
 
 vi.mock("@/hooks/useAuth.ts");
 

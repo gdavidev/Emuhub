@@ -1,4 +1,4 @@
-import { CurrentUserLoginResponseDTO } from '@models/data/CurrentUserDTOs.ts';
+import { CurrentUserLoginResponse } from '@models/data/CurrentUserTypes.ts';
 import { Role } from '@/hooks/usePermission.ts';
 import Thumbnail from '@models/utility/Thumbnail.ts';
 import userImageNotFound from '@/assets/media/user-image-not-found.webp'
@@ -20,7 +20,7 @@ export default class CurrentUser {
     this.profilePic = profilePic || new Thumbnail({ url: userImageNotFound });
   }
 
-  static fromLoginResponseDTO(dto: CurrentUserLoginResponseDTO): CurrentUser {
+  static fromLoginResponseDTO(dto: CurrentUserLoginResponse): CurrentUser {
     return new CurrentUser(
       dto.user.id,
       dto.user.username,

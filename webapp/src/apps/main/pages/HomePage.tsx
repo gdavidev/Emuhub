@@ -12,7 +12,7 @@ import Game from '@/models/Game';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css';
-import useGames from '@/hooks/useGames';
+import useGames from '@/hooks/api/useGames.ts';
 
 const bannerList: JSX.Element[] = [
   <SwiperSlide key={0}>

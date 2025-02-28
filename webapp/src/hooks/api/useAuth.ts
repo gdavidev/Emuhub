@@ -1,5 +1,5 @@
-import UserApiService from '@/api/CurrentUserApiService';
-import * as DTO from '@models/data/CurrentUserDTOs.ts';
+import UserApiService from '@api/CurrentUserApiService.ts';
+import * as DTO from '@models/data/CurrentUserTypes.ts';
 import { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -24,12 +24,12 @@ type UseAuthOptions = {
 }
 
 type UseAuthResult = {
-  login: (data: DTO.CurrentUserLoginDTO) => void
-  register: (data: DTO.CurrentUserRegisterDTO) => void
-  forgotPassword: (data: DTO.CurrentUserForgotPasswordDTO) => void
-  passwordReset: (data: DTO.CurrentUserResetPasswordDTO & {token: string}) => void
-  update: (data: DTO.CurrentUserUpdateDTO & {token: string}) => void
-  deleteAccount: (data: DTO.CurrentUserDeleteDTO & {token: string}) => void
+  login: (data: DTO.CurrentUserLoginRequest) => void
+  register: (data: DTO.CurrentUserRegisterRequest) => void
+  forgotPassword: (data: DTO.CurrentUserForgotPassword) => void
+  passwordReset: (data: DTO.CurrentUserResetPassword & {token: string}) => void
+  update: (data: DTO.CurrentUserUpdate & {token: string}) => void
+  deleteAccount: (data: DTO.CurrentUserDelete & {token: string}) => void
   reset: () => void
   isLoading: boolean
 }
@@ -42,32 +42,32 @@ export default function useAuth(options?: UseAuthOptions | UseAuthOptionsEvents)
   } : undefined;
 
   const loginMutation = useMutation('LOGIN_USER',
-    async (dto: DTO.CurrentUserLoginDTO) => UserApiService.login(dto),
+    async (dto: DTO.CurrentUserLoginRequest) => UserApiService.login(dto),
     mutationFn ?? (options as UseAuthOptions)?.onLogin
   );
 
   const forgotPasswordMutation = useMutation('FORGOT_PASS',
-    async (data: DTO.CurrentUserForgotPasswordDTO) => UserApiService.forgotPassword(data),
+    async (data: DTO.CurrentUserForgotPassword) => UserApiService.forgotPassword(data),
     mutationFn ?? (options as UseAuthOptions)?.onForgotPassword
   );
 
   const registerMutation = useMutation('REGISTER_USER',
-    async (dto: DTO.CurrentUserRegisterDTO) => UserApiService.register(dto),
+    async (dto: DTO.CurrentUserRegisterRequest) => UserApiService.register(dto),
     mutationFn ?? (options as UseAuthOptions)?.onRegister   
   );
 
   const passwordResetMutation = useMutation('RESET_USER_PASSWORD',
-    async (dto: DTO.CurrentUserResetPasswordDTO & {token: string}) => UserApiService.resetPassword(dto, dto.token),
+    async (dto: DTO.CurrentUserResetPassword & {token: string}) => UserApiService.resetPassword(dto, dto.token),
     mutationFn ?? (options as UseAuthOptions)?.onPasswordReset
   );
 
   const updateUserMutation = useMutation('UPDATE_USER', 
-    async (dto: DTO.CurrentUserUpdateDTO & { token: string }) => UserApiService.update(dto, dto.token),
+    async (dto: DTO.CurrentUserUpdate & { token: string }) => UserApiService.update(dto, dto.token),
     mutationFn ?? (options as UseAuthOptions)?.onUpdate
   );
 
   const deleteUserMutation = useMutation('DELETE_USER',
-      async (dto: DTO.CurrentUserDeleteDTO & { token: string }) => UserApiService.delete(dto, dto.token),
+      async (dto: DTO.CurrentUserDelete & { token: string }) => UserApiService.delete(dto, dto.token),
       mutationFn ?? (options as UseAuthOptions)?.onDelete
   );
 

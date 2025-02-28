@@ -1,7 +1,7 @@
-import Category from '@models/Category';
+import Category from '@models/Category.ts';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery, UseQueryResult } from "react-query";
-import * as DTO from '@models/data/CategoryDTOs.ts';
+import * as DTO from '@models/data/CategoryTypes.ts';
 import ApiService from '@api/ApiService.ts';
 
 export enum CategoryType {
@@ -27,7 +27,7 @@ function useCategories(categoryType: CategoryType, options?: UseCategoriesOption
   return useQuery({
     queryKey: resolveDependencyArray('FETCH_CATEGORIES', categoryType, deps),
     queryFn: async () => {
-      const res: AxiosResponse<DTO.CategoryGetResponseDTO[]> = await ApiService.get(endpoints[categoryType].get);
+      const res: AxiosResponse<DTO.CategoryGetResponse[]> = await ApiService.get(endpoints[categoryType].get);
       return res.data.map(dto => Category.fromGetDTO(dto));
     },
     onSuccess: options?.onSuccess,
@@ -39,7 +39,8 @@ function useCategory(categoryType: CategoryType, id: number, options?: UseCatego
   return useQuery({
     queryKey: resolveDependencyArray('FETCH_CATEGORY' + id, categoryType, deps),
     queryFn: async () => {
-      const res: AxiosResponse<DTO.CategoryGetResponseDTO> = await ApiService.get(endpoints[categoryType].get, { data: { id: id } });
+      const res: AxiosResponse<DTO.CategoryGetResponse> =
+          await ApiService.get(endpoints[categoryType].get, { data: { id: id } });
       return Category.fromGetDTO(res.data);
     },
     onSuccess: options?.onSuccess,

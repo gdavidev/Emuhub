@@ -1,6 +1,6 @@
 import { IonIcon } from '@ionic/react';
 import { arrowForward } from 'ionicons/icons';
-import useCategories, { CategoryType } from '@/hooks/useCategories.ts';
+import useCategories, { CategoryType } from '@/hooks/api/useCategories.ts';
 
 type SearchGamesSideBar = {
   onCategoryClick: (categoryName: string) => void;

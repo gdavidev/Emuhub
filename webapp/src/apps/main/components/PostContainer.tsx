@@ -6,12 +6,12 @@ import ReportContentModal from '@apps/main/components/modal/ReportContentModal.t
 import { useCallback, useEffect, useState } from 'react';
 import { ReportContentType } from '@models/Report.ts';
 import useCurrentUser from '@/hooks/useCurrentUser.tsx';
-import { useLikePost, UseLikePostVariables } from '@/hooks/useLikePost.ts';
-import useBan from '@/hooks/useBan.ts';
+import { useLikePost, UseLikePostVariables } from '@/hooks/api/useLikePost.ts';
+import useBan from '@/hooks/api/useBan.ts';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
 import { AxiosError } from 'axios';
-import { useDeletePost } from '@/hooks/usePosts.ts';
+import { useDeletePost } from '@/hooks/api/usePosts.ts';
 import { MessageBoxResult, MessageBoxType } from '@shared/components/MessageBox.tsx';
 import useMessageBox from '@/hooks/interaction/useMessageBox.ts';
 

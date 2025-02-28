@@ -1,7 +1,7 @@
 import Thumbnail from '@models/utility/Thumbnail.ts';
 import userImageNotFound from '@/assets/media/user-image-not-found.webp'
 import CurrentUser from '@models/CurrentUser.ts';
-import * as DTO from '@models/data/UserDTOs.ts';
+import * as Requests from '@models/data/UserTypes.ts';
 
 export default class User {
   id: number
@@ -27,7 +27,7 @@ export default class User {
     );
   }
 
-  static fromGetDTO(dto: DTO.UseGetResponseDTO): User {
+  static fromGetDTO(dto: Requests.UserGetResponse): User {
     return new User(
         dto.id,
         dto.username,

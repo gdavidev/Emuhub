@@ -1,4 +1,4 @@
-import * as DTO from "@models/data/GameDTOs";
+import * as Requests from "@models/data/GameTypes.ts";
 import Emulator from "@models/Emulator";
 import Category from "@models/Category";
 import Thumbnail from "@models/utility/Thumbnail";
@@ -44,7 +44,7 @@ export default class Game {
     return `emuhub:${this.emulator.abbreviation.toUpperCase()}&${this.name}`;
   }
 
-  toCreateDTO(): DTO.GameCreateDTO {
+  toCreateDTO(): Requests.GameCreateRequest {
     return {
       title: this.name,
       description: this.desc,
@@ -55,7 +55,7 @@ export default class Game {
     }
   }
 
-  toUpdateDTO(): DTO.GameUpdateDTO {
+  toUpdateDTO(): Requests.GameUpdateRequest {
     return {
       rom_id: this.id,
       title: this.name,
@@ -67,11 +67,11 @@ export default class Game {
     }
   }
 
-  toDeleteDTO(): DTO.GameDeleteDTO {
+  toDeleteDTO(): Requests.GameDeleteRequest {
     return { rom_id: this.id };
   }
 
-  static fromGetDTO(dto: DTO.GameGetResponseDTO): Game {
+  static fromGetDTO(dto: Requests.GameGetResponse): Game {
     return new Game(
       dto.title,
       dto.description,

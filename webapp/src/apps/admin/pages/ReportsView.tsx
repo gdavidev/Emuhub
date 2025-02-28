@@ -11,7 +11,7 @@ import { useCallback, useState } from 'react';
 import DateFormatter from '@libs/DateFormatter.ts';
 import { useNavigate } from 'react-router-dom';
 import ReportResolveModal from '@apps/admin/components/modal/ReportResolveModal.tsx';
-import { useReports } from '@/hooks/useReport.ts';
+import { useReports } from '@/hooks/api/useReport.ts';
 import Loading from '@shared/components/Loading.tsx';
 import { AxiosError } from 'axios';
 

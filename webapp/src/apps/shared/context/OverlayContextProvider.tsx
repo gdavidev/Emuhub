@@ -1,7 +1,7 @@
 import Notification, { NotificationProps } from '@shared/components/Notification.tsx';
 import MessageBox, { MessageBoxProps } from '@shared/components/MessageBox.tsx';
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import usePusherNotifications from '@/hooks/usePusherNotifications.ts';
+import usePusherNotifications from '@/hooks/api/usePusherNotifications.ts';
 import { IonIcon } from '@ionic/react';
 import { notifications as notificationBell } from 'ionicons/icons';
 import useCurrentUser from '@/hooks/useCurrentUser.tsx';

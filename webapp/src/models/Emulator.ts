@@ -1,4 +1,4 @@
-import * as DTO from '@models/data/EmulatorDTOs';
+import * as Requests from '@models/data/EmulatorTypes.ts';
 
 export default class Emulator {
   id: number;
@@ -23,7 +23,7 @@ export default class Emulator {
     this.companyName      = companyName;
   }
 
-  toCreateDTO(): DTO.EmulatorCreateDTO {
+  toCreateDTO(): Requests.EmulatorCreateRequest {
     return { 
       nome: this.abbreviation,
       console: this.console,
@@ -31,7 +31,7 @@ export default class Emulator {
     }
   }
 
-  toUpdateDTO(): DTO.EmulatorUpdateDTO {
+  toUpdateDTO(): Requests.EmulatorUpdateRequest {
     return {
       id: this.id,
       nome: this.abbreviation,
@@ -40,11 +40,11 @@ export default class Emulator {
     }
   }
 
-  toDeleteDTO(): DTO.EmulatorDeleteDTO {
+  toDeleteDTO(): Requests.EmulatorDeleteRequest {
     return { id: this.id }
   }
 
-  static fromGetDTO(dto: DTO.EmulatorGetResponseDTO): Emulator {
+  static fromGetDTO(dto: Requests.EmulatorGetResponse): Emulator {
     return new Emulator(
       dto.nome,
       dto.console,
