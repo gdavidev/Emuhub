@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Inject Dependencies.
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Default")!);
 
 // Configuring Swagger/OpenAPI. Learn more at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -18,7 +18,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger(options => options.RouteTemplate = "/openapi/{documentName}.json");
-app.MapScalarApiReference();
+app.MapScalarApiReference(options => options.WithTitle("Emuhub - API docs"));
 
 // Middlewares
 app.UseHttpsRedirection();

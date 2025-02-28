@@ -3,7 +3,13 @@ using Emuhub.Domain.Entities;
 
 namespace Emuhub.Infrastructure.DataAccess;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext : DbContext
 {
     public DbSet<Game> Games { get; set; }
+    public DbSet<Emulator> Emulators { get; set; }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
 }
