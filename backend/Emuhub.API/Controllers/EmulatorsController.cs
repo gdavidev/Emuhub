@@ -16,7 +16,7 @@ public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
         List<Emulator> gameList = await emulators.GetAll(page);
         List<EmulatorDTO> dtoList = gameList.Select(g => g.AsDTO()).ToList();
 
-        return dtoList;
+        return dtoList; 
     }
 
     [HttpGet]
