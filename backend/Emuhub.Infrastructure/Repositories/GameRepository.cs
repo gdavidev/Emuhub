@@ -1,4 +1,4 @@
-﻿using Emuhub.Domain.Entities;
+﻿using Emuhub.Domain.Entities.Games;
 using Emuhub.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 

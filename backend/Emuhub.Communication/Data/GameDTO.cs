@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Emuhub.Domain.Entities;
+using Emuhub.Domain.Entities.Games;
 
 namespace Emuhub.Communication.Data;
 

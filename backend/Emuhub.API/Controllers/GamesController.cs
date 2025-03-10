@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Emuhub.Communication.Data;
-using Emuhub.Domain.Entities;
 using Emuhub.Infrastructure.Repositories;
+using Emuhub.Domain.Entities.Games;
 
 namespace Emuhub.API.Controllers;
 
@@ -10,7 +10,7 @@ namespace Emuhub.API.Controllers;
 public class GamesController(GameRepository games) : ControllerBase
 {
 	[HttpGet]
-    [Route("api/Game")]
+    [Route("api/Games")]
     public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames([FromQuery] int page)
 	{
 		List<Game> gameList = await games.GetAll(page);
@@ -33,7 +33,7 @@ public class GamesController(GameRepository games) : ControllerBase
 
 	[HttpPut]
     [Route("api/Games")]
-    public async Task<IActionResult> PutGame([FromBody] Game game)
+    public async Task<IActionResult> UpdateGame([FromBody] Game game)
 	{
         try
         {
@@ -52,7 +52,7 @@ public class GamesController(GameRepository games) : ControllerBase
 
 	[HttpPost]
     [Route("api/Games")]
-    public async Task<ActionResult<GameDTO>> PostGame(Game game)
+    public async Task<ActionResult<GameDTO>> CreateGame(Game game)
 	{
 		await games.Add(game);
 

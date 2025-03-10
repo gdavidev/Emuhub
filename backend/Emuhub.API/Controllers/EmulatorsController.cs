@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Emuhub.Communication.Data;
-using Emuhub.Domain.Entities;
 using Emuhub.Infrastructure.Repositories;
+using Emuhub.Domain.Entities.Games;
 
 namespace Emuhub.API.Controllers;
 
@@ -10,7 +10,7 @@ namespace Emuhub.API.Controllers;
 public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
 {
     [HttpGet]
-    [Route("api/Emulator")]
+    [Route("api/Emulators")]
     public async Task<ActionResult<IEnumerable<EmulatorDTO>>> GetEmulators([FromQuery] int page)
     {
         List<Emulator> gameList = await emulators.GetAll(page);
@@ -33,7 +33,7 @@ public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
 
     [HttpPut]
     [Route("api/Emulators")]
-    public async Task<IActionResult> PutEmulator([FromBody] Emulator game)
+    public async Task<IActionResult> UpdateEmulator([FromBody] Emulator game)
     {
         try
         {
@@ -52,7 +52,7 @@ public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
 
     [HttpPost]
     [Route("api/Emulators")]
-    public async Task<ActionResult<EmulatorDTO>> PostEmulator(Emulator game)
+    public async Task<ActionResult<EmulatorDTO>> CreateEmulator(Emulator game)
     {
         await emulators.Add(game);
 

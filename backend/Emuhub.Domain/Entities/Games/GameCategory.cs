@@ -1,4 +1,4 @@
-﻿namespace Emuhub.Domain.Entities;
+﻿namespace Emuhub.Domain.Entities.Games;
 
 public class GameCategory
 {
