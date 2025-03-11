@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Emuhub.Communication.Data;
 using Emuhub.Infrastructure.Repositories;
 using Emuhub.Domain.Entities.Games;
+using Emuhub.Communication.Data.Games;
+using Emuhub.Communication.Data.Emulators;
 
 namespace Emuhub.API.Controllers;
 
@@ -11,24 +13,24 @@ public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
 {
     [HttpGet]
     [Route("api/Emulators")]
-    public async Task<ActionResult<IEnumerable<EmulatorDTO>>> GetEmulators([FromQuery] int page)
+    public async Task<ActionResult<IEnumerable<EmulatorResponse>>> GetEmulators([FromQuery] int page)
     {
         List<Emulator> gameList = await emulators.GetAll(page);
-        List<EmulatorDTO> dtoList = gameList.Select(g => g.AsDTO()).ToList();
+        List<EmulatorResponse> dtoList = gameList.Select(g => g.AsResponse()).ToList();
 
         return dtoList; 
     }
 
     [HttpGet]
     [Route("api/Emulators/{id}")]
-    public async Task<ActionResult<EmulatorDTO>> GetEmulator(long id)
+    public async Task<ActionResult<EmulatorResponse>> GetEmulator(long id)
     {
         var game = await emulators.Get(id);
 
         if (game == null)
             return NotFound();
 
-        return game.AsDTO();
+        return game.AsResponse();
     }
 
     [HttpPut]
@@ -52,7 +54,7 @@ public class EmulatorsController(EmulatorRepository emulators) : ControllerBase
 
     [HttpPost]
     [Route("api/Emulators")]
-    public async Task<ActionResult<EmulatorDTO>> CreateEmulator(Emulator game)
+    public async Task<ActionResult<EmulatorResponse>> CreateEmulator(Emulator game)
     {
         await emulators.Add(game);
 

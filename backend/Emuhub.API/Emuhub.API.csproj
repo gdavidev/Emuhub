@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Emuhub.Application\Emuhub.Application.csproj" />
     <ProjectReference Include="..\Emuhub.Communication\Emuhub.Communication.csproj" />
+    <ProjectReference Include="..\Emuhub.Exceptions\Emuhub.Exceptions.csproj" />
     <ProjectReference Include="..\Emuhub.Domain\Emuhub.Domain.csproj" />
     <ProjectReference Include="..\Emuhub.Infrastructure\Emuhub.Infrastructure.csproj" />
   </ItemGroup>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Emuhub.Communication {
+namespace Emuhub.Exceptions {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Emuhub.Communication {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Emuhub.Communication.ExceptionMessagesResource", typeof(ExceptionMessagesResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Emuhub.Exceptions.ExceptionMessagesResource", typeof(ExceptionMessagesResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -88,11 +88,38 @@ namespace Emuhub.Communication {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jogo não encontrado.
+        /// </summary>
+        public static string GAME_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("GAME_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O campo Id deve ser maior que zero..
+        /// </summary>
+        public static string ID_MUST_BE_GREATER_THAN_ZERO {
+            get {
+                return ResourceManager.GetString("ID_MUST_BE_GREATER_THAN_ZERO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O nome não pode estar vazio..
         /// </summary>
         public static string NAME_EMPTY {
             get {
                 return ResourceManager.GetString("NAME_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A pagina não pode ser um numero negativo.
+        /// </summary>
+        public static string NEGATIVE_PAGE_NUMBER {
+            get {
+                return ResourceManager.GetString("NEGATIVE_PAGE_NUMBER", resourceCulture);
             }
         }
         

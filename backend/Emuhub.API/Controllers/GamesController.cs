@@ -1,74 +1,65 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Emuhub.Communication.Data;
-using Emuhub.Infrastructure.Repositories;
-using Emuhub.Domain.Entities.Games;
+﻿using Microsoft.AspNetCore.Mvc;
+using Emuhub.Communication.Data.Games;
+using Emuhub.Application.UseCases.Games;
 
 namespace Emuhub.API.Controllers;
 
 [ApiController]
-public class GamesController(GameRepository games) : ControllerBase
+public class GamesController : ControllerBase
 {
 	[HttpGet]
     [Route("api/Games")]
-    public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames([FromQuery] int page)
+    public async Task<ActionResult<IEnumerable<GameResponse>>> GetGames(
+        [FromServices] GameGetUseCase useCase,
+        [FromQuery] int page)
 	{
-		List<Game> gameList = await games.GetAll(page);
-		List<GameDTO> dtoList = gameList.Select(g => g.AsDTO()).ToList();
+		var result = await useCase.Execute(page);
 
-		return dtoList;
+        return result;
     }
 
 	[HttpGet]
     [Route("api/Games/{id}")]
-    public async Task<ActionResult<GameDTO>> GetGame(long id)
+    public async Task<ActionResult<GameResponse>> GetGame(
+        [FromServices] GameGetByIdUseCase useCase,
+        [FromRoute] long id)
 	{
-		var game = await games.Get(id);
+        var result = await useCase.Execute(id);        
 
-		if (game == null)
+		if (result == null)
 			return NotFound();
-
-		return game.AsDTO();
+		return result;
 	}
 
 	[HttpPut]
     [Route("api/Games")]
-    public async Task<IActionResult> UpdateGame([FromBody] Game game)
+    public async Task<IActionResult> UpdateGame(
+        [FromServices] GameUpdateUseCase useCase,
+        [FromBody] GameUpdateRequest request)
 	{
-        try
-        {
-            await games.Update(game);
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!await games.Exists(game.Id))
-                return NotFound();
-            else
-                throw;
-        }
+        await useCase.Execute(request);
 
         return NoContent();
 	}
 
 	[HttpPost]
     [Route("api/Games")]
-    public async Task<ActionResult<GameDTO>> CreateGame(Game game)
+    public async Task<ActionResult<GameResponse>> CreateGame(
+        [FromServices] GameCreateUseCase useCase,
+        [FromBody] GameCreateRequest request)
 	{
-		await games.Add(game);
+        var result = await useCase.Execute(request);
 
-		return CreatedAtAction(nameof(GetGame), new { id = game.Id });
+		return CreatedAtAction(nameof(GetGame), new { id = result });
 	}
 
 	[HttpDelete]
     [Route("api/Games/{id}")]
-    public async Task<IActionResult> DeleteGame(long id)
+    public async Task<IActionResult> DeleteGame(
+        [FromServices] GameDeleteUseCase useCase,
+        [FromRoute] long id)
 	{
-        var game = await games.Get(id);
-
-        if (game == null)
-            return NotFound();
-        
-        await games.Delete(game);        
+        await useCase.Execute(id);
 
         return NoContent();
 	}	
