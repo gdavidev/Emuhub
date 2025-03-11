@@ -126,8 +126,17 @@
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>O email está inválido.</value>
   </data>
+  <data name="GAME_NOT_FOUND" xml:space="preserve">
+    <value>Jogo não encontrado</value>
+  </data>
+  <data name="ID_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>O campo Id deve ser maior que zero.</value>
+  </data>
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>O nome não pode estar vazio.</value>
+  </data>
+  <data name="NEGATIVE_PAGE_NUMBER" xml:space="preserve">
+    <value>A pagina não pode ser um numero negativo</value>
   </data>
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>A senha tem que conter no mínimo 6 caracteres</value>

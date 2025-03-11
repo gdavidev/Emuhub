@@ -8,4 +8,5 @@ public class Game
     public required GameCategory Category { get; set; }
     public required Emulator Emulator { get; set; }
     public string? Image { get; set; }
+    public string? File { get; set; }
 }
