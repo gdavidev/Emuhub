@@ -3,20 +3,11 @@ using Emuhub.Domain.Entities.Games;
 
 namespace Emuhub.Communication.Data.Games;
 
-public record GameResponse(
-    [Required] long Id,
-    [Required][StringLength(50)] string Name,
-    [Required][StringLength(100)] string Description
-);
-
-public static class GameExtensions
+public class GameResponse
 {
-    public static GameResponse AsResponse(this Game game)
-    {
-        return new GameResponse(
-            game.Id,
-            game.Name,
-            game.Description
-        );
-    }
+    public required long  Id { get; set; }
+    public required string  Name { get; set; }
+    public required string  Description { get; set; }
+    public required Emulator  Emulator { get; set; }
+    public required GameCategory Category { get; set; }
 }
