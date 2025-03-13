@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Emuhub.Domain.Entities.Games;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Emuhub.Communication.Data.Emulators
 {
-	public class EmulatorResponse {
-		public required long Id { get; set; }
+	public class EmulatorCreateRequest
+	{
 		public required string Name { get; set; }
 		public required string CompanyName { get; set; }
 		public required string Abbreviation { get; set; }
