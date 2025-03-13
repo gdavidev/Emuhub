@@ -6,21 +6,14 @@ namespace Emuhub.Infrastructure.Repositories;
 
 public class EmulatorRepository(ApplicationDbContext context)
 {
-    private static readonly int pageSize = 10;
-
     public async Task<Emulator?> Get(long id)
     {
-        return await context.Emulators.SingleOrDefaultAsync(g => g.Id == id);
+        return await context.Emulators.SingleOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<List<Emulator>> GetAll(int page)
-    {
-        int begin = pageSize * page;
-
-        return await context.Emulators
-            .Skip(begin)
-            .Take(pageSize)
-            .ToListAsync();
+    {        
+        return await context.Emulators.ToListAsync();
     }
 
     public async Task Add(Emulator emulator)
