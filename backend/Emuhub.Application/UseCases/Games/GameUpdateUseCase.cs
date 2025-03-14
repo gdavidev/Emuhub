@@ -4,19 +4,32 @@ using Emuhub.Exceptions.Exceptions;
 using Emuhub.Exceptions;
 using Emuhub.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Emuhub.Infrastructure.Services.Storage;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameUpdateUseCase(GameRepository games, EmulatorRepository emulators, GameCategoryRepository categories)
+    public class GameUpdateUseCase(GameRepository games, EmulatorRepository emulators, GameCategoryRepository categories, IFileStorageService storage)
     {
         public async Task Execute(GameUpdateRequest request)
         {
-            var emulator = await emulators.Get(request.EmulatorId);
-            var category = await categories.Get(request.CategoryId);
+            await Validate(request);
 
-            Validate(request, emulator, category);
+            var oldGame = await games.Get(request.Id);
 
-            var game = request.AsGame(emulator!, category!);
+            string? imagePath = request.Image is null ? oldGame!.Image : await storage.UploadAsync(request.Image);
+            string? filePath = request.File is null ? oldGame!.File : await storage.UploadAsync(request.File);
+
+            var game = new Game()
+            {
+                Id = oldGame!.Id,
+                Name = request.Name,
+                Description = request.Description,
+                CategoryId = request.CategoryId,
+                EmulatorId = request.EmulatorId,
+                Image = imagePath,
+                File = filePath
+            };
+
             try
             {
                 await games.Update(game);
@@ -30,7 +43,7 @@ namespace Emuhub.Application.UseCases.Games
             }
         }
 
-        private static void Validate(GameUpdateRequest request, Emulator? emulator, GameCategory? category)
+        private async Task Validate(GameUpdateRequest request)
         {
             var errors = new List<object>();
 
@@ -44,14 +57,15 @@ namespace Emuhub.Application.UseCases.Games
                 errors.Add(new { CategoryId = ExceptionMessagesResource.ID_MUST_BE_GREATER_THAN_ZERO });
             if (request.EmulatorId <= 0)
                 errors.Add(new { EmulatorId = ExceptionMessagesResource.ID_MUST_BE_GREATER_THAN_ZERO });
-            if (request.File == null)
-                errors.Add(new { File = ExceptionMessagesResource.NAME_EMPTY });
-            if (request.Image == null)
-                errors.Add(new { Image = ExceptionMessagesResource.NAME_EMPTY });
 
-            if (emulator == null)
+            if (errors.Count > 0)
+                throw new ValidationErrorException(errors);
+
+            if (!await games.Exists(request.Id))
+                errors.Add(new { Game = ExceptionMessagesResource.GAME_NOT_FOUND });            
+            if (!await emulators.Exists(request.EmulatorId))
                 errors.Add(new { Emulator = ExceptionMessagesResource.NAME_EMPTY });
-            if (category == null)
+            if (!await categories.Exists(request.CategoryId))
                 errors.Add(new { Category = ExceptionMessagesResource.NAME_EMPTY });
 
             if (errors.Count > 0)

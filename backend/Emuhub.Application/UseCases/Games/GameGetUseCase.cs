@@ -21,7 +21,7 @@ namespace Emuhub.Application.UseCases.Games
         private static void Validate(int page)
         {
             if (page < 0)
-                throw new ValidationErrorException() { Errors = [ExceptionMessagesResource.NEGATIVE_PAGE_NUMBER] };
+                throw new ValidationErrorException([ExceptionMessagesResource.NEGATIVE_PAGE_NUMBER]);
         }
     }
 }

@@ -3,25 +3,36 @@ using Emuhub.Domain.Entities.Games;
 using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions;
 using Emuhub.Infrastructure.Repositories;
+using Emuhub.Infrastructure.Services.Storage;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameCreateUseCase(GameRepository games, EmulatorRepository emulators, GameCategoryRepository categories)
+    public class GameCreateUseCase(GameRepository games, EmulatorRepository emulators, GameCategoryRepository categories, IFileStorageService storage)
     {
         public async Task<long> Execute(GameCreateRequest request)
         {
-            var emulator = await emulators.Get(request.EmulatorId);
-            var category = await categories.Get(request.CategoryId);
+            await Validate(request);
 
-            Validate(request, emulator, category);
+            var imagePath = await storage.UploadAsync(request.Image);
+            var filePath = await storage.UploadAsync(request.File);
 
-            var game = request.AsGame(emulator!, category!);
+            var game = new Game()
+            {
+                Id = 0,
+                Name = request.Name,
+                Description = request.Description,
+                CategoryId = request.CategoryId,
+                EmulatorId = request.EmulatorId,
+                Image = imagePath,
+                File = filePath
+            };
+
             await games.Add(game);
 
             return game.Id;
         }
 
-        private static void Validate(GameCreateRequest request, Emulator? emulator, GameCategory? category)
+        private async Task Validate(GameCreateRequest request)
         {
             var errors = new List<object>();
 
@@ -38,9 +49,9 @@ namespace Emuhub.Application.UseCases.Games
             if (request.Image == null)
                 errors.Add(new { Image = ExceptionMessagesResource.NAME_EMPTY });
 
-            if (emulator == null)
+            if (!await emulators.Exists(request.EmulatorId))
                 errors.Add(new { Emulator = ExceptionMessagesResource.NAME_EMPTY });
-            if (category == null)
+            if (!await categories.Exists(request.CategoryId))
                 errors.Add(new { Category = ExceptionMessagesResource.NAME_EMPTY });
 
             if (errors.Count > 0)
