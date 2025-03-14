@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+  </ItemGroup>
+
   <ItemGroup>    
 	<ProjectReference Include="..\Emuhub.Communication\Emuhub.Communication.csproj" />
     <ProjectReference Include="..\Emuhub.Exceptions\Emuhub.Exceptions.csproj" />
