@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Emuhub.Domain.Entities.Games;
 using Emuhub.Domain.Entities;
+using Emuhub.Domain.Entities.Users;
 
 namespace Emuhub.Infrastructure.DataAccess;
 
@@ -9,6 +10,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Game> Games { get; set; }
     public DbSet<GameCategory> GameCategories { get; set; }
     public DbSet<Emulator> Emulators { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -29,7 +31,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Emulator>()
             .HasMany<Game>()                        // Emulator has many Games
             .WithOne(e => e.Emulator)               // Games have one Emulator
-            .HasForeignKey("EmulatorId")            // (Shadow property) The foreign key EmulatorId exists in the database but isn’t exposed in the Game class
+            .HasForeignKey(g => g.EmulatorId)       // Foreign key
             .IsRequired();                          // The relationship is required
     }
 
@@ -38,7 +40,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<GameCategory>()
             .HasMany<Game>()
             .WithOne(e => e.Category)
-            .HasForeignKey("CategoryId")
+            .HasForeignKey(g => g.CategoryId)
             .IsRequired();
 }
 

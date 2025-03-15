@@ -1,4 +1,5 @@
 ﻿using Emuhub.Application.UseCases.Games;
+using Emuhub.Application.UseCases.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Emuhub.Application
@@ -12,6 +13,7 @@ namespace Emuhub.Application
 
             // Use Cases
             AddGameUseCases(services);
+            AddUserUseCases(services);
         }
 
         private static void AddAuthServices(IServiceCollection services)
@@ -27,6 +29,12 @@ namespace Emuhub.Application
             services.AddScoped<GameCreateUseCase>();
             services.AddScoped<GameUpdateUseCase>();
             services.AddScoped<GameDeleteUseCase>();
+        }
+
+        private static void AddUserUseCases(IServiceCollection services)
+        {
+            services.AddScoped<UserRegisterUseCase>();
+            services.AddScoped<UserLoginUseCase>();
         }
     }
 }

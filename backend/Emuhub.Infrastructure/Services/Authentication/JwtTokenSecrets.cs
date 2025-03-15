@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Emuhub.Application.Services.Auth
+namespace Emuhub.Infrastructure.Services.Authentication
 {
-    public class JwtTokenSecrets : IJwtTokenSecrets
+    public class JwtTokenSecrets
     {
         public string Secret { get; set; }
         public string Issuer { get; set; }
