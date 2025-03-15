@@ -32,7 +32,6 @@ public static class DependencyInjection
                 )
             )
         );
-        AddRepositories(services);
     }
 
     private static void AddRepositories(IServiceCollection services)
