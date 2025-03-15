@@ -37,6 +37,7 @@ public static class DependencyInjection
     private static void AddRepositories(IServiceCollection services)
     {
         services.AddScoped<GameRepository>();
+        services.AddScoped<GameCategoryRepository>();
         services.AddScoped<EmulatorRepository>();
         services.AddScoped<UserRepository>();
     }
