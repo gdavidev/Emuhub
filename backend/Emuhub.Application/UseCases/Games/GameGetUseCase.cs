@@ -1,4 +1,5 @@
-﻿using Emuhub.Communication.Data.Games;
+﻿using Emuhub.Application.Serialization;
+using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
 using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions;
@@ -13,7 +14,7 @@ namespace Emuhub.Application.UseCases.Games
             Validate(page);
 
             List<Game> gameList = await games.GetAll(page);
-            List<GameResponse> response = gameList.Select(g => g.AsResponse()).ToList();
+            List<GameResponse> response = gameList.Select(GameSerializer.ToResponse).ToList();
 
             return response;
         }
