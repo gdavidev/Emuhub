@@ -17,7 +17,7 @@ public static class DependencyInjection
         AddDbContext(services, configuration.GetConnectionString("Default")!);
 
         AddRepositories(services);
-        AddServices(services, configuration);
+        AddAuthServices(services, configuration);
     }
 
     private static void AddDbContext(IServiceCollection services, string connectionString)
@@ -42,18 +42,13 @@ public static class DependencyInjection
         services.AddScoped<UserRepository>();
     }
 
-    private static void AddServices(IServiceCollection services, IConfiguration configuration) 
-    {        
-        AddAuthServices(services, configuration);
-    }
-
     private static void AddAuthServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                var securittKeyByteArray = Encoding.UTF8.GetBytes(configuration.GetValue<string>("Token:Secret")!);
-                var securityKey = new SymmetricSecurityKey(securittKeyByteArray);
+                var securityKeyByteArray = Encoding.UTF8.GetBytes(configuration.GetValue<string>("Token:Secret")!);
+                var securityKey = new SymmetricSecurityKey(securityKeyByteArray);
 
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {

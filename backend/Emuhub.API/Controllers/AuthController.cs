@@ -1,5 +1,4 @@
 ﻿using Emuhub.Communication.Data.Auth;
-using Emuhub.Infrastructure.Repositories;
 using Emuhub.Infrastructure.Services.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +38,22 @@ namespace Emuhub.API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("AuthorizedOnly")]
         public IActionResult AuthorizedOnly()
+        {
+            return Ok("Gone well");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("AdminOnly")]
+        public IActionResult AdminOnly()
+        {
+            return Ok("Gone well");
+        }
+
+        [Authorize(Roles = "Admin,Moderator")]
+        [HttpGet("ModeratorOrAdminOnly")]
+        public IActionResult ModeratorOrAdminOnly()
         {
             return Ok("Gone well");
         }

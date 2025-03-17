@@ -8,18 +8,8 @@ namespace Emuhub.Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            // Services
-            AddAuthServices(services);
-
-            // Use Cases
             AddGameUseCases(services);
             AddUserUseCases(services);
-        }
-
-        private static void AddAuthServices(IServiceCollection services)
-        {
-            services.AddScoped<IJwtTokenSecrets, JwtTokenSecrets>();
-            services.AddScoped<JwtTokenHandlerService>();
         }
 
         private static void AddGameUseCases(IServiceCollection services) 
