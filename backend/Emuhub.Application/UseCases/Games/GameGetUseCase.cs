@@ -2,7 +2,7 @@
 using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
 using Emuhub.Exceptions;
-using Emuhub.Exceptions.Exceptions;
+using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Repositories;
 
 namespace Emuhub.Application.UseCases.Games
@@ -22,7 +22,7 @@ namespace Emuhub.Application.UseCases.Games
         private static void Validate(int page)
         {
             if (page < 0)
-                throw new ValidationErrorException([ExceptionMessagesResource.NEGATIVE_PAGE_NUMBER]);
+                throw new ValidationErrorException(new ValidationErrorItem("Page", ExceptionMessagesResource.NEGATIVE_PAGE_NUMBER));
         }
     }
 }

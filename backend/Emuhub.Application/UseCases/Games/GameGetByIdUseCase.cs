@@ -2,7 +2,7 @@
 using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
 using Emuhub.Exceptions;
-using Emuhub.Exceptions.Exceptions;
+using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Repositories;
 
 namespace Emuhub.Application.UseCases.Games
@@ -23,9 +23,9 @@ namespace Emuhub.Application.UseCases.Games
         private async Task Validate(long id)
         {
             if (id <= 0)
-                throw new ValidationErrorException([new { Id = ExceptionMessagesResource.ID_MUST_BE_GREATER_THAN_ZERO }]);
+                throw new ValidationErrorException(new ValidationErrorItem("Id", ExceptionMessagesResource.ID_MUST_BE_GREATER_THAN_ZERO));
             if (!await games.Exists(id))
-                throw new ValidationErrorException([new { Id = ExceptionMessagesResource.GAME_NOT_FOUND }]);
+                throw new ValidationErrorException(new ValidationErrorItem("Id", ExceptionMessagesResource.GAME_NOT_FOUND));
         }
     }
 }
