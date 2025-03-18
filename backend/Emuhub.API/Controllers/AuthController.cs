@@ -1,5 +1,5 @@
-﻿using Emuhub.Communication.Data.Auth;
-using Emuhub.Infrastructure.Services.Authentication;
+﻿using Emuhub.Application.UseCases.Users;
+using Emuhub.Communication.Data.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,22 +7,36 @@ namespace Emuhub.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(AuthService authService) : ControllerBase
+    public class AuthController : ControllerBase
     {
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register(
+            [FromServices] UserRegisterUseCase useCase,
+            [FromForm] RegisterRequest request)
         {
-            await authService.Register(request);
+            await useCase.Execute(request);
 
             return Ok();
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(LoginRequest request)
+        public async Task<ActionResult<LoginResponse>> Login(
+            [FromServices] UserLoginUseCase useCase,
+            [FromBody] LoginRequest request)
         {
-            var token = await authService.Login(request);
+            var response = await useCase.Execute(request);
 
-            return Ok(token);
+            return Ok(response);
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<ActionResult<UserTokensResponse>> RefreshToken(
+            [FromServices] RefreshTokenUseCase useCase,
+            [FromBody] RefreshTokenRequest request)
+        {
+            var response = await useCase.Execute(request);
+
+            return Ok(response);
         }
 
         [HttpDelete("Delete")]

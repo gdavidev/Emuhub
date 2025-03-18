@@ -1,22 +1,23 @@
 ﻿using Emuhub.Communication.Data.Auth;
 using Emuhub.Domain.Entities.Users;
 using Emuhub.Exceptions.Exceptions;
-using Emuhub.Infrastructure.DataAccess;
+using Emuhub.Exceptions.Exceptions.ValidationError;
+using Emuhub.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Services.Authentication
 {
-    public class AuthService(ApplicationDbContext context, JwtTokenHandlerService jwtTokenService)
+    public class AuthService(UserRepository userRepository, JwtTokenHandlerService jwtTokenService)
     {
         public async Task Register(RegisterRequest request)
         {
-            var emailAndUserNameUnavailable = await DoesUserNameOrEmailAlreadyExists(request.UserName, request.Email);
+            var emailAndUserNameAvailable = !await userRepository.IsUserNameAndEmailAvailable(request.UserName, request.Email);
 
-            if (emailAndUserNameUnavailable)
-                throw new ValidationErrorException([new { EmailOrUserName = "Email or user name are already in use" }]);
+            if (!emailAndUserNameAvailable)
+                throw new ValidationErrorException(new ValidationErrorItem("EmailOrUserName", "Email or user name are already in use"));
 
-            var user = new User() { 
+            var user = new User() 
+            { 
                 Name = request.UserName,
                 Email = request.Email,
             };
@@ -25,13 +26,12 @@ namespace Emuhub.Infrastructure.Services.Authentication
 
             user.PasswordHash = hashedPassword;
 
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
+            await userRepository.Add(user);
         }
 
-        public async Task<string> Login(LoginRequest request)
+        public async Task<LoginResponse> Login(LoginRequest request)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            var user = await userRepository.GetByEmail(request.Email);
 
             if (user is null)
                 throw new ResourceNotFoundException("User", "Invalid email or password");
@@ -41,12 +41,39 @@ namespace Emuhub.Infrastructure.Services.Authentication
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
                 throw new ResourceNotFoundException("User", "Invalid email or password");
 
-            return jwtTokenService.CreateToken(user);
+            return new LoginResponse()
+            {
+                UserId = user.Id,
+                UserTokens = await CreateAndSaveNewUserTokens(user)
+            };
         }
 
-        public async Task<bool> DoesUserNameOrEmailAlreadyExists(string userName, string email)
+        public async Task<UserTokensResponse> RefreshToken(RefreshTokenRequest request)
         {
-            return await context.Users.AnyAsync(u => u.Name == userName || u.Email == email);
+            var user = await userRepository.GetById(request.UserId);
+
+            if (user is null)
+                throw new ResourceNotFoundException("User", "Invalid user Id");
+            if (request.RefreshToken != user.RefreshToken || user.RefreshTokenExpiryDate <= DateTime.UtcNow)
+                throw new ResourceNotFoundException("RefreshToken", "Token invalid or expired");
+
+            return await CreateAndSaveNewUserTokens(user);
+        }
+
+        private async Task<UserTokensResponse> CreateAndSaveNewUserTokens(User user)
+        {
+            var token = jwtTokenService.CreateToken(user);
+            var refreshToken = JwtTokenHandlerService.CreateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryDate = DateTime.UtcNow.AddDays(7);
+            await userRepository.Update(user);
+
+            return new UserTokensResponse()
+            {
+                AccessToken = token,
+                RefreshToken = refreshToken
+            };
         }
     }
 }

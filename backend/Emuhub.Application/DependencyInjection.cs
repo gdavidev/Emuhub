@@ -25,6 +25,7 @@ namespace Emuhub.Application
         {
             services.AddScoped<UserRegisterUseCase>();
             services.AddScoped<UserLoginUseCase>();
+            services.AddScoped<RefreshTokenUseCase>();
         }
     }
 }

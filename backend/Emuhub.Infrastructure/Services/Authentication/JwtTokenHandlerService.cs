@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Emuhub.Infrastructure.Services.Authentication
@@ -27,5 +28,15 @@ namespace Emuhub.Infrastructure.Services.Authentication
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
-    }
+
+        public static string CreateRefreshToken()
+        {
+            using var rng = RandomNumberGenerator.Create();
+
+            var randomNumber = new byte[32];
+            rng.GetBytes(randomNumber);
+
+            return Convert.ToBase64String(randomNumber);
+        }
+    }    
 }

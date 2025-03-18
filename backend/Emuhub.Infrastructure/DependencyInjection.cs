@@ -1,6 +1,7 @@
 ﻿using Emuhub.Infrastructure.DataAccess;
 using Emuhub.Infrastructure.Repositories;
 using Emuhub.Infrastructure.Services.Authentication;
+using Emuhub.Infrastructure.Services.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,9 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddDbContext(services, configuration.GetConnectionString("Default")!);
+
+        // Test
+        services.AddScoped<IFileStorageService, FileSystemStorageService>();        
 
         AddRepositories(services);
         AddAuthServices(services, configuration);

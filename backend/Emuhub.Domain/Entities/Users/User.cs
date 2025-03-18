@@ -11,6 +11,9 @@ public class User
     public bool IsActive { get; set; }
     public bool IsBanned { get; set; }
 
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiryDate { get; set; }
+
     [AllowedValues(["Common", "Admin", "Moderator"])]
     public string Role { get; set; } = "Common";
 

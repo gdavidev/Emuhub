@@ -3,6 +3,7 @@ using Emuhub.Infrastructure;
 using MyRecipeBook.API.Filters;
 using MyRecipeBook.API.Middleware;
 using Emuhub.Application;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,5 +36,13 @@ app.UseAuthorization();
 
 // Endpoint mapping
 app.MapControllers();
+
+// Alocate static files provider endpoint
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "..\\Emuhub.Infrastructure\\Uploads")),
+    RequestPath = "/Resources"
+});
 
 app.Run();
