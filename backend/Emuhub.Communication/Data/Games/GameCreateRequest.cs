@@ -1,4 +1,5 @@
 ﻿using Emuhub.Domain.Entities.Games;
+using Microsoft.AspNetCore.Http;
 
 namespace Emuhub.Communication.Data.Games
 {

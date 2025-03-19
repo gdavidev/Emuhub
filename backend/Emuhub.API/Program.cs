@@ -3,6 +3,7 @@ using Emuhub.Infrastructure;
 using MyRecipeBook.API.Filters;
 using MyRecipeBook.API.Middleware;
 using Emuhub.Application;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Inject Dependencies.
-builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Default")!);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
 // Configuring Swagger/OpenAPI. Learn more at https://aka.ms/aspnetcore/swashbuckle
@@ -35,5 +36,13 @@ app.UseAuthorization();
 
 // Endpoint mapping
 app.MapControllers();
+
+// Alocate static files provider endpoint
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "..\\Emuhub.Infrastructure\\Uploads")),
+    RequestPath = "/Resources"
+});
 
 app.Run();
