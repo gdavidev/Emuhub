@@ -1,17 +1,16 @@
-﻿using Emuhub.Application.Validation;
+﻿using Emuhub.Application.Validation.Users;
 using Emuhub.Communication.Data.Auth;
-using Emuhub.Exceptions.Exceptions.ValidationError;
-using Emuhub.Exceptions;
 using Emuhub.Infrastructure.Services.Authentication;
+using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Users
 {
-    public class UserLoginUseCase(AuthService authService)
+    public class UserLoginUseCase(AuthService authService, LoginRequestValidator validator)
     {
         public async Task<LoginResponse> Execute(LoginRequest request)
         {
             request = Sanitized(request);
-            Validate(request);
+            validator.ValidateAndThrow(request);
 
             return await authService.Login(request);
         }
@@ -22,19 +21,6 @@ namespace Emuhub.Application.UseCases.Users
             request.Password = request.Password.Trim();
 
             return request;
-        }
-
-        public static void Validate(LoginRequest request)
-        {
-            var errors = new List<ValidationErrorItem>();
-
-            if (!EmailValidator.IsEmailValid(request.Email))
-                errors.Add(new ValidationErrorItem("Email", ExceptionMessagesResource.NAME_EMPTY));
-            if (request.Password is null || request.Password.Equals(string.Empty))
-                errors.Add(new ValidationErrorItem("Password", ExceptionMessagesResource.NAME_EMPTY));
-
-            if (errors.Count > 0)
-                throw new ValidationErrorException(errors);
-        }        
+        }    
     }
 }

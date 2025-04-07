@@ -1,20 +1,22 @@
-﻿using Emuhub.Exceptions.Exceptions.ValidationError;
+﻿using Emuhub.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
 namespace Emuhub.Application.Validation
 {
-    public static class FileValidator
+    public class FileValidator : AbstractValidator<IFormFile>
     {
-        public static bool Validate(IFormFile file, string[] allowedExtensions)
-        {
-            if (file is null || file.Length <= 0)
-                throw new ValidationErrorException(new ValidationErrorItem("File", "Cannot be null or empty"));
-            
-            var extension = Path.GetExtension(file.Name.ToLower());
-            if (!allowedExtensions.Contains(extension))
-                throw new ValidationErrorException(new ValidationErrorItem("File", $"Only {string.Join(", ", allowedExtensions)} are allowed extensions"));
+        public static readonly string[] IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif"];
 
-            return true;
+        public FileValidator(string[] allowedExtensions) 
+        {
+            RuleFor(file => file.Length)
+                .GreaterThan(0).WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_EMPTY);
+
+            RuleFor(file => Path.GetExtension(file.Name.ToLower()))
+                .NotEmpty().WithMessage(ExceptionMessagesResource.FILE_MUST_HAVE_EXTENSION)
+                .Must(ext => allowedExtensions.Contains(ext))
+                    .WithMessageFormat(ExceptionMessagesResource.FILE_EXTENSION_MUST_BE, string.Join(", ", allowedExtensions));
         }
     }
 }

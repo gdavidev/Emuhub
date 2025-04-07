@@ -1,18 +1,17 @@
-﻿using Emuhub.Application.Validation;
+﻿using Emuhub.Application.Validation.Users;
 using Emuhub.Communication.Data.Auth;
-using Emuhub.Exceptions;
-using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Services.Authentication;
 using Emuhub.Infrastructure.Services.Storage;
+using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Users
 {
-    public class UserRegisterUseCase(AuthService authService, IFileStorageService storageService)
+    public class UserRegisterUseCase(AuthService authService, RegisterRequestValidator validator, IFileStorageService storageService)
     {
         public async Task Execute(RegisterRequest request)
         {
             request = Sanitized(request);
-            Validate(request);
+            validator.ValidateAndThrow(request);
 
             await authService.Register(request);
             await storageService.UploadAsync(request.ProfileImage);
@@ -23,29 +22,6 @@ namespace Emuhub.Application.UseCases.Users
             request.Email = request.Email.Trim().ToLower();
 
             return request;
-        }
-
-        public static void Validate(RegisterRequest request)
-        {
-            var errors = new List<ValidationErrorItem>();
-
-            if (!EmailValidator.IsEmailValid(request.Email))
-                errors.Add(new ValidationErrorItem("Email", ExceptionMessagesResource.NAME_EMPTY));
-            if (!PasswordValidator.IsPasswordValid(request.Password))
-                errors.Add(new ValidationErrorItem("Password", ExceptionMessagesResource.NAME_EMPTY));
-
-            try
-            {
-                FileValidator.Validate(request.ProfileImage, [".png", ".jpg", ".jpeg", ".gif"]);
-            }
-            catch (ValidationErrorException ex)
-            {
-                ex.Errors.ForEach(err => err.PropertyName = "ProfileImage");
-                errors.AddRange(ex.Errors);
-            }
-
-            if (errors.Count > 0)
-                throw new ValidationErrorException(errors);
-        }       
+        }     
     }
 }

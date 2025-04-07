@@ -61,6 +61,24 @@ namespace Emuhub.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Campo não pode ser nulo.
+        /// </summary>
+        public static string CANNOT_BE_NULL {
+            get {
+                return ResourceManager.GetString("CANNOT_BE_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Categoria não encontrada.
+        /// </summary>
+        public static string CATEGORY_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("CATEGORY_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Este email ja existe..
         /// </summary>
         public static string EMAIL_ALREADY_EXISTS {
@@ -88,6 +106,60 @@ namespace Emuhub.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Emulador não encontrado.
+        /// </summary>
+        public static string EMULATOR_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("EMULATOR_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Campo não pode estar vázio.
+        /// </summary>
+        public static string FIELD_CANNOT_BE_EMPTY {
+            get {
+                return ResourceManager.GetString("FIELD_CANNOT_BE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Campo não pode ser null..
+        /// </summary>
+        public static string FIELD_CANNOT_BE_NULL {
+            get {
+                return ResourceManager.GetString("FIELD_CANNOT_BE_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Campo não pode ser vázio ou null..
+        /// </summary>
+        public static string FIELD_CANNOT_BE_NULL_OR_EMPTY {
+            get {
+                return ResourceManager.GetString("FIELD_CANNOT_BE_NULL_OR_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Arquivo deve ser do tipo ({0}) apenas.
+        /// </summary>
+        public static string FILE_EXTENSION_MUST_BE {
+            get {
+                return ResourceManager.GetString("FILE_EXTENSION_MUST_BE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Arquivo sem extensão.
+        /// </summary>
+        public static string FILE_MUST_HAVE_EXTENSION {
+            get {
+                return ResourceManager.GetString("FILE_MUST_HAVE_EXTENSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jogo não encontrado.
         /// </summary>
         public static string GAME_NOT_FOUND {
@@ -102,6 +174,15 @@ namespace Emuhub.Exceptions {
         public static string ID_MUST_BE_GREATER_THAN_ZERO {
             get {
                 return ResourceManager.GetString("ID_MUST_BE_GREATER_THAN_ZERO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deve conter no minimo {0} caracteres.
+        /// </summary>
+        public static string MINIMUN_LENGTH {
+            get {
+                return ResourceManager.GetString("MINIMUN_LENGTH", resourceCulture);
             }
         }
         

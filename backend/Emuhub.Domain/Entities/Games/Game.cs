@@ -12,7 +12,7 @@ public class Game
     public required long CategoryId { get; set; }
     public required long EmulatorId { get; set; }
 
-    // Navigation Properties
+    // Navigation Properties    
     public GameCategory? Category { get; set; }
     public Emulator? Emulator { get; set; }
 }
