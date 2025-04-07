@@ -1,19 +1,21 @@
-﻿using System.Text.RegularExpressions;
+﻿using Emuhub.Exceptions;
+using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace Emuhub.Application.Validation
 {
-    public partial class PasswordValidator
+    public partial class PasswordValidator : AbstractValidator<string>
     {
         [GeneratedRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")]
         private static partial Regex PasswordPattern();
 
-        public static bool IsPasswordValid(string password)
+        public PasswordValidator()
         {
-            if (password == null || password.Length < 8)
-                return false;
-            if (!PasswordPattern().IsMatch(password))
-                return false;
-            return true;
-        }        
+            RuleFor(password => password)
+                .NotNull()
+                .MinimumLength(8)
+                .Matches(PasswordPattern())
+                .WithMessage(ExceptionMessagesResource.PASSWORD_INVALID); 
+        }     
     }
 }

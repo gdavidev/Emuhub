@@ -24,10 +24,8 @@ public class GamesController : ControllerBase
         [FromServices] GameGetByIdUseCase useCase,
         [FromRoute] long id)
 	{
-        var result = await useCase.Execute(id);        
+        var result = await useCase.Execute(id);
 
-		if (result == null)
-			return NotFound();
 		return result;
 	}
 

@@ -1,31 +1,21 @@
 ﻿using Emuhub.Application.Serialization;
+using Emuhub.Application.Validation.Games;
 using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
-using Emuhub.Exceptions;
-using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Repositories;
+using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameGetByIdUseCase(GameRepository games)
+    public class GameGetByIdUseCase(GameRepository games, GameExistingIdValidator validator)
     {
-        public async Task<GameResponse?> Execute(long id)
+        public async Task<GameResponse> Execute(long id)
         {
-            await Validate(id);
+            await validator.ValidateAndThrowAsync(id);
 
             Game? game = await games.Get(id);
 
-            if (game is not null)
-                return GameSerializer.ToResponse(game);
-            return null;
-        }
-
-        private async Task Validate(long id)
-        {
-            if (id <= 0)
-                throw new ValidationErrorException(new ValidationErrorItem("Id", ExceptionMessagesResource.ID_MUST_BE_GREATER_THAN_ZERO));
-            if (!await games.Exists(id))
-                throw new ValidationErrorException(new ValidationErrorItem("Id", ExceptionMessagesResource.GAME_NOT_FOUND));
+            return GameSerializer.ToResponse(game!);
         }
     }
 }

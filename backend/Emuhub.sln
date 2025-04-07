@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emuhub.Application", "Emuhub.Application\Emuhub.Application.csproj", "{90D02114-E58C-40B4-9D0A-B20D9F615AAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Application", "Emuhub.Application\Emuhub.Application.csproj", "{90D02114-E58C-40B4-9D0A-B20D9F615AAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emuhub.Exceptions", "Emuhub.Exceptions\Emuhub.Exceptions.csproj", "{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Exceptions", "Emuhub.Exceptions\Emuhub.Exceptions.csproj", "{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BEA0B724-EB4E-481E-BACD-5D3682B87EC1}"
 EndProject

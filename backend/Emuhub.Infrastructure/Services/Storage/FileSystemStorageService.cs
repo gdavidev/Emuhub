@@ -6,7 +6,7 @@ namespace Emuhub.Infrastructure.Services.Storage
 {
     public class FileSystemStorageService(IWebHostEnvironment environment) : IFileStorageService
     {
-        public void Delete()
+        public void Delete(string path)
         {
             throw new NotImplementedException();
         }

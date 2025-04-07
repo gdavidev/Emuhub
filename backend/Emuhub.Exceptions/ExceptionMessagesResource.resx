@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CANNOT_BE_NULL" xml:space="preserve">
+    <value>Campo não pode ser nulo</value>
+  </data>
+  <data name="CATEGORY_NOT_FOUND" xml:space="preserve">
+    <value>Categoria não encontrada</value>
+  </data>
   <data name="EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Este email ja existe.</value>
   </data>
@@ -126,11 +132,32 @@
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>O email está inválido.</value>
   </data>
+  <data name="EMULATOR_NOT_FOUND" xml:space="preserve">
+    <value>Emulador não encontrado</value>
+  </data>
+  <data name="FIELD_CANNOT_BE_EMPTY" xml:space="preserve">
+    <value>Campo não pode estar vázio</value>
+  </data>
+  <data name="FIELD_CANNOT_BE_NULL" xml:space="preserve">
+    <value>Campo não pode ser null.</value>
+  </data>
+  <data name="FIELD_CANNOT_BE_NULL_OR_EMPTY" xml:space="preserve">
+    <value>Campo não pode ser vázio ou null.</value>
+  </data>
+  <data name="FILE_EXTENSION_MUST_BE" xml:space="preserve">
+    <value>Arquivo deve ser do tipo ({0}) apenas</value>
+  </data>
+  <data name="FILE_MUST_HAVE_EXTENSION" xml:space="preserve">
+    <value>Arquivo sem extensão</value>
+  </data>
   <data name="GAME_NOT_FOUND" xml:space="preserve">
     <value>Jogo não encontrado</value>
   </data>
   <data name="ID_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
     <value>O campo Id deve ser maior que zero.</value>
+  </data>
+  <data name="MINIMUN_LENGTH" xml:space="preserve">
+    <value>Deve conter no minimo {0} caracteres</value>
   </data>
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>O nome não pode estar vazio.</value>
