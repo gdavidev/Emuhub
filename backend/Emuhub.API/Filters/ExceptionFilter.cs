@@ -1,5 +1,4 @@
 ﻿using Emuhub.Application.Serialization;
-using Emuhub.Communication.Data;
 using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions;
 using Emuhub.Exceptions.Exceptions.ValidationError;
@@ -26,7 +25,7 @@ public class ExceptionFilter : IExceptionFilter
 
         if (exception is ValidationErrorException validationException)
         {
-            var response = ValidationErrorSerializer.ToResponse(validationException.Errors);
+            var response = ValidationErrorSerializer.ToResponse(validationException.Errors);            
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             context.Result = new BadRequestObjectResult(response);
@@ -43,7 +42,7 @@ public class ExceptionFilter : IExceptionFilter
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
             context.Result = new ConflictObjectResult(duplicatedException.ErrorMessage);
             return;
-        }
+        }        
 
         HandleUnknownException(context);
     }
