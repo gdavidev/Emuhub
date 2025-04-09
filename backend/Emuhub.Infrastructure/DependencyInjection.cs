@@ -16,9 +16,9 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddDbContext(services, configuration.GetConnectionString("Default")!);
-
-        // Test
-        services.AddScoped<IFileStorageService, FileSystemStorageService>();        
+                
+        if (configuration.GetValue<bool>("Environment:UseLocalFileSystemStorage"))
+            services.AddScoped<IFileStorageService, FileSystemStorageService>();        
 
         AddRepositories(services);
         AddAuthServices(services, configuration);

@@ -1,6 +1,0 @@
-@RestAPI_HostAddress = https://localhost:5000
-
-GET {{RestAPI_HostAddress}}/swagger/index.html
-Accept: text/html
-
-###
