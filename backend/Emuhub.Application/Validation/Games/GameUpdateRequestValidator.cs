@@ -6,12 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.Application.Validation.Games
 {
-    public class GameCreateRequestValidator : AbstractValidator<GameCreateRequest>
+    public class GameUpdateRequestValidator : AbstractValidator<GameUpdateRequest>
     {
-        public GameCreateRequestValidator(
+        public GameUpdateRequestValidator(
+            [FromServices] GameExistingIdValidator idValidator,
             [FromServices] IEmulatorRepository emulators,
             [FromServices] IGameCategoryRepository categories)
         {
+            RuleFor(request => new GameExistingIdRequest() { Id = request.Id })
+                .SetValidator(idValidator);
+
             RuleFor(request => request.Name)
                 .NotNullOrEmpty();
 
@@ -23,16 +27,20 @@ namespace Emuhub.Application.Validation.Games
                 .MustAsync(async (id, _) => await emulators.Exists(id)).WithMessage(ExceptionMessagesResource.EMULATOR_NOT_FOUND);
 
             RuleFor(request => request.CategoryId)
-                .DatabaseIdentity() 
+                .DatabaseIdentity()
                 .MustAsync(async (id, _) => await categories.Exists(id)).WithMessage(ExceptionMessagesResource.CATEGORY_NOT_FOUND);
 
-            RuleFor(request => request.File)
-                .NotNull().WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_NULL)
-                .FileOfType(FileType.ARCHIVE);
+            When(request => request.File != null, () =>
+            {
+                RuleFor(request => request.File!)
+                    .FileOfType(FileType.ARCHIVE);
+            });
 
-            RuleFor(request => request.Image)
-                .NotNull().WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_NULL)
-                .FileOfType(FileType.IMAGE);
+            When(request => request.Image != null, () =>
+            {
+                RuleFor(request => request.Image!)
+                    .FileOfType(FileType.IMAGE);
+            });
         }
     }
 }

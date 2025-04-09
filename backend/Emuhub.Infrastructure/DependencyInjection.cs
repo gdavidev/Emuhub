@@ -40,10 +40,10 @@ public static class DependencyInjection
 
     private static void AddRepositories(IServiceCollection services)
     {
-        services.AddScoped<GameRepository>();
-        services.AddScoped<GameCategoryRepository>();
-        services.AddScoped<EmulatorRepository>();
-        services.AddScoped<UserRepository>();
+        services.AddScoped<IGameRepository, GameRepository>();
+        services.AddScoped<IGameCategoryRepository, GameCategoryRepository>();
+        services.AddScoped<IEmulatorRepository, EmulatorRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 
     private static void AddAuthServices(IServiceCollection services, IConfiguration configuration)

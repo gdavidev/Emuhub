@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Emuhub.Infrastructure.Services.Authentication
 {
-    public class AuthService(UserRepository userRepository, JwtTokenHandlerService jwtTokenService)
+    public class AuthService(IUserRepository userRepository, JwtTokenHandlerService jwtTokenService)
     {
         public async Task Register(RegisterRequest request)
         {

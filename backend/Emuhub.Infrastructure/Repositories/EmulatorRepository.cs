@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Repositories;
 
-public class EmulatorRepository(ApplicationDbContext context)
+public class EmulatorRepository(ApplicationDbContext context) : IEmulatorRepository
 {
     public async Task<Emulator?> Get(long id)
     {

@@ -1,22 +1,59 @@
 ﻿using Emuhub.Exceptions;
 using FluentValidation;
+using FluentValidation.Validators;
 using Microsoft.AspNetCore.Http;
 
 namespace Emuhub.Application.Validation
 {
-    public class FileValidator : AbstractValidator<IFormFile>
+    public enum FileType
     {
-        public static readonly string[] IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif"];
+        IMAGE,
+        ARCHIVE
+    }
 
-        public FileValidator(string[] allowedExtensions) 
+    public class FileValidator<T>(FileType fileType) : IPropertyValidator<T, IFormFile>
+    {
+        public static readonly Dictionary<FileType, string[]> AllowedExtensions = new()
         {
-            RuleFor(file => file.Length)
-                .GreaterThan(0).WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_EMPTY);
+            { FileType.IMAGE, new[] { ".png", ".jpg", ".jpeg", ".gif" } },
+            { FileType.ARCHIVE, new[] { ".zip", ".7z", ".rar" } },
+        };
+        public string Name => "FileValidator";        
 
-            RuleFor(file => Path.GetExtension(file.Name.ToLower()))
-                .NotEmpty().WithMessage(ExceptionMessagesResource.FILE_MUST_HAVE_EXTENSION)
-                .Must(ext => allowedExtensions.Contains(ext))
-                    .WithMessageFormat(ExceptionMessagesResource.FILE_EXTENSION_MUST_BE, string.Join(", ", allowedExtensions));
+        public bool IsValid(ValidationContext<T> context, IFormFile file)
+        {
+            if (file == null)
+            {
+                context.AddFailure(ExceptionMessagesResource.FIELD_CANNOT_BE_NULL);
+                return false;
+            }
+
+            if (file.Length <= 0)
+            {
+                context.AddFailure(ExceptionMessagesResource.FIELD_CANNOT_BE_EMPTY);
+                return false;
+            }
+
+            var ext = Path.GetExtension(file.FileName.ToLower());
+            var allowed = GetAllowedExtensions(fileType);
+
+            if (string.IsNullOrWhiteSpace(ext) || !allowed.Contains(ext))
+            {
+                context.AddFailure(string.Format(ExceptionMessagesResource.FILE_EXTENSION_MUST_BE, string.Join(", ", allowed)));
+                return false;
+            }
+
+            return true;
+        }
+
+        public string GetDefaultMessageTemplate(string errorCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string[] GetAllowedExtensions(FileType type)
+        {
+            return AllowedExtensions.TryGetValue(type, out var list) ? list : [];
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Repositories
 {
-    public class GameCategoryRepository(ApplicationDbContext context)
+    public class GameCategoryRepository(ApplicationDbContext context) : IGameCategoryRepository
     {
         public async Task<GameCategory?> Get(long id)
         {

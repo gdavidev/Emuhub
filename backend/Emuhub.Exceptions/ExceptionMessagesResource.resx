@@ -168,6 +168,9 @@
   <data name="PASSWORD_INVALID" xml:space="preserve">
     <value>A senha tem que conter no mínimo 6 caracteres</value>
   </data>
+  <data name="PASSWORD_TOO_SHORT" xml:space="preserve">
+    <value>Senha muito curta</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>

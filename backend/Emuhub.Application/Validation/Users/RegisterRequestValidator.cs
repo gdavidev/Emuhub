@@ -15,10 +15,11 @@ namespace Emuhub.Application.Validation.Users
             RuleFor(req => req.Email)
                 .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_EMPTY);
 
-            RuleFor(req => req.Password).SetValidator(new PasswordValidator());
+            RuleFor(req => req.Password)
+                .Password();
 
             RuleFor(req => req.ProfileImage)
-                .SetValidator(new FileValidator(FileValidator.IMAGE_EXTENSIONS));
+                .FileOfType(FileType.IMAGE);
         }
     }
 }

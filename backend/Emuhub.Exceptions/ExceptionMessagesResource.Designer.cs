@@ -214,6 +214,15 @@ namespace Emuhub.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Senha muito curta.
+        /// </summary>
+        public static string PASSWORD_TOO_SHORT {
+            get {
+                return ResourceManager.GetString("PASSWORD_TOO_SHORT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erro desconhecido..
         /// </summary>
         public static string UNKNOWN_ERROR {

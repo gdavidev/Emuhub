@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.Application.Validation.Games
 {
-    public class GameExistingIdValidator : AbstractValidator<long>
+    public class GameExistingIdValidator : AbstractValidator<GameExistingIdRequest>
     {
         public GameExistingIdValidator(
-            [FromServices] GameRepository games)
+            [FromServices] IGameRepository games)
         {
-            RuleFor(id => id)
-                .DatabaseId()
+            RuleFor(request => request.Id)
+                .DatabaseIdentity()
                 .MustAsync(async (id, _) => await games.Exists(id)).WithMessage(ExceptionMessagesResource.GAME_NOT_FOUND);
         }
     }

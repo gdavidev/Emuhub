@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Repositories
 {
-    public class UserRepository(ApplicationDbContext context)
+    public class UserRepository(ApplicationDbContext context) : IUserRepository
     {
         public async Task Add(User user)
         {

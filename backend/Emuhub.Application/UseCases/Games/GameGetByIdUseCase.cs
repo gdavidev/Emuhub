@@ -7,13 +7,13 @@ using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameGetByIdUseCase(GameRepository games, GameExistingIdValidator validator)
+    public class GameGetByIdUseCase(IGameRepository games, GameExistingIdValidator validator)
     {
-        public async Task<GameResponse> Execute(long id)
+        public async Task<GameResponse> Execute(GameExistingIdRequest request)
         {
-            await validator.ValidateAndThrowAsync(id);
+            await validator.ValidateAndThrowAsync(request);
 
-            Game? game = await games.Get(id);
+            Game? game = await games.Get(request.Id);
 
             return GameSerializer.ToResponse(game!);
         }

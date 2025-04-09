@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameCreateUseCase(GameRepository games, GameCreateRequestValidator validator, IFileStorageService storage)
+    public class GameCreateUseCase(IGameRepository games, GameCreateRequestValidator validator, IFileStorageService storage)
     {
         public async Task<long> Execute(GameCreateRequest request)
         {
@@ -31,9 +31,8 @@ namespace Emuhub.Application.UseCases.Games
                     Image = imagePath,
                     File = filePath
                 };
-                await games.Add(game);
 
-                return game.Id;
+                return await games.Add(game);
             }
             catch
             {

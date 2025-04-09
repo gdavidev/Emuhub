@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Repositories
 {
-    public class GameRepository(ApplicationDbContext context)
+    public class GameRepository(ApplicationDbContext context) : IGameRepository
     {
         private static readonly int pageSize = 10;
 
@@ -23,10 +23,11 @@ namespace Emuhub.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task Add(Game game)
+        public async Task<long> Add(Game game)
         {
             context.Games.Add(game);
             await context.SaveChangesAsync();
+            return game.Id;
         }
 
         public async Task Update(Game game)

@@ -18,17 +18,18 @@ namespace Emuhub.Application
 
         private static void AddValidators(IServiceCollection services)
         {
-            services.AddScoped<IValidator, GameExistingIdValidator>();
-            services.AddScoped<IValidator, GameCreateRequestValidator>();
-            services.AddScoped<IValidator, GameUpdateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<GameExistingIdValidator>();
+            services.AddValidatorsFromAssemblyContaining<GameCreateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<GameUpdateRequestValidator>();
 
-            services.AddScoped<IValidator, LoginRequestValidator>();
-            services.AddScoped<IValidator, RegisterRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
         }
 
         private static void AddUseCases(IServiceCollection services)
         {
             AddGameUseCases(services);
+            AddEmulatorUseCases(services);
             AddUserUseCases(services);
         }
 
@@ -39,6 +40,11 @@ namespace Emuhub.Application
             services.AddScoped<GameCreateUseCase>();
             services.AddScoped<GameUpdateUseCase>();
             services.AddScoped<GameDeleteUseCase>();
+        }
+
+        private static void AddEmulatorUseCases(IServiceCollection services)
+        {
+            services.AddScoped<EmulatorCreateUseCase>();
         }
 
         private static void AddUserUseCases(IServiceCollection services)

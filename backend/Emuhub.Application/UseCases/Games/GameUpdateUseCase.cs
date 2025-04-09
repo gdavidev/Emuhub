@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameUpdateUseCase(GameRepository games, GameUpdateRequestValidator validator, IFileStorageService storage)
+    public class GameUpdateUseCase(IGameRepository games, GameUpdateRequestValidator validator, IFileStorageService storage)
     {
         public async Task Execute(GameUpdateRequest request)
         {

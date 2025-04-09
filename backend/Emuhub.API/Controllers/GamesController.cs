@@ -8,7 +8,7 @@ namespace Emuhub.API.Controllers;
 public class GamesController : ControllerBase
 {
 	[HttpGet]
-    [Route("api/Games")]
+    [Route("api/Games/List")]
     public async Task<ActionResult<IEnumerable<GameResponse>>> GetGames(
         [FromServices] GameGetUseCase useCase,
         [FromQuery] int page)
@@ -19,18 +19,18 @@ public class GamesController : ControllerBase
     }
 
 	[HttpGet]
-    [Route("api/Games/{id}")]
+    [Route("api/Games/Get")]
     public async Task<ActionResult<GameResponse>> GetGame(
         [FromServices] GameGetByIdUseCase useCase,
-        [FromRoute] long id)
+        [FromQuery] GameExistingIdRequest request)
 	{
-        var result = await useCase.Execute(id);
+        var result = await useCase.Execute(request);
 
 		return result;
 	}
 
 	[HttpPut]
-    [Route("api/Games")]
+    [Route("api/Games/Update")]
     public async Task<IActionResult> UpdateGame(
         [FromServices] GameUpdateUseCase useCase,
         [FromBody] GameUpdateRequest request)
@@ -41,7 +41,7 @@ public class GamesController : ControllerBase
 	}
 
 	[HttpPost]
-    [Route("api/Games")]
+    [Route("api/Games/Create")]
     public async Task<ActionResult<GameResponse>> CreateGame(
         [FromServices] GameCreateUseCase useCase,
         [FromBody] GameCreateRequest request)
@@ -52,12 +52,12 @@ public class GamesController : ControllerBase
 	}
 
 	[HttpDelete]
-    [Route("api/Games/{id}")]
+    [Route("api/Games/Delete")]
     public async Task<IActionResult> DeleteGame(
         [FromServices] GameDeleteUseCase useCase,
-        [FromRoute] long id)
+        [FromQuery] GameExistingIdRequest request)
 	{
-        await useCase.Execute(id);
+        await useCase.Execute(request);
 
         return NoContent();
 	}	

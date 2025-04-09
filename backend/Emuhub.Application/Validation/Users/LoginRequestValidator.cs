@@ -13,8 +13,7 @@ namespace Emuhub.Application.Validation.Users
                 .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_INVALID);
 
             RuleFor(req => req.Password)
-                .NotNullOrEmpty()
-                .SetValidator(new PasswordValidator());
+                .Password();
         }
     }
 }

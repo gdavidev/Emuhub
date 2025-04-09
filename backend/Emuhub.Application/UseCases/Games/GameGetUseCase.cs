@@ -7,7 +7,7 @@ using Emuhub.Infrastructure.Repositories;
 
 namespace Emuhub.Application.UseCases.Games
 {
-    public class GameGetUseCase(GameRepository games)
+    public class GameGetUseCase(IGameRepository games)
     {
         public async Task<List<GameResponse>> Execute(int page)
         {
