@@ -22,7 +22,7 @@
     <ProjectReference Include="..\Emuhub.Exceptions\Emuhub.Exceptions.csproj" />
     <ProjectReference Include="..\Emuhub.Domain\Emuhub.Domain.csproj" />
   </ItemGroup>
-	
+
   <ItemGroup>
     <Folder Include="Uploads\" />
   </ItemGroup>

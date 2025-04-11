@@ -1,11 +1,10 @@
 FROM node:20
-
 WORKDIR /app
-
-COPY ./package*.json ./
-
-RUN npm ci
-
 COPY . .
 
-CMD ["npm", "run", "dev", "--", "--host"]
+RUN npm i && npm run build
+
+FROM ngix:alpine
+
+COPY --from=build /app/dist /usr/share/ngix/html
+EXPOSE 80
