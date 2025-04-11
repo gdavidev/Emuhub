@@ -7,7 +7,7 @@ using Emuhub.Domain.Entities.Users;
 
 namespace Emuhub.Infrastructure.DataAccess;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
     public DbSet<Game> Games { get; set; }
     public DbSet<GameCategory> GameCategories { get; set; }
@@ -17,15 +17,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<PostCategory> PostCategories { get; set; }
     public DbSet<Report> Reports { get; set; }
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSeeding((context, _) =>
         {
             GameCategorySeeder.Seed(context);
+            EmulatorsSeeder.Seed(context);
 
             context.SaveChanges();
         });

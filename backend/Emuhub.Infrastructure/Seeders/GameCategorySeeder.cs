@@ -7,8 +7,12 @@ namespace Emuhub.Infrastructure.Seeders
     {
         public static void Seed(DbContext context)
         {
-            context.Set<GameCategory>().Add(new GameCategory() { Name = "Adventure" });
-            context.Set<GameCategory>().Add(new GameCategory() { Name = "MMO" });            
+            context.Set<GameCategory>().AddRange([
+                new GameCategory() { Name = "Adventure" },
+                new GameCategory() { Name = "Shooter" },
+                new GameCategory() { Name = "Platformer" },
+                new GameCategory() { Name = "Simulation" }
+            ]);
         }
     }
 }
