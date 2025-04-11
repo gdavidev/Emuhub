@@ -11,7 +11,7 @@ public class EmulatorRepository(ApplicationDbContext context) : IEmulatorReposit
         return await context.Emulators.SingleOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<List<Emulator>> GetAll(int page)
+    public async Task<List<Emulator>> GetAll()
     {        
         return await context.Emulators.ToListAsync();
     }

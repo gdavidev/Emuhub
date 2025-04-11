@@ -5,7 +5,7 @@ namespace Emuhub.Infrastructure.Repositories
     public interface IEmulatorRepository
     {
         public Task<Emulator?> Get(long id);
-        public Task<List<Emulator>> GetAll(int page);
+        public Task<List<Emulator>> GetAll();
         public Task Add(Emulator emulator);
         public Task Update(Emulator emulator);
         public Task Delete(Emulator emulator);

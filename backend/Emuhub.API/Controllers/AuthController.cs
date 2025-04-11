@@ -1,6 +1,5 @@
 ﻿using Emuhub.Application.UseCases.Users;
 using Emuhub.Communication.Data.Auth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.API.Controllers
@@ -49,27 +48,6 @@ namespace Emuhub.API.Controllers
         public IActionResult UpdateUser()
         {
             throw new NotImplementedException();
-        }
-
-        [Authorize]
-        [HttpGet("AuthorizedOnly")]
-        public IActionResult AuthorizedOnly()
-        {
-            return Ok("Gone well");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("AdminOnly")]
-        public IActionResult AdminOnly()
-        {
-            return Ok("Gone well");
-        }
-
-        [Authorize(Roles = "Admin,Moderator")]
-        [HttpGet("ModeratorOrAdminOnly")]
-        public IActionResult ModeratorOrAdminOnly()
-        {
-            return Ok("Gone well");
         }
     }
 }

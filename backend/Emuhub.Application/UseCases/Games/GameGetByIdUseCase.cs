@@ -1,5 +1,6 @@
 ﻿using Emuhub.Application.Serialization;
 using Emuhub.Application.Validation.Games;
+using Emuhub.Communication.Data;
 using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
 using Emuhub.Infrastructure.Repositories;
@@ -9,7 +10,7 @@ namespace Emuhub.Application.UseCases.Games
 {
     public class GameGetByIdUseCase(IGameRepository games, GameExistingIdValidator validator)
     {
-        public async Task<GameResponse> Execute(GameExistingIdRequest request)
+        public async Task<GameResponse> Execute(EntityIdRequest request)
         {
             await validator.ValidateAndThrowAsync(request);
 

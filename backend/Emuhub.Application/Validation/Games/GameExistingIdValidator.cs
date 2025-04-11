@@ -1,4 +1,4 @@
-﻿using Emuhub.Communication.Data.Games;
+﻿using Emuhub.Communication.Data;
 using Emuhub.Exceptions;
 using Emuhub.Infrastructure.Repositories;
 using FluentValidation;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.Application.Validation.Games
 {
-    public class GameExistingIdValidator : AbstractValidator<GameExistingIdRequest>
+    public class GameExistingIdValidator : AbstractValidator<EntityIdRequest>
     {
         public GameExistingIdValidator(
             [FromServices] IGameRepository games)

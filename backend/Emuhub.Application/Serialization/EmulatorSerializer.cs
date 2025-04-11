@@ -5,26 +5,6 @@ namespace Emuhub.Application.Serialization
 {
 	public class EmulatorSerializer
 	{
-		public static Emulator ParseRequest(EmulatorCreateRequest request) =>
-			new Emulator()
-			{
-				Id = 0,
-				Name = request.Name,
-				CompanyName = request.CompanyName,
-				Abbreviation = request.Abbreviation,
-				Console = request.Console,
-			};
-
-		public static Emulator ParseRequest(EmulatorUpdateRequest request) =>
-			new Emulator()
-			{
-				Id = 0,
-				Name = request.Name,
-				CompanyName = request.CompanyName,
-				Abbreviation = request.Abbreviation,
-				Console = request.Console,
-			};
-
 		public static EmulatorResponse ToResponse(Emulator emulator) =>
 			new EmulatorResponse()
 			{

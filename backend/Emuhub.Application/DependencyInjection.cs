@@ -1,6 +1,7 @@
 ﻿using Emuhub.Application.UseCases.Emulators;
 using Emuhub.Application.UseCases.Games;
 using Emuhub.Application.UseCases.Users;
+using Emuhub.Application.Validation.Emulators;
 using Emuhub.Application.Validation.Games;
 using Emuhub.Application.Validation.Users;
 using FluentValidation;
@@ -12,29 +13,17 @@ namespace Emuhub.Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            AddValidators(services);
-            AddUseCases(services);
+            AddGames(services);
+            AddEmulators(services);
+            AddUsers(services);
         }
 
-        private static void AddValidators(IServiceCollection services)
+        private static void AddGames(IServiceCollection services) 
         {
             services.AddValidatorsFromAssemblyContaining<GameExistingIdValidator>();
             services.AddValidatorsFromAssemblyContaining<GameCreateRequestValidator>();
             services.AddValidatorsFromAssemblyContaining<GameUpdateRequestValidator>();
 
-            services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
-            services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
-        }
-
-        private static void AddUseCases(IServiceCollection services)
-        {
-            AddGameUseCases(services);
-            AddEmulatorUseCases(services);
-            AddUserUseCases(services);
-        }
-
-        private static void AddGameUseCases(IServiceCollection services) 
-        {
             services.AddScoped<GameGetUseCase>();
             services.AddScoped<GameGetByIdUseCase>();
             services.AddScoped<GameCreateUseCase>();
@@ -42,13 +31,19 @@ namespace Emuhub.Application
             services.AddScoped<GameDeleteUseCase>();
         }
 
-        private static void AddEmulatorUseCases(IServiceCollection services)
+        private static void AddEmulators(IServiceCollection services)
         {
-            services.AddScoped<EmulatorCreateUseCase>();
+            services.AddValidatorsFromAssemblyContaining<EmulatorExistingIdValidator>();
+
+            services.AddScoped<EmulatorGetByIdUseCase>();
+            services.AddScoped<EmulatorGetUseCase>();
         }
 
-        private static void AddUserUseCases(IServiceCollection services)
+        private static void AddUsers(IServiceCollection services)
         {
+            services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
+
             services.AddScoped<UserRegisterUseCase>();
             services.AddScoped<UserLoginUseCase>();
             services.AddScoped<RefreshTokenUseCase>();

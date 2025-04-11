@@ -1,4 +1,5 @@
-﻿using Emuhub.Communication.Data.Games;
+﻿using Emuhub.Communication.Data;
+using Emuhub.Communication.Data.Games;
 using Emuhub.Exceptions;
 using Emuhub.Infrastructure.Repositories;
 using FluentValidation;
@@ -13,7 +14,7 @@ namespace Emuhub.Application.Validation.Games
             [FromServices] IEmulatorRepository emulators,
             [FromServices] IGameCategoryRepository categories)
         {
-            RuleFor(request => new GameExistingIdRequest() { Id = request.Id })
+            RuleFor(request => new EntityIdRequest() { Id = request.Id })
                 .SetValidator(idValidator);
 
             RuleFor(request => request.Name)

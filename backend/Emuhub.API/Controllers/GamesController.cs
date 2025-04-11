@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Emuhub.Communication.Data.Games;
 using Emuhub.Application.UseCases.Games;
+using Emuhub.Communication.Data;
 
 namespace Emuhub.API.Controllers;
 
@@ -22,7 +23,7 @@ public class GamesController : ControllerBase
     [Route("api/Games/Get")]
     public async Task<ActionResult<GameResponse>> GetGame(
         [FromServices] GameGetByIdUseCase useCase,
-        [FromQuery] GameExistingIdRequest request)
+        [FromQuery] EntityIdRequest request)
 	{
         var result = await useCase.Execute(request);
 
@@ -55,7 +56,7 @@ public class GamesController : ControllerBase
     [Route("api/Games/Delete")]
     public async Task<IActionResult> DeleteGame(
         [FromServices] GameDeleteUseCase useCase,
-        [FromQuery] GameExistingIdRequest request)
+        [FromQuery] EntityIdRequest request)
 	{
         await useCase.Execute(request);
 
