@@ -27,7 +27,7 @@ namespace Emuhub.TestingUtilities.Infrastructure.Repositories
 
         public void MockGet(long id) => Setup(r => r.Get(id)).ReturnsAsync(_emulators.First());
 
-        public void MockGetAll(int page) => Setup(r => r.GetAll(page)).ReturnsAsync(_emulators);
+        public void MockGetAll() => Setup(r => r.GetAll()).ReturnsAsync(_emulators);
 
         public void MockUpdate(Emulator emulator) => Setup(r => r.Update(emulator));
 

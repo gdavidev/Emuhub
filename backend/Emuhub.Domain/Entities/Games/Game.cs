@@ -5,8 +5,8 @@ public class Game
     public long Id { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public string? Image { get; set; }
-    public string? File { get; set; }
+    public string ImageName { get; set; } = "";
+    public string FileName { get; set; } = "";
 
     // Foreign Keys
     public required long CategoryId { get; set; }

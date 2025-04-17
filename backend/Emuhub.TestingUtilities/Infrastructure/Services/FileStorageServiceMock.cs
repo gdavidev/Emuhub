@@ -15,13 +15,12 @@ namespace Emuhub.TestingUtilities.Infrastructure.Services
         
         public void MockUploadAsync(IFormFile file)
         {
-            Setup(s => s.UploadAsync(file))
-                .ReturnsAsync("games/" + file.Name)
+            Setup(s => s.UploadAsync("Test", file.OpenReadStream(), file.FileName, file.ContentType))
                 .Callback(() => _files.Add(file));
         }
 
-        public void MockDownload(User user, string fileName) => Setup(s => s.Download(user, fileName));
+        //public void MockDownload(User user, string fileName) => Setup(s => s.Download(user, fileName));
 
-        public void MockDelete(string path) => Setup(s => s.Delete(path));
+        //public void MockDelete(string path) => Setup(s => s.Delete(path));
     }
 }

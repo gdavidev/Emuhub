@@ -16,10 +16,7 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddDbContext(services, configuration.GetConnectionString("Default")!);
-                
-        if (configuration.GetValue<bool>("Environment:UseLocalFileSystemStorage"))
-            services.AddScoped<IFileStorageService, FileSystemStorageService>();        
-
+        AddFileStorageService(services, configuration);
         AddRepositories(services);
         AddAuthServices(services, configuration);
     }
@@ -36,6 +33,16 @@ public static class DependencyInjection
                 )
             )
         );
+    }
+
+    private static void AddFileStorageService(IServiceCollection services, IConfiguration configuration)
+    {
+        bool useLocalFileSystem = configuration.GetValue<bool>("Environment:UseLocalFileSystemStorage");
+
+        if (useLocalFileSystem)
+            services.AddSingleton<IFileStorageService, FileSystemStorageService>();
+        else
+            services.AddSingleton<IFileStorageService, MinioStorageService>();
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -61,7 +68,7 @@ public static class DependencyInjection
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration.GetValue<string>("Token:Issuer")!,
-                    ValidAudience = configuration.GetValue<string>("Token:Audience")!,                    
+                    ValidAudience = configuration.GetValue<string>("Token:Audience")!,
                     IssuerSigningKey = securityKey
                 };
             });

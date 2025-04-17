@@ -4,6 +4,7 @@ using Emuhub.Domain.Entities.Games;
 using Emuhub.Infrastructure.Repositories;
 using Emuhub.Infrastructure.Services.Storage;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace Emuhub.Application.UseCases.Games
 {
@@ -13,13 +14,13 @@ namespace Emuhub.Application.UseCases.Games
         {
             validator.ValidateAndThrow(request);
 
-            var imagePath = "";
-            var filePath = "";
+            var imageName = new Guid().ToString();
+            var fileName = new Guid().ToString();
 
             try
             {
-                imagePath = await storage.UploadAsync(request.Image);
-                filePath = await storage.UploadAsync(request.File);
+                await UploadFileAsync(request.File, "files/");
+                await UploadFileAsync(request.Image, "thumbs/");
 
                 var game = new Game()
                 {
@@ -28,25 +29,33 @@ namespace Emuhub.Application.UseCases.Games
                     Description = request.Description,
                     CategoryId = request.CategoryId,
                     EmulatorId = request.EmulatorId,
-                    Image = imagePath,
-                    File = filePath
+                    ImageName = imageName,
+                    FileName = fileName
                 };
 
                 return await games.Add(game);
             }
             catch
             {
-                RollbackFiles(imagePath, filePath);
+                await RollbackFiles(imageName, fileName);
                 throw;
             }
         }
 
-        private void RollbackFiles(string imagePath, string filePath)
+        private async Task UploadFileAsync(IFormFile file, string location) =>
+            await storage.UploadAsync(
+                "games",
+                file.OpenReadStream(),
+                location + file.FileName,
+                file.ContentType
+            );
+
+        private async Task RollbackFiles(string imagePath, string filePath)
         {
             if (imagePath != "")
-                storage.Delete(imagePath);
+                await storage.DeleteAsync("games", "thumb/" + imagePath);
             if (imagePath != "")
-                storage.Delete(filePath);
+                await storage.DeleteAsync("games", "files/" + filePath);
         }
     }    
 }

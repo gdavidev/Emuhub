@@ -13,8 +13,16 @@ namespace Emuhub.Application.UseCases.Users
             request = Sanitized(request);
             validator.ValidateAndThrow(request);
 
-            await authService.Register(request);
-            await storageService.UploadAsync(request.ProfileImage);
+            var userGuid = await authService.Register(request);
+
+            var image = request.ProfileImage;
+            var profileFileName = $"profile{Path.GetExtension(image.FileName)}";
+            await storageService.UploadAsync(
+                "users",
+                image.OpenReadStream(),
+                $"{userGuid}/{profileFileName}",
+                image.ContentType
+            );
         }
 
         public static RegisterRequest Sanitized(RegisterRequest request)

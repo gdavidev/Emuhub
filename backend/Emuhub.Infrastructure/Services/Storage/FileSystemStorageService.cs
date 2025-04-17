@@ -4,45 +4,30 @@ using Emuhub.Domain.Entities.Users;
 
 namespace Emuhub.Infrastructure.Services.Storage
 {
+    /// <summary>
+    /// Uploads or Downloads the file to the project file system
+    /// (Intended for developing porpouses)
+    /// </summary>
     public class FileSystemStorageService(IWebHostEnvironment environment) : IFileStorageService
     {
-        public void Delete(string path)
+        public Task DeleteAsync(string bucket, string filePath)
         {
             throw new NotImplementedException();
         }
 
-        public void Download(User user, string fileName)
+        public Task<(Stream, string)> DownloadAsync(string bucket, string filePath)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Uploads the <paramref name="file"/> to the file system
-        /// (Intended for developing porpouses)
-        /// </summary>
-        /// <returns>
-        /// The randonly generated name for the file stored
-        /// </returns>
-        /// <param name="file"></param>    
-        public async Task<string> UploadAsync(IFormFile file)
+        public Task EnsureBucketsCreated(string[] bucketNames)
         {
-            ArgumentNullException.ThrowIfNull(file);
+            throw new NotImplementedException();
+        }
 
-            var contentPath = environment.ContentRootPath;
-            var path = Path.Combine(contentPath, "Uploads");
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            var ext = Path.GetExtension(file.FileName);
-            var fileName = $"{Guid.NewGuid()}{ext}";
-            var pathToFile = Path.Combine(path, fileName);
-
-            using (var stream = new FileStream(pathToFile, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            return fileName;
+        public Task UploadAsync(string bucket, Stream fileStream, string filePath, string contentType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -7,7 +7,6 @@ public class User
 {
     public Guid Id { get; set; }
     public required string Name { get; set; }
-    public string? Image { get; set; }
     public bool IsActive { get; set; }
     public bool IsBanned { get; set; }
 

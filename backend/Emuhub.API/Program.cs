@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddLogger(config, builder.Host);
 
 // Inject Dependencies.
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(config);
 builder.Services.AddApplication();
 
 // Configuring Swagger/OpenAPI. Learn more at https://aka.ms/aspnetcore/swashbuckle
@@ -41,12 +41,7 @@ app.UseAuthorization();
 // Endpoint mapping
 app.MapControllers();
 
-// Alocate static files provider endpoint
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "..\\Emuhub.Infrastructure\\Uploads")),
-    RequestPath = "/Resources"
-});
+// Setup file provider service
+await app.UseFileStorageService();
 
 app.Run();
