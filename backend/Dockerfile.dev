@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+WORKDIR /src
+COPY . .
+
+# INSTALL HTTPS DEV CERTIFICATE
+RUN dotnet dev-certs https --trust
+
+# COPY AND ADD RUN PERMISSION TO WAIT SCRIPT
+COPY tools/wait-for-it.sh /src/wait-for-it.sh
+RUN chmod +x /src/wait-for-it.sh

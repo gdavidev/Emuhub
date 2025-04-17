@@ -13,8 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Infrastructure", "Em
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4765B17E-AFF9-4716-A055-8238A9EF8272}"
 	ProjectSection(SolutionItems) = preProject
+		.env.dev = .env.dev
 		.gitignore = .gitignore
+		..\docker-compose.override.yml = ..\docker-compose.override.yml
+		Dockerfile = Dockerfile
 		README.md = README.md
+		Dockerfile.dev = Dockerfile.dev
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Application", "Emuhub.Application\Emuhub.Application.csproj", "{90D02114-E58C-40B4-9D0A-B20D9F615AAB}"

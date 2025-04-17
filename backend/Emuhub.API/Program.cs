@@ -38,6 +38,9 @@ app.UseMiddleware<CultureMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
+// Configuration
+app.UseUpdateMigration();
+
 // Endpoint mapping
 app.MapControllers();
 
