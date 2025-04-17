@@ -1,14 +1,17 @@
-using Scalar.AspNetCore;
-using Emuhub.Infrastructure;
-using MyRecipeBook.API.Filters;
-using MyRecipeBook.API.Middleware;
+using Emuhub.API;
+using Emuhub.API.Filters;
+using Emuhub.API.Middleware;
 using Emuhub.Application;
-using Microsoft.Extensions.FileProviders;
+using Emuhub.Infrastructure;
+using Scalar.AspNetCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddLogger(config, builder.Host);
 
 // Inject Dependencies.
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -30,6 +33,7 @@ app.UseSwagger(options => options.RouteTemplate = "/openapi/{documentName}.json"
 app.MapScalarApiReference(options => options.WithTitle("Emuhub - API docs"));
 
 // Middlewares
+app.UseSerilogRequestLogging();
 app.UseMiddleware<CultureMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();

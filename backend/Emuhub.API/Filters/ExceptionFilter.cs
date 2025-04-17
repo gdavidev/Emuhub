@@ -6,55 +6,84 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Text.Json;
 
-namespace MyRecipeBook.API.Filters;
-
-public class ExceptionFilter : IExceptionFilter
+namespace Emuhub.API.Filters
 {
-    public void OnException(ExceptionContext context)
+    public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IExceptionFilter
     {
-        if (context.Exception is EmuhubCheckedException)
-            HandleProjectException(context);
-        else
-            HandleUnknownException(context);
-    }
-
-    private static void HandleProjectException(ExceptionContext context)
-    {
-        var exception = context.Exception;
-
-        if (exception is ValidationErrorException validationException)
+        public void OnException(ExceptionContext context)
         {
-            var response = ValidationErrorSerializer.ToResponse(validationException.Errors);            
-
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            context.Result = new BadRequestObjectResult(response);
-            return;
+            if (context.Exception is EmuhubCheckedException)
+                HandleProjectException(context);
+            else
+                HandleUnknownException(context);
         }
-        if (exception is ResourceNotFoundException notFoundException)
+
+        private void HandleProjectException(ExceptionContext context)
         {
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-            context.Result = new NotFoundObjectResult(notFoundException.ErrorMessage);
-            return;
+            var exception = context.Exception;
+
+            switch (exception)
+            {
+                case ValidationErrorException validationException:
+                    {
+                        var response = ValidationErrorSerializer.ToResponse(validationException.Errors);
+                        logger.LogError("ValidationErrorException: {Errors};", response.ToString());
+
+                        SetContextResponse(context, HttpStatusCode.BadRequest, new BadRequestObjectResult(response));
+                        break;
+                    }
+                case FluentValidation.ValidationException fluentValidationException:
+                    {
+                        var response = JsonSerializer.Serialize(fluentValidationException.Errors);
+                        logger.LogError("ValidationErrorException: {Message};", fluentValidationException.Message);
+
+                        SetContextResponse(context, HttpStatusCode.BadRequest, new BadRequestObjectResult(response));
+                        break;
+                    }
+                case ResourceNotFoundException notFoundException:
+                    {
+                        logger.LogError("ResourceNotFoundException: {Errors};", notFoundException.ErrorMessage);
+
+                        SetContextResponse(context, HttpStatusCode.NotFound, new BadRequestObjectResult(notFoundException.ErrorMessage));
+                        break;
+                    }
+                case DuplicatedResourceException duplicatedException:
+                    {
+                        logger.LogError("ResourceNotFoundException: {Errors};", duplicatedException.ErrorMessage);
+
+                        SetContextResponse(context, HttpStatusCode.Conflict, new BadRequestObjectResult(duplicatedException.ErrorMessage));
+                        break;
+                    }
+                default:
+                    {
+                        HandleUnknownException(context);
+                        break;
+                    }
+            }
         }
-        if (exception is DuplicatedResourceException duplicatedException)
+
+        private void HandleUnknownException(ExceptionContext context)
         {
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
-            context.Result = new ConflictObjectResult(duplicatedException.ErrorMessage);
-            return;
-        }        
+            var response = new JObject()
+            {
+                new JProperty("ServerError", ExceptionMessagesResource.UNKNOWN_ERROR)
+            };
+            logger.LogCritical(
+                "InternalServerError: {Errors} \n {Trace}",
+                context.Exception.Message,
+                context.Exception.StackTrace
+            );
 
-        HandleUnknownException(context);
-    }
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Result = new ObjectResult(response);
+        }
 
-    private static void HandleUnknownException(ExceptionContext context)
-    {
-        var response = new JObject()
+        private static void SetContextResponse<T>(ExceptionContext context, HttpStatusCode code, T response) where T : IActionResult
         {
-            new JProperty("ServerError", ExceptionMessagesResource.UNKNOWN_ERROR)
-        };
-
-        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        context.Result = new ObjectResult(response);
+            context.HttpContext.Response.StatusCode = (int)code;
+            context.Result = response;
+        }
     }
 }
