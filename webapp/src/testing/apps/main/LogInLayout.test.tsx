@@ -29,6 +29,7 @@ function setup() {
     forgotPassword: mockForgotPassword,
     passwordReset: vi.fn(),
     update: vi.fn(),
+    deleteAccount: vi.fn(),
     reset: mockReset,
     isLoading: false
   })

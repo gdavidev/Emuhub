@@ -41,6 +41,7 @@ function setupMocks() {
 		passwordReset: vi.fn(),
 		update: mockUpdate,
 		reset: vi.fn(),
+		deleteAccount: vi.fn(),
 		isLoading: false
 	});
 
