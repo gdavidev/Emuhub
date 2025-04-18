@@ -1,0 +1,104 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.API", "Emuhub.API\Emuhub.API.csproj", "{939B131E-C429-4CB5-8E74-4C94F51BEA96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Communication", "Emuhub.Communication\Emuhub.Communication.csproj", "{690199FF-7065-4D3E-AD7B-BB0B3E942109}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Domain", "Emuhub.Domain\Emuhub.Domain.csproj", "{9807F49A-6DD5-428E-A213-45789F20119E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Infrastructure", "Emuhub.Infrastructure\Emuhub.Infrastructure.csproj", "{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4765B17E-AFF9-4716-A055-8238A9EF8272}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		..\.env = ..\.env
+		..\.env.example = ..\.env.example
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		..\docker-compose.override.yml = ..\docker-compose.override.yml
+		..\docker-compose.yml = ..\docker-compose.yml
+		Dockerfile = Dockerfile
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Application", "Emuhub.Application\Emuhub.Application.csproj", "{90D02114-E58C-40B4-9D0A-B20D9F615AAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Exceptions", "Emuhub.Exceptions\Emuhub.Exceptions.csproj", "{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BEA0B724-EB4E-481E-BACD-5D3682B87EC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{E9C7D908-B77E-4D8E-BDE2-286734F90086}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5E3B1B73-C12D-4755-AB62-79B8C0FF1695}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.ApplicationTest", "Emuhub.ValidatorsTest\Emuhub.ApplicationTest.csproj", "{768D93DE-B04B-46CC-8CA1-B05D30B76BF2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.APITest", "Emuhub.APITest\Emuhub.APITest.csproj", "{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.TestingUtilities", "Emuhub.TestingUtilities\Emuhub.TestingUtilities.csproj", "{0BEBD02C-9B66-4EE8-948B-A344FBE94567}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{939B131E-C429-4CB5-8E74-4C94F51BEA96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{939B131E-C429-4CB5-8E74-4C94F51BEA96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{939B131E-C429-4CB5-8E74-4C94F51BEA96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{939B131E-C429-4CB5-8E74-4C94F51BEA96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690199FF-7065-4D3E-AD7B-BB0B3E942109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690199FF-7065-4D3E-AD7B-BB0B3E942109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690199FF-7065-4D3E-AD7B-BB0B3E942109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690199FF-7065-4D3E-AD7B-BB0B3E942109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9807F49A-6DD5-428E-A213-45789F20119E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9807F49A-6DD5-428E-A213-45789F20119E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9807F49A-6DD5-428E-A213-45789F20119E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9807F49A-6DD5-428E-A213-45789F20119E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D02114-E58C-40B4-9D0A-B20D9F615AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D02114-E58C-40B4-9D0A-B20D9F615AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D02114-E58C-40B4-9D0A-B20D9F615AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D02114-E58C-40B4-9D0A-B20D9F615AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{939B131E-C429-4CB5-8E74-4C94F51BEA96} = {E9C7D908-B77E-4D8E-BDE2-286734F90086}
+		{690199FF-7065-4D3E-AD7B-BB0B3E942109} = {BEA0B724-EB4E-481E-BACD-5D3682B87EC1}
+		{9807F49A-6DD5-428E-A213-45789F20119E} = {E9C7D908-B77E-4D8E-BDE2-286734F90086}
+		{E1C0A372-1932-4B1B-91B8-8A15E3BE29F7} = {E9C7D908-B77E-4D8E-BDE2-286734F90086}
+		{90D02114-E58C-40B4-9D0A-B20D9F615AAB} = {E9C7D908-B77E-4D8E-BDE2-286734F90086}
+		{2EF8638A-3165-403B-B2A0-DAE93ADA0AF4} = {BEA0B724-EB4E-481E-BACD-5D3682B87EC1}
+		{BEA0B724-EB4E-481E-BACD-5D3682B87EC1} = {E9C7D908-B77E-4D8E-BDE2-286734F90086}
+		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
+		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
+		{0BEBD02C-9B66-4EE8-948B-A344FBE94567} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C062210-15F6-4005-9C8E-DDF9FBB82E99}
+	EndGlobalSection
+EndGlobal

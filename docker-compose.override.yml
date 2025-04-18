@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      args:
+        - BUILD_CONFIGURATION=Debug
+      target: development
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    volumes:
+      - ./backend:/app
+      - ./backend/logs:/app/logs
+      - nuget-packages:/root/.nuget/packages
+      - /app/build # All bin and obj directories
+    restart: no      
+    command: >
+      bash -c "
+          /app/tools/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=15 --
+          /app/tools/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=15 --
+          cd /app && dotnet restore && dotnet watch run --no-launch-profile --project ./Emuhub.API/Emuhub.API.csproj"
+    ports:
+      - "5000:8080"
+      - "9229:9229"  # For debugging
+
+  frontend:
+    build:
+      context: ./webapp
+      target: development
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules  # Prevent host node_modules from overriding
+    ports:
+      - "5173:5173"
+      
+volumes:
+  nuget-packages:

@@ -1,0 +1,8 @@
+<Project>
+	<PropertyGroup>
+		<OutDir>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/bin/$(MSBuildProjectName)"))</OutDir>		
+		<OutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</OutputPath>
+		<BaseIntermediateOutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</BaseIntermediateOutputPath>
+		<MSBUildProjectExtensionsPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</MSBUildProjectExtensionsPath>
+	</PropertyGroup>
+</Project>

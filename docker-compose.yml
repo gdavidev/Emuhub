@@ -1,7 +1,80 @@
 services:
+  backend:
+    build:
+      context: ./backend    
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}  # Default to Release
+      target: ${TARGET_STAGE:-production}  # Default to production
+    env_file:
+      - .env
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}   
+      Token__Secret: ${TOKEN_SECRET}
+      Token__Issuer: ${TOKEN_ISSUER}
+      Token__Audience: ${TOKEN_AUDIENCE}
+      ConnectionStrings__Default: Server=${DATABASE_SERVER};Database=${DATABASE_NAME};User ID=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD};TrustServerCertificate=True
+      Minio__Endpoint: ${MINIO_ENDPOINT}
+      Minio__AccessKey: ${MINIO_ACCESS_KEY}
+      Minio__SecretKey: ${MINIO_SECRET_KEY}
+    restart: 
+      unless-stopped
+    depends_on:
+      - minio
+      - sqlserver
+    volumes:
+      - ./backend/logs:/app/logs
+    networks:
+      - app-network
+      - minio-network
+    command: >
+      bash -c "
+          /app/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=30 --
+          /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
+          dotnet Emuhub.API.dll"
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${DATABASE_PASSWORD}
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - app-network
+
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./webapp
+      target: ${TARGET_STAGE:-production}  # Default to production
     ports:
-      - "5174:5173"
+      - "8080:8080"
+    depends_on:
+      - backend
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000" # API
+      - "9001:9001" # Web UI
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    volumes:
+      - ./minio-data:/data
+    command: server --console-address ":9001" /data
+    networks:
+      - minio-network
+
+networks:
+  app-network:
+  minio-network:
+
+volumes:
+  sqlserver-data:

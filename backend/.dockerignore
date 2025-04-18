@@ -1,0 +1,12 @@
+.vs
+.idea
+
+**/bin/
+**/obj/
+*.user
+*.suo
+.nuget/
+
+.git
+.gitignore
+.env.example

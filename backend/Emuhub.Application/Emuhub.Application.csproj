@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>    
+	<ProjectReference Include="..\Emuhub.Communication\Emuhub.Communication.csproj" />
+    <ProjectReference Include="..\Emuhub.Exceptions\Emuhub.Exceptions.csproj" />
+    <ProjectReference Include="..\Emuhub.Domain\Emuhub.Domain.csproj" />
+    <ProjectReference Include="..\Emuhub.Infrastructure\Emuhub.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
