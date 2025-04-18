@@ -1,13 +1,16 @@
 services:
   backend:
     build:
-      context: ./backend
+      context: ./backend    
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}  # Default to Release
+      target: ${TARGET_STAGE:-production}  # Default to production
     env_file:
       - .env
     ports:
       - "5000:8080"
     environment:
-      ASPNETCORE_ENVIRONMENT: Development      
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}   
       Token__Secret: ${TOKEN_SECRET}
       Token__Issuer: ${TOKEN_ISSUER}
       Token__Audience: ${TOKEN_AUDIENCE}
@@ -21,13 +24,15 @@ services:
       - minio
       - sqlserver
     volumes:
-      - ./backend/Logs:/app/Logs
+      - ./backend/logs:/app/logs
     networks:
       - app-network
+      - minio-network
     command: >
-        /app/wait-for-it.sh ${DATABASE_SERVER}:1433 --timeout=30 --
-        /app/wait-for-it.sh ${MINIO_ENDPOINT} --timeout=30 --
-        dotnet Emuhub.API.dll
+      bash -c "
+          /app/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=30 --
+          /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
+          dotnet Emuhub.API.dll"
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -46,8 +51,9 @@ services:
   frontend:
     build:
       context: ./webapp
+      target: ${TARGET_STAGE:-production}  # Default to production
     ports:
-      - "5173:5173"
+      - "8080:8080"
     depends_on:
       - backend
 
@@ -63,9 +69,12 @@ services:
     volumes:
       - ./minio-data:/data
     command: server --console-address ":9001" /data
+    networks:
+      - minio-network
 
 networks:
   app-network:
+  minio-network:
 
 volumes:
   sqlserver-data:

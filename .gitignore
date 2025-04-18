@@ -1,1 +1,10 @@
+# IDE Specific
+.vs
+.idea
+.vscode
+
+# Environment
 .env
+
+# Local minio directory
+minio-data

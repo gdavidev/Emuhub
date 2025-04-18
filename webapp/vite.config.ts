@@ -7,6 +7,14 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig((): VitestUserConfig & ViteUserConfig => ({
   plugins: [react(), tsconfigPaths()],
+  server: {
+    host: '0.0.0.0', // Bind to all interfaces
+    port: 5173,
+    watch: {
+      usePolling: true,
+      interval: 1000
+    },
+  },
   css: {
     postcss: {
       plugins: [tailwindcss()],

@@ -1,8 +1,18 @@
 ﻿# Emuhub - Backend
 ## Contributing
+### Initilizing The Project
+```bash
+# In the project root
+## Development 
+docker compose up --build
+
+## Release (Ignore override file)
+docker compose -f docker-compose.yml up --build
+```
+
 ### Development Environment Variables
 Your user secrets will be stored at the path ``%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json``.
-To add a user secret you can just edit the file, or use the commands:
+To add abash user secret you can just edit the file, or use the commands:
 ```
 # Initilizes the secrets.json file and asigns a Guid to it and your project
 dotnet user-secrets init 
@@ -15,7 +25,7 @@ dotnet user-secrets list
 ```
 
 ### Database Migrations
-```
+```bash
 cd ./backend/
 
 # Adding migration

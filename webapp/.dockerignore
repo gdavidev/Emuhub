@@ -1,2 +1,8 @@
-node_modules/
-dist/
+.vs
+.idea
+
+node_modules
+package-lock.json
+dist
+.git
+.gitignore

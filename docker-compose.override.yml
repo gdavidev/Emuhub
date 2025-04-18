@@ -2,27 +2,36 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
-    env_file:
-      - .env.dev
+      args:
+        - BUILD_CONFIGURATION=Debug
+      target: development
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
     volumes:
-      - .:/src
-      - ~/.aspnet/https:/root/.aspnet/https:ro
-    ports:
-      - "5000:5000" # HTTP port
-      - "5001:5001" # HTTPS port
-      - "4020:4020" # remote debugger port
+      - ./backend:/app
+      - ./backend/logs:/app/logs
+      - nuget-packages:/root/.nuget/packages
+      - /app/build # All bin and obj directories
+    restart: no      
     command: >
-        /src/wait-for-it.sh ${DATABASE_SERVER}:1433 --timeout=30 --
-        /src/wait-for-it.sh ${MINIO_ENDPOINT} --timeout=30 --
-        dotnet watch run --no-launch-profile --project Emuhub.API/Emuhub.API.csproj
+      bash -c "
+          /app/tools/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=15 --
+          /app/tools/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=15 --
+          cd /app && dotnet restore && dotnet watch run --no-launch-profile --project ./Emuhub.API/Emuhub.API.csproj"
+    ports:
+      - "5000:8080"
+      - "9229:9229"  # For debugging
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  frontend:
+    build:
+      context: ./webapp
+      target: development
     volumes:
-      - sqlserver-data:/var/opt/mssql
-
-  minio:
-    volumes:
-      - ./minio-data:/data
+      - ./webapp:/app
+      - /app/node_modules  # Prevent host node_modules from overriding
+    ports:
+      - "5173:5173"
       
+volumes:
+  nuget-packages:

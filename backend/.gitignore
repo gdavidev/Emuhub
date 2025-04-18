@@ -16,8 +16,8 @@
 **/Android/**/[Rr]esource.[Dd]esigner.cs
 **/Droid/**/[Rr]esource.[Dd]esigner.cs
 
-# Environment Variables
-.env
+# Logs
+logs
 
 # Build results
 [Dd]ebug/
