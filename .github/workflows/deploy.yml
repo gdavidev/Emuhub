@@ -1,0 +1,53 @@
+name: CI/CD Pipeline - Deploy Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Stores the keys in the GitHub Actions Runner's storage
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.OC_SSH_PRIVATE_KEY }}" > ~/.ssh/oc-ssh-key.key
+          echo "${{ secrets.GH_SSH_PRIVATE_KEY }}" > ~/.ssh/gh-ssh-key.key
+
+          # Sets permissions on the SSH keys as a security requirement to be used by SSH
+          chmod 600 ~/.ssh/oc-ssh-key.key
+
+      - name: Add the VPS to the GitHub Actions Runner's known hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.OC_HOST_IP }} >> ~/.ssh/known_hosts
+          
+      - name: Auth on the VPS and places the GitHub private key on a directory in it
+        run: |          
+          scp -i ~/.ssh/oc-ssh-key.key -o StrictHostKeyChecking=no ~/.ssh/gh-ssh-key.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }}:~/.ssh/gh-ssh-key.key
+          ssh -i ~/.ssh/oc-ssh-key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "chmod 600 ~/.ssh/gh-ssh-key"
+
+      - name: Add the GitHub to the VPS's known hosts
+        run: |
+          ssh -i ~/.ssh/oc-ssh-key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "ssh-keyscan -H https://github.com >> ~/.ssh/known_hosts"          
+
+      - name: Clone/Pull the project and Execute in the VPS
+        run: |
+          ssh -i ~/.ssh/oc-ssh-key.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
+            cd ~
+
+            # Checks if the project directory exists
+            if [ ! -d "Emuhub" ]; then
+              git clone git@github.com:gdavidev/Emuhub.git
+              cd Emuhub
+            else
+              cd Emuhub
+              git pull
+              sudo docker compose down
+            fi
+            
+            sudo docker compose -f docker-compose.yml up --build -d
+          EOF
