@@ -33,8 +33,10 @@ jobs:
       - name: Clone/Pull the project and Execute in the VPS
         run: |
           ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
-            # Sets Git environment variable for auth on pull/clone
+            # Sets Git environment variable for auth on pull/clone and adds github to known_hosts
             export GIT_SSH_COMMAND='ssh -i ~/.ssh/gh-ssh.key -o IdentitiesOnly=yes'
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+            
             cd ~
 
             # Checks if the project directory exists
