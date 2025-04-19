@@ -34,7 +34,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
             # Sets Git environment variable for auth on pull/clone
-            export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_github -o IdentitiesOnly=yes'
+            export GIT_SSH_COMMAND='ssh -i ~/.ssh/gh-ssh.key -o IdentitiesOnly=yes'
             cd ~
 
             # Checks if the project directory exists
