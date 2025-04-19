@@ -52,13 +52,10 @@ jobs:
 
       - name: Create .env file on VPS
         run: |
-          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
-            cat > ~/Emuhub/.env << 'EOL'
-            ${{ secrets.ENV_FILE_CONTENT }}
-            EOL
-            
-            chmod 600 ~/Emuhub/.env
-          EOF
+          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "cat > ~/Emuhub/.env << 'EOF'
+          ${{ secrets.ENV_FILE_CONTENT }}
+          EOF"          
+          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "chmod 600 ~/Emuhub/.env"
 
       - name: Execute the project in production mode
         run: |
