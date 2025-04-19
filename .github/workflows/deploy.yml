@@ -28,11 +28,7 @@ jobs:
       - name: Auth on the VPS and places the GitHub private key on a directory in it
         run: |          
           scp -i ~/.ssh/oc-ssh.key -o StrictHostKeyChecking=no ~/.ssh/gh-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }}:~/.ssh/gh-ssh.key
-          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "chmod 600 ~/.ssh/gh-ssh.key"
-
-      - name: Add the GitHub to the VPS's known hosts
-        run: |
-          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "ssh-keyscan -H https://github.com >> ~/.ssh/known_hosts"          
+          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} "chmod 600 ~/.ssh/gh-ssh.key"        
 
       - name: Clone/Pull the project and Execute in the VPS
         run: |
