@@ -5,4 +5,9 @@
 		<BaseIntermediateOutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</BaseIntermediateOutputPath>
 		<MSBUildProjectExtensionsPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</MSBUildProjectExtensionsPath>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Serilog Fix -->
+		<FunctionsPreservedDependencies Include="Microsoft.Extensions.DependencyModel.dll" />
+	</ItemGroup>
 </Project>
