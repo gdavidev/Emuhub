@@ -61,6 +61,8 @@ jobs:
         run: |
           ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
             cd ~/Emuhub
-            sudo docker compose down
+            sudo docker compose -f docker-compose.infra.yml up --build -d
+
+            sudo docker compose -f docker-compose.yml down
             sudo docker compose -f docker-compose.yml up --build -d
           EOF
