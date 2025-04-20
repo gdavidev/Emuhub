@@ -20,9 +20,6 @@ services:
       Minio__SecretKey: ${MINIO_SECRET_KEY}
     restart: 
       unless-stopped
-    depends_on:
-      - minio
-      - sqlserver
     volumes:
       - ./backend/logs:/app/logs
     networks:
@@ -34,47 +31,19 @@ services:
           /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
           dotnet Emuhub.API.dll"
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${DATABASE_PASSWORD}
-      MSSQL_PID: "Developer"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sqlserver-data:/var/opt/mssql
-    networks:
-      - app-network
-
   frontend:
     build:
       context: ./webapp
       target: ${TARGET_STAGE:-production}  # Default to production
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
       - backend
 
-  minio:
-    image: minio/minio
-    container_name: minio
-    ports:
-      - "9000:9000" # API
-      - "9001:9001" # Web UI
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
-      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
-    volumes:
-      - ./minio-data:/data
-    command: server --console-address ":9001" /data
-    networks:
-      - minio-network
-
 networks:
   app-network:
+    external: true
   minio-network:
-
-volumes:
-  sqlserver-data:
+    external: true
