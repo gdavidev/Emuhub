@@ -18,7 +18,7 @@ namespace Emuhub.Application.Serialization
 		public static Game ParseRequest(GameUpdateRequest request) =>
 			new Game()
 			{
-				Id = 0,
+				Id = request.Id,
 				Name = request.Name,
 				Description = request.Description,
 				CategoryId = request.CategoryId,
@@ -31,8 +31,8 @@ namespace Emuhub.Application.Serialization
 				Id = game.Id,
 				Name = game.Name,
 				Description = game.Description,
-				Category = game.Category!,
-				Emulator = game.Emulator!,
+				Category = GameCategorySerializer.ToResponse(game.Category!),
+				Emulator = EmulatorSerializer.ToResponse(game.Emulator!),
 			};
 	}
 }
