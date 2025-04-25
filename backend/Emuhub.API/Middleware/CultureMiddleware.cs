@@ -2,15 +2,8 @@
 
 namespace Emuhub.API.Middleware
 {
-    public class CultureMiddleware
-    {
-        private readonly RequestDelegate _next;
-
-        public CultureMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-
+    public class CultureMiddleware(RequestDelegate next)
+	{
         public async Task Invoke(HttpContext context)
         {
             var supportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
@@ -27,7 +20,7 @@ namespace Emuhub.API.Middleware
                 SetCultures(new CultureInfo("en-US"));
             }
 
-            await _next(context);
+            await next(context);
         }
 
         private static void SetCultures(CultureInfo culture)
