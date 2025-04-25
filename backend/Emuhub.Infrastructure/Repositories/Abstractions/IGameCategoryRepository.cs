@@ -6,9 +6,6 @@ namespace Emuhub.Infrastructure.Repositories
     {
         public Task<GameCategory?> Get(long id);
         public Task<List<GameCategory>> GetAll();
-        public Task Add(GameCategory category);
-        public Task Update(GameCategory category);
-        public Task Delete(GameCategory category);
         public Task<bool> Exists(long id);
     }
 }
