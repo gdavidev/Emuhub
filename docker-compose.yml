@@ -35,6 +35,8 @@ services:
     build:
       context: ./webapp
       target: ${TARGET_STAGE:-production}  # Default to production
+    restart: 
+      unless-stopped
     env_file:
       - .env
     ports:
