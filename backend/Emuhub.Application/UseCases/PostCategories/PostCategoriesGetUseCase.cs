@@ -9,7 +9,7 @@ namespace Emuhub.Application.UseCases.PostCategories
         public async Task<List<PostCategoryResponse>> Execute()
         {
             var categoryList = await categories.GetAll();
-            var result = categoryList.Select(PostCategorySerializer.ToPostCategoryResponse).ToList();
+            var result = categoryList.Select(PostCategorySerializer.ToResponse).ToList();
 
             return result;
         }

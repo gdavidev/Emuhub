@@ -5,7 +5,7 @@ namespace Emuhub.Application.Serialization
 {
     public class GameCategorySerializer
     {
-        public static GameCategoryResponse ToGameCategoryResponse(GameCategory category) =>
+        public static GameCategoryResponse ToResponse(GameCategory category) =>
             new GameCategoryResponse()
             {
                 Id = category.Id,

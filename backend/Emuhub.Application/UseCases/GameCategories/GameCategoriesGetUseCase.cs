@@ -9,7 +9,7 @@ namespace Emuhub.Application.UseCases.GameCategories
         public async Task<List<GameCategoryResponse>> Execute()
         {
             var categoryList = await categories.GetAll();
-            var result = categoryList.Select(GameCategorySerializer.ToGameCategoryResponse).ToList();
+            var result = categoryList.Select(GameCategorySerializer.ToResponse).ToList();
 
             return result;
         }

@@ -5,7 +5,7 @@ namespace Emuhub.Application.Serialization
 {
     public class PostCategorySerializer
     {
-        public static PostCategoryResponse ToPostCategoryResponse(PostCategory category) =>
+        public static PostCategoryResponse ToResponse(PostCategory category) =>
             new PostCategoryResponse()
             {
                 Id = category.Id,
