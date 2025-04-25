@@ -4,10 +4,16 @@
 ```bash
 # In the project root
 ## Development 
-docker compose up --build
+docker compose -f docke-compose.infra.yml up --build -d
+docker compose up --build -d
 
 ## Release (Ignore override file)
-docker compose -f docker-compose.yml up --build
+docker compose -f docke-compose.infra.yml up --build -d
+docker compose -f docker-compose.yml up --build -d
+
+## Turn off Running containers
+docker compose -f docke-compose.infra.yml down
+docker compose -f docker-compose.yml down
 ```
 
 ### Development Environment Variables
