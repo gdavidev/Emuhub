@@ -26,11 +26,10 @@ namespace Emuhub.Application.UseCases.Games
             if (request.File is not null)
             {
                 var file = request.File;
-                await storage.UploadAsync("games", file.OpenReadStream(), "thumbs/" + oldGame.FileName, file.ContentType);
+                await storage.UploadAsync("games", file.OpenReadStream(), "files/" + oldGame.FileName, file.ContentType);
             }
 
             var game = GameSerializer.ParseRequest(request);
-            game.Id = oldGame.Id;
             game.ImageName = oldGame.ImageName;
             game.FileName = oldGame.FileName;
 

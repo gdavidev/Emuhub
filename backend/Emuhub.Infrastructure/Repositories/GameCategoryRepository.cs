@@ -14,25 +14,7 @@ namespace Emuhub.Infrastructure.Repositories
         public async Task<List<GameCategory>> GetAll()
         {
             return await context.GameCategories.ToListAsync();
-        }
-
-        public async Task Add(GameCategory category)
-        {
-            context.GameCategories.Add(category);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Update(GameCategory category)
-        {
-            context.Entry(category).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Delete(GameCategory category)
-        {
-            context.GameCategories.Remove(category);
-            await context.SaveChangesAsync();
-        }
+        }        
 
         public async Task<bool> Exists(long id)
         {

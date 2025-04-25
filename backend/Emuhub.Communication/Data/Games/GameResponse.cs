@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Emuhub.Domain.Entities.Games;
+﻿using Emuhub.Communication.Data.Emulators;
+using Emuhub.Communication.Data.GameCategories;
 
 namespace Emuhub.Communication.Data.Games;
 
@@ -8,6 +8,6 @@ public class GameResponse
     public required long  Id { get; set; }
     public required string  Name { get; set; }
     public required string  Description { get; set; }
-    public required Emulator  Emulator { get; set; }
-    public required GameCategory Category { get; set; }
+    public required EmulatorResponse  Emulator { get; set; }
+    public required GameCategoryResponse Category { get; set; }
 }
