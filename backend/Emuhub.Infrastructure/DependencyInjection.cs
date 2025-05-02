@@ -26,11 +26,12 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(opt =>
             opt.UseSqlServer(
                 connectionString,
-                options => options.EnableRetryOnFailure(
-                    maxRetryCount: 5,
-                    maxRetryDelay: System.TimeSpan.FromSeconds(30),
-                    errorNumbersToAdd: null
-                )
+                options => options
+                    .EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null)
+                    .MigrationsAssembly("Emuhub.Infrastructure")
             )
         );
     }
