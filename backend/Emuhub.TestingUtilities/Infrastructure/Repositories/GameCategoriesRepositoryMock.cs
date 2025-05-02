@@ -23,12 +23,6 @@ namespace Emuhub.TestingUtilities.Infrastructure.Repositories
 
         public void MockGetAll() => Setup(r => r.GetAll()).ReturnsAsync(_categories);
 
-        public void MockUpdate(GameCategory category) => Setup(r => r.Update(category));
-
-        public void MockAdd(GameCategory category) => Setup(r => r.Add(category));
-
-        public void MockDelete(GameCategory category) => Setup(r => r.Delete(category)).Callback(() => _categories.Remove(category));
-
         public void MockExists(long id) => Setup(r => r.Exists(id)).ReturnsAsync(_categories.Any(g => g.Id == id));
     }
 }
