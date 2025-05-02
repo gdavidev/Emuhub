@@ -12,7 +12,9 @@ namespace Emuhub.API.Controllers
         public async Task<ActionResult<IEnumerable<GameCategoryResponse>>> GetCategories(
             [FromServices] GameCategoriesGetUseCase useCase)
         {
-            return await useCase.Execute();
+            var result = await useCase.Execute();
+
+            return Ok(result);
         }
     }
 }

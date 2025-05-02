@@ -16,7 +16,7 @@ public class GamesController : ControllerBase
 	{
 		var result = await useCase.Execute(page);
 
-        return result;
+        return Ok(result);
     }
 
 	[HttpGet]
@@ -27,7 +27,7 @@ public class GamesController : ControllerBase
 	{
         var result = await useCase.Execute(request);
 
-		return result;
+		return Ok(result);
 	}
 
 	[HttpPut]
