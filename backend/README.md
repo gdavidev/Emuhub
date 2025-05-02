@@ -16,30 +16,19 @@ docker compose -f docke-compose.infra.yml down
 docker compose -f docker-compose.yml down
 ```
 
-### Development Environment Variables
-Your user secrets will be stored at the path ``%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json``.
-To add abash user secret you can just edit the file, or use the commands:
-```
-# Initilizes the secrets.json file and asigns a Guid to it and your project
-dotnet user-secrets init 
-
-# Adds/Updates your secrets (For the path use the format "ParentJsonObject:ObjectValueName" or "ValueName")
-dotnet user-secrets set <secret_path> <value>
-
-# Lists secrets
-dotnet user-secrets list
-```
-
 ### Database Migrations
 ```bash
 cd ./backend/
 
 # Adding migration
-dotnet ef migrations add <migration_name> --project ./Emuhub.Infrastructure --startup-project ./Emuhub.API
+dotnet ef migrations add <migration_name> -p Emuhub.Infrastructure -s Emuhub.API --msbuildprojectextensionspath Emuhub.API\obj\local
 
 # Updating the database with current migrations
-dotnet ef database update --project ./Emuhub.Infrastructure --startup-project ./Emuhub.API
+dotnet ef database update -p Emuhub.Infrastructure -s Emuhub.API --msbuildprojectextensionspath Emuhub.API\obj\local
 ```
+**Note**: On the first run, ef core will complain about a `*csproj.EntityFrameworkCore.targets` file, which needs to be created
+in both projects, Infrastructure and API, when you face this issue, chage the param `msbuildprojectextensionspath` to run o the 
+Infrastructure project before finally running in the API project, which will add the migration just fine
 
 ### Workflow
 The Backend project uses Clean Architecture in the following folder structure:

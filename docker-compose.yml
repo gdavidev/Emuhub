@@ -10,6 +10,7 @@ services:
     ports:
       - "5000:8080"
     environment:
+      DOTNET_RUNNING_IN_CONTAINER: true
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}   
       Token__Secret: ${TOKEN_SECRET}
       Token__Issuer: ${TOKEN_ISSUER}

@@ -1,9 +1,21 @@
 <Project>
 	<PropertyGroup>
-		<OutDir>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/bin/$(MSBuildProjectName)"))</OutDir>		
-		<OutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</OutputPath>
-		<BaseIntermediateOutputPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</BaseIntermediateOutputPath>
-		<MSBUildProjectExtensionsPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), "../build/obj/$(MSBuildProjectName)"))</MSBUildProjectExtensionsPath>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\obj\**\*</DefaultItemExcludes>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\bin\**\*</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\obj\container\</BaseIntermediateOutputPath>
+		<BaseOutputPath>$(MSBuildProjectDirectory)\bin\container\</BaseOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' != 'true'">
+		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\obj\local\</BaseIntermediateOutputPath>
+		<BaseOutputPath>$(MSBuildProjectDirectory)\bin\local\</BaseOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
 	</PropertyGroup>
 
 	<ItemGroup>

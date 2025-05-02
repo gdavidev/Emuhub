@@ -6,13 +6,13 @@ services:
         - BUILD_CONFIGURATION=Debug
       target: development
     environment:
+      DOTNET_RUNNING_IN_CONTAINER: true
       ASPNETCORE_ENVIRONMENT: Development
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
     volumes:
       - ./backend:/app
       - ./backend/logs:/app/logs
       - nuget-packages:/root/.nuget/packages
-      - /app/build # All bin and obj directories
     restart: no      
     command: >
       bash -c "
