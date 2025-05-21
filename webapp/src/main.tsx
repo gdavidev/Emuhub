@@ -20,12 +20,6 @@ const GameViewPage = lazy(() => import('@apps/main/pages/GameViewPage.tsx'))
 /*Admin*/
 const GamesView = lazy(() => import('@apps/admin/pages/GamesView.tsx'))
 const EmulatorsView = lazy(() => import('@apps/admin/pages/EmulatorsView'))
-const ReportView = lazy(() => import('@apps/admin/pages/ReportsView.tsx'))
-/*Forum*/
-const ForumPage = lazy(() => import('@apps/main/pages/forum/ForumPage'))
-const FeedPage = lazy(() => import('@apps/main/pages/forum/FeedPage'))
-const PostPage = lazy(() => import('@apps/main/pages/forum/PostPage'))
-const PostCreate = lazy(() => import('@apps/main/pages/forum/PostCreate'))
 
 const router = createBrowserRouter([
   { handle: { title: 'Erro 404' }, errorElement: <ErrorPage code={ 404 } /> },
@@ -44,14 +38,6 @@ const router = createBrowserRouter([
           { handle: { title: 'Alterar Senha' }, path: '/reset-password', element: <AuthPage mode={AuthPageMode.RESET_PASSWORD} />},
           { handle: { title: 'Perfil'        }, path: '/profile',        element: <ProfilePage />                                },
           { handle: { title: 'Game'          }, path: '/game/:gameId',   element: <GameViewPage />                               },
-          {
-            path: '/forum',
-            element: <ForumPage />,
-            children: [
-              { handle: { title: 'Feed'       }, path: '/forum/feed',         element: <FeedPage />   },
-              { handle: { title: 'Post'       }, path: '/forum/post/:postId', element: <PostPage />   },
-              { handle: { title: 'Criar Post' }, path: '/forum/post/new',     element: <PostCreate /> },
-            ]},
         ]
       },
       {
@@ -60,7 +46,6 @@ const router = createBrowserRouter([
         children: [
           { handle: { title: 'Games'      }, path: '/admin/view-games',     element: <GamesView />      },
           { handle: { title: 'Emuladores' }, path: '/admin/view-emulators', element: <EmulatorsView />  },
-          { handle: { title: 'Denúncias'  }, path: '/admin/view-reports',   element: <ReportView />     },
         ]
       }
     ],

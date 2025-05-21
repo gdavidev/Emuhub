@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { IonIcon } from '@ionic/react'
-import { home, exit, flag, gameController } from 'ionicons/icons';
+import { home, exit, gameController } from 'ionicons/icons';
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function SideMenu() {
@@ -24,10 +24,6 @@ export default function SideMenu() {
             <Link to="/admin/view-emulators" 
                 className="btn-r-md flex justify-start bg-primary hover:bg-primary-light gap-x-2 w-full">
               <IonIcon icon={ gameController } /> Emulatores
-            </Link>   
-            <Link to="/admin/view-reports"
-                className="btn-r-md flex justify-start bg-primary hover:bg-primary-light gap-x-2 w-full">
-              <IonIcon icon={ flag } /> Denuncias
             </Link>
           </div>
           <Link to="/" 
