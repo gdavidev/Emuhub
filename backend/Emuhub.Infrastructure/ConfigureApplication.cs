@@ -24,7 +24,6 @@ namespace Emuhub.Infrastructure
 
             await minioClient.EnsureBucketsCreated([
                 "games",
-                "forum",
                 "users"
             ]);
 

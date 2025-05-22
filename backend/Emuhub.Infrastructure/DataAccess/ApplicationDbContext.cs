@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Emuhub.Domain.Entities.Games;
-using Emuhub.Domain.Entities.Forum;
-using Emuhub.Domain.Entities.Reports;
-using Emuhub.Infrastructure.Seeders;
+﻿using Emuhub.Domain.Entities.Games;
 using Emuhub.Domain.Entities.Users;
+using Emuhub.Infrastructure.Seeders;
+using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.DataAccess;
 
@@ -13,9 +11,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<GameCategory> GameCategories { get; set; }
     public DbSet<Emulator> Emulators { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Post> Posts { get; set; }
-    public DbSet<PostCategory> PostCategories { get; set; }
-    public DbSet<Report> Reports { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,13 +27,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnModelCreating(modelBuilder);
 
-        // Games
         ConfigureEmulatorEntity(modelBuilder);
         ConfigureGameCategoryEntity(modelBuilder);
-
-        // Forum
-        ConfigurePostCategoryEntity(modelBuilder);
-        ConfigureCommentEntity(modelBuilder);
     }
 
     private static void ConfigureEmulatorEntity(ModelBuilder modelBuilder)
@@ -58,23 +48,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithOne(e => e.Category)
             .HasForeignKey(g => g.CategoryId)
             .IsRequired();
-    }
-
-    private static void ConfigureCommentEntity(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Comment>()
-            .HasMany(e => e.Comments)
-            .WithOne()
-            .HasForeignKey("ParentId")
-            .IsRequired(false);
-    }
-
-    private static void ConfigurePostCategoryEntity(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<PostCategory>()
-            .HasMany<Post>()
-            .WithOne(e => e.Category)
-            .HasForeignKey("CategoryId")
-            .IsRequired();
-    }
+    }    
 }
