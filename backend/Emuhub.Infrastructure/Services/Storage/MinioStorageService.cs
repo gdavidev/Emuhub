@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Minio.DataModel.Args;
 using Minio;
-using Emuhub.Domain.Entities.Users;
-using Minio.ApiEndpoints;
 using Minio.DataModel;
 
 namespace Emuhub.Infrastructure.Services.Storage
@@ -38,7 +36,7 @@ namespace Emuhub.Infrastructure.Services.Storage
 
             await _client.GetObjectAsync(new GetObjectArgs()
                 .WithBucket(bucket)
-                .WithObject(filePath)
+                .WithObject(stat.ObjectName)
                 .WithCallbackStream(stream => stream.CopyTo(memStream)));
 
             memStream.Position = 0;
@@ -71,7 +69,7 @@ namespace Emuhub.Infrastructure.Services.Storage
         private async Task<ObjectStat> FindObject(string bucket, string filePath)
         {
             var finalTargetPath = filePath;
-
+            
             if (filePath.EndsWith('*'))
             {
                 var prefix = filePath[..filePath.IndexOf('*')];
@@ -79,10 +77,14 @@ namespace Emuhub.Infrastructure.Services.Storage
                     .WithBucket(bucket)
                     .WithPrefix(prefix)
                     .WithRecursive(false);
-
-                var files = _client.ListObjectsEnumAsync(args).GetAsyncEnumerator();
+                
+                var files = _client
+                    .ListObjectsEnumAsync(args)
+                    .GetAsyncEnumerator();
+                await files.MoveNextAsync();
+                
                 finalTargetPath = files.Current.Key;
-            }      
+            }
             
             return await _client.StatObjectAsync(new StatObjectArgs()
                 .WithBucket(bucket)
