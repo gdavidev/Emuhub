@@ -1,6 +1,5 @@
-﻿namespace Emuhub.Exceptions.Exceptions
+﻿namespace Emuhub.Exceptions.Exceptions;
+
+public abstract class EmuhubCheckedException : Exception
 {
-    public abstract class EmuhubCheckedException : Exception
-    {
-    }
 }
