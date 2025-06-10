@@ -1,8 +1,7 @@
-﻿namespace Emuhub.Communication.Data.GameCategories
+﻿namespace Emuhub.Communication.Data.GameCategories;
+
+public class GameCategoryResponse
 {
-    public class GameCategoryResponse
-    {
-        public long Id { get; set; } = 0;
-        public string Name { get; set; } = "";
-    }
+    public long Id { get; set; } = 0;
+    public string Name { get; set; } = "";
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -18,6 +19,7 @@
     <ProjectReference Include="..\Emuhub.Exceptions\Emuhub.Exceptions.csproj" />
     <ProjectReference Include="..\Emuhub.Domain\Emuhub.Domain.csproj" />
     <ProjectReference Include="..\Emuhub.Infrastructure\Emuhub.Infrastructure.csproj" />
+    <ProjectReference Include="..\Emuhub.Library\Emuhub.Library.csproj" />
   </ItemGroup>
 
 </Project>

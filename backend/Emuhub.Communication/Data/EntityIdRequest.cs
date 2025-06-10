@@ -1,7 +1,6 @@
-﻿namespace Emuhub.Communication.Data
+﻿namespace Emuhub.Communication.Data;
+
+public class EntityIdRequest
 {
-    public class EntityIdRequest
-    {
-        public long Id { get; set; }
-    }
+    public long Id { get; set; }
 }

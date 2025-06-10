@@ -27,26 +27,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnModelCreating(modelBuilder);
 
-        ConfigureEmulatorEntity(modelBuilder);
-        ConfigureGameCategoryEntity(modelBuilder);
+        ConfigureGameEntity(modelBuilder);
     }
 
-    private static void ConfigureEmulatorEntity(ModelBuilder modelBuilder)
+    private static void ConfigureGameEntity(ModelBuilder modelBuilder)
     {
-        // Emulators are related to many Games, but they don't store any reference to them (Id's and as dotnet calls 'navigation property')
-        modelBuilder.Entity<Emulator>()
-            .HasMany<Game>()                        // Emulator has many Games
-            .WithOne(e => e.Emulator)               // Games have one Emulator
-            .HasForeignKey(g => g.EmulatorId)       // Foreign key
-            .IsRequired();                          // The relationship is required
-    }
-
-    private static void ConfigureGameCategoryEntity(ModelBuilder modelBuilder) 
-    {
-        modelBuilder.Entity<GameCategory>()
-            .HasMany<Game>()
-            .WithOne(e => e.Category)
+        var builder = modelBuilder.Entity<Game>();
+        
+        builder
+            .HasOne(game => game.Category)
+            .WithMany()
             .HasForeignKey(g => g.CategoryId)
+            .IsRequired();
+        
+        builder
+            .HasOne(game => game.Emulator)
+            .WithMany()
+            .HasForeignKey(g => g.EmulatorId)
             .IsRequired();
     }    
 }

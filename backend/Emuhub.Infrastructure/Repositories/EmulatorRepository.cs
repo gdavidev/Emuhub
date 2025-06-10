@@ -1,5 +1,6 @@
 ﻿using Emuhub.Domain.Entities.Games;
 using Emuhub.Infrastructure.DataAccess;
+using Emuhub.Infrastructure.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Emuhub.Infrastructure.Repositories;

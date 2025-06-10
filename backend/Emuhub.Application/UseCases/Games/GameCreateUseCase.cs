@@ -1,61 +1,62 @@
 ﻿using Emuhub.Application.Validation.Games;
 using Emuhub.Communication.Data.Games;
 using Emuhub.Domain.Entities.Games;
-using Emuhub.Infrastructure.Repositories;
+using Emuhub.Infrastructure.Repositories.Abstractions;
 using Emuhub.Infrastructure.Services.Storage;
+using Emuhub.Library.Transformation;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace Emuhub.Application.UseCases.Games
+namespace Emuhub.Application.UseCases.Games;
+
+public class GameCreateUseCase(
+    IGameRepository games,
+    GameCreateRequestValidator validator,
+    IFileStorageService storage) 
 {
-    public class GameCreateUseCase(IGameRepository games, GameCreateRequestValidator validator, IFileStorageService storage)
+    public async Task<long> Execute(GameCreateRequest request)
     {
-        public async Task<long> Execute(GameCreateRequest request)
+        await validator.ValidateAndThrowAsync(request);
+        var sanitizedGameName = StringCase.ToKebabCase(request.Name);
+
+        var imageName = $"{sanitizedGameName}{Path.GetExtension(request.Image.Name)}";
+        var fileName = $"{sanitizedGameName}{Path.GetExtension(request.File.Name)}";
+            
+        try
         {
-            validator.ValidateAndThrow(request);
-
-            var imageName = new Guid().ToString();
-            var fileName = new Guid().ToString();
-
-            try
+            var game = new Game()
             {
-                await UploadFileAsync(request.File, "files/");
-                await UploadFileAsync(request.Image, "thumbs/");
+                Id = 0,
+                Name = request.Name,
+                Description = request.Description,
+                CategoryId = request.CategoryId,
+                EmulatorId = request.EmulatorId,
+                ImageName = imageName,
+                FileName = fileName,
+            };
 
-                var game = new Game()
-                {
-                    Id = 0,
-                    Name = request.Name,
-                    Description = request.Description,
-                    CategoryId = request.CategoryId,
-                    EmulatorId = request.EmulatorId,
-                    ImageName = imageName,
-                    FileName = fileName
-                };
-
-                return await games.Add(game);
-            }
-            catch
-            {
-                await RollbackFiles(imageName, fileName);
-                throw;
-            }
+            await UploadFileAsync(request.File, "files/", fileName);
+            await UploadFileAsync(request.Image, "thumbs/", imageName);
+            return await games.Add(game);
         }
-
-        private async Task UploadFileAsync(IFormFile file, string location) =>
-            await storage.UploadAsync(
-                "games",
-                file.OpenReadStream(),
-                location + file.FileName,
-                file.ContentType
-            );
-
-        private async Task RollbackFiles(string imagePath, string filePath)
+        catch
         {
-            if (imagePath != "")
-                await storage.DeleteAsync("games", "thumb/" + imagePath);
-            if (imagePath != "")
-                await storage.DeleteAsync("games", "files/" + filePath);
+            await RollbackFiles(imageName, fileName);
+            throw;
         }
-    }    
+    }
+
+    private async Task UploadFileAsync(IFormFile file, string location, string fileName) =>
+        await storage.UploadAsync(
+            "games",
+            file.OpenReadStream(),
+            location + fileName,
+            file.ContentType
+        );
+
+    private async Task RollbackFiles(string imagePath, string filePath)
+    {
+        await storage.DeleteAsync("games", "thumb/" + imagePath);
+        await storage.DeleteAsync("games", "files/" + filePath);
+    }
 }
