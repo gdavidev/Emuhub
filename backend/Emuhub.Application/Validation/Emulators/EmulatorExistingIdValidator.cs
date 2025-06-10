@@ -1,19 +1,19 @@
-﻿using Emuhub.Communication.Data;
+﻿using Emuhub.Application.Validation.ValidatorExtensions;
+using Emuhub.Communication.Data;
 using Emuhub.Exceptions;
-using Emuhub.Infrastructure.Repositories;
+using Emuhub.Infrastructure.Repositories.Abstractions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Emuhub.Application.Validation.Emulators
+namespace Emuhub.Application.Validation.Emulators;
+
+public class EmulatorExistingIdValidator : AbstractValidator<EntityIdRequest>
 {
-    public class EmulatorExistingIdValidator : AbstractValidator<EntityIdRequest>
+    public EmulatorExistingIdValidator(
+        [FromServices] IEmulatorRepository Emulators)
     {
-        public EmulatorExistingIdValidator(
-            [FromServices] IEmulatorRepository Emulators)
-        {
-            RuleFor(request => request.Id)
-                .DatabaseIdentity()
-                .MustAsync(async (id, _) => await Emulators.Exists(id)).WithMessage(ExceptionMessagesResource.EMULATOR_NOT_FOUND);
-        }
+        RuleFor(request => request.Id)
+            .DatabaseIdentity()
+            .MustAsync(async (id, _) => await Emulators.Exists(id)).WithMessage(ExceptionMessagesResource.EMULATOR_NOT_FOUND);
     }
 }

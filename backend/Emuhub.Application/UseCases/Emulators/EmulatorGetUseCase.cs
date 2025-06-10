@@ -1,17 +1,16 @@
 ﻿using Emuhub.Application.Serialization;
 using Emuhub.Communication.Data.Emulators;
-using Emuhub.Infrastructure.Repositories;
+using Emuhub.Infrastructure.Repositories.Abstractions;
 
-namespace Emuhub.Application.UseCases.Emulators
+namespace Emuhub.Application.UseCases.Emulators;
+
+public class EmulatorGetUseCase(IEmulatorRepository emulators)
 {
-    public class EmulatorGetUseCase(IEmulatorRepository emulators)
+    public async Task<List<EmulatorResponse>> Execute()
     {
-        public async Task<List<EmulatorResponse>> Execute()
-        {
-            var emulatorList = await emulators.GetAll();
-            var result = emulatorList.Select(EmulatorSerializer.ToResponse).ToList();
+        var emulatorList = await emulators.GetAll();
+        var result = emulatorList.Select(EmulatorSerializer.ToResponse).ToList();
 
-            return result;
-        }
+        return result;
     }
 }
