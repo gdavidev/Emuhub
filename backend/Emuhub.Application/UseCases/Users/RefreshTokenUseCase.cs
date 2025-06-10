@@ -3,21 +3,20 @@ using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Services.Authentication;
 
-namespace Emuhub.Application.UseCases.Users
+namespace Emuhub.Application.UseCases.Users;
+
+public class RefreshTokenUseCase(AuthService authService)
 {
-    public class RefreshTokenUseCase(AuthService authService)
+    public async Task<UserTokensResponse> Execute(RefreshTokenRequest request)
     {
-        public async Task<UserTokensResponse> Execute(RefreshTokenRequest request)
-        {
-            Validate(request);
+        Validate(request);
 
-            return await authService.RefreshToken(request);
-        }
+        return await authService.RefreshToken(request);
+    }
 
-        public void Validate(RefreshTokenRequest request)
-        {
-            if (request.UserId == Guid.Empty)
-                throw new ValidationErrorException(new ValidationErrorItem("UserId", ExceptionMessagesResource.NAME_EMPTY));
-        }
+    private static void Validate(RefreshTokenRequest request)
+    {
+        if (request.UserId == Guid.Empty)
+            throw new ValidationErrorException(new ValidationErrorItem("UserId", ExceptionMessagesResource.NAME_EMPTY));
     }
 }

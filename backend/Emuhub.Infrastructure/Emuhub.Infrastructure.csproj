@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="MailKit" Version="4.12.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
@@ -26,6 +27,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Uploads\" />
+	  <Reference Include="Microsoft.AspNetCore.Authentication.JwtBearer">
+	    <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.authentication.jwtbearer\8.0.14\lib\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.EntityFrameworkCore">
+	    <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\9.0.4\lib\net8.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+	    <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.abstractions\9.0.4\lib\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.EntityFrameworkCore.Relational">
+	    <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.relational\9.0.4\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
+	    <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.sqlserver\9.0.4\lib\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

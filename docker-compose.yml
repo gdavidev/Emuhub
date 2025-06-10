@@ -18,7 +18,11 @@ services:
       ConnectionStrings__Default: Server=${DATABASE_SERVER};Database=${DATABASE_NAME};User ID=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD};TrustServerCertificate=True
       Minio__Endpoint: ${MINIO_ENDPOINT}
       Minio__AccessKey: ${MINIO_ACCESS_KEY}
-      Minio__SecretKey: ${MINIO_SECRET_KEY}
+      Minio__SecretKey: ${MINIO_SECRET_KEY}      
+      Mailing__Smtp__Server: ${MAILING_SMTP_SERVER}
+      Mailing__Smtp__Port: ${MAILING_SMTP_PORT}
+      Mailing__Sender: ${MAILING_SENDER}
+      Mailing__Key: ${MAILING_KEY}
     restart: 
       unless-stopped
     volumes:

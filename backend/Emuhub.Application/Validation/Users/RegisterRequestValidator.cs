@@ -1,25 +1,25 @@
-﻿using Emuhub.Communication.Data.Auth;
+﻿using Emuhub.Application.Validation.ValidatorExtensions;
+using Emuhub.Communication.Data.Auth;
 using Emuhub.Exceptions;
 using FluentValidation;
 
-namespace Emuhub.Application.Validation.Users
+namespace Emuhub.Application.Validation.Users;
+
+public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
 {
-    public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+    public RegisterRequestValidator() 
     {
-        public RegisterRequestValidator() 
-        {
-            RuleFor(req => req.UserName)
-                .NotNullOrEmpty()
-                .MinimumLength(6).WithMessage(string.Format(ExceptionMessagesResource.MINIMUN_LENGTH, 6));
+        RuleFor(req => req.UserName)
+            .NotNullOrEmpty()
+            .MinimumLength(6).WithMessage(string.Format(ExceptionMessagesResource.MINIMUN_LENGTH, 6));
 
-            RuleFor(req => req.Email)
-                .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_EMPTY);
+        RuleFor(req => req.Email)
+            .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_EMPTY);
 
-            RuleFor(req => req.Password)
-                .Password();
+        RuleFor(req => req.Password)
+            .Password();
 
-            RuleFor(req => req.ProfileImage)
-                .FileOfType(FileType.IMAGE);
-        }
+        RuleFor(req => req.ProfileImage)
+            .FileOfType([".png", ".jpg", ".jpeg", ".gif"]);
     }
 }

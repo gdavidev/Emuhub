@@ -47,25 +47,21 @@ public static class DependencyInjection
         services.AddScoped<EmulatorGetUseCase>();
     }
 
-        private static void AddUsers(IServiceCollection services)
-        {
-            services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
-            services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
     private static void AddUsers(IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
-
-            services.AddScoped<UserRegisterUseCase>();
-            services.AddScoped<UserLoginUseCase>();
-            services.AddScoped<RefreshTokenUseCase>();
-        }
-    }
-}
+        services.AddValidatorsFromAssemblyContaining<UserResetPasswordRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UserForgotPasswordRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
 
         services.AddScoped<UserRegisterUseCase>();
         services.AddScoped<UserLoginUseCase>();
         services.AddScoped<RefreshTokenUseCase>();
         services.AddScoped<UserForgotPasswordUseCase>();
+        services.AddScoped<UserResetPasswordUseCase>();
+        services.AddScoped<UserUpdateUseCase>();
+        services.AddScoped<UserDeleteUseCase>();
     }
 }

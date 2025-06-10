@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Emuhub.Infrastructure.Repositories.Abstractions;
+using Emuhub.Infrastructure.Services.Mailing;
 
 namespace Emuhub.Infrastructure;
 
@@ -17,6 +19,7 @@ public static class DependencyInjection
     {
         AddDbContext(services, configuration.GetConnectionString("Default")!);
         AddFileStorageService(services, configuration);
+        AddMailingService(services);
         AddRepositories(services);
         AddAuthServices(services, configuration);
     }
@@ -38,12 +41,17 @@ public static class DependencyInjection
 
     private static void AddFileStorageService(IServiceCollection services, IConfiguration configuration)
     {
-        bool useLocalFileSystem = configuration.GetValue<bool>("Environment:UseLocalFileSystemStorage");
+        var useLocalFileSystem = configuration.GetValue<bool>("Environment:UseLocalFileSystemStorage");
 
         if (useLocalFileSystem)
             services.AddSingleton<IFileStorageService, FileSystemStorageService>();
         else
             services.AddSingleton<IFileStorageService, MinioStorageService>();
+    }
+    
+    private static void AddMailingService(IServiceCollection services)
+    {
+        services.AddSingleton<IEmailService, EmailService>();
     }
 
     private static void AddRepositories(IServiceCollection services)

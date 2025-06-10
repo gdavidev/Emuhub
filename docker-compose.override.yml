@@ -9,6 +9,7 @@ services:
       DOTNET_RUNNING_IN_CONTAINER: true
       ASPNETCORE_ENVIRONMENT: Development
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: 1
     volumes:
       - ./backend:/app
       - ./backend/logs:/app/logs
