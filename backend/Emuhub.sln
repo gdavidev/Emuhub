@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\docker-compose.yml = ..\docker-compose.yml
 		Dockerfile = Dockerfile
 		README.md = README.md
+		..\.github\workflows\deploy.yml = ..\.github\workflows\deploy.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.Application", "Emuhub.Application\Emuhub.Application.csproj", "{90D02114-E58C-40B4-9D0A-B20D9F615AAB}"
@@ -40,6 +41,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.APITest", "Emuhub.APITest\Emuhub.APITest.csproj", "{093C35ED-9F89-4E3B-9AC9-16B54D110CBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emuhub.TestingUtilities", "Emuhub.TestingUtilities\Emuhub.TestingUtilities.csproj", "{0BEBD02C-9B66-4EE8-948B-A344FBE94567}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emuhub.Library", "Emuhub.Library\Emuhub.Library.csproj", "{E8A9B50A-8C92-45DA-BB6E-0E88211C3222}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +86,10 @@ Global
 		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BEBD02C-9B66-4EE8-948B-A344FBE94567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A9B50A-8C92-45DA-BB6E-0E88211C3222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A9B50A-8C92-45DA-BB6E-0E88211C3222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A9B50A-8C92-45DA-BB6E-0E88211C3222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A9B50A-8C92-45DA-BB6E-0E88211C3222}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +105,7 @@ Global
 		{768D93DE-B04B-46CC-8CA1-B05D30B76BF2} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
 		{093C35ED-9F89-4E3B-9AC9-16B54D110CBA} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
 		{0BEBD02C-9B66-4EE8-948B-A344FBE94567} = {5E3B1B73-C12D-4755-AB62-79B8C0FF1695}
+		{E8A9B50A-8C92-45DA-BB6E-0E88211C3222} = {BEA0B724-EB4E-481E-BACD-5D3682B87EC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C062210-15F6-4005-9C8E-DDF9FBB82E99}

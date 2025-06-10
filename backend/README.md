@@ -21,14 +21,24 @@ docker compose -f docker-compose.yml down
 cd ./backend/
 
 # Adding migration
-dotnet ef migrations add <migration_name> -p Emuhub.Infrastructure -s Emuhub.API --msbuildprojectextensionspath Emuhub.API\obj\local
+dotnet ef migrations add <migration_name> -p Emuhub.Infrastructure -s Emuhub.API \
+  --msbuildprojectextensionspath Emuhub.API/obj/local
 
 # Updating the database with current migrations
-dotnet ef database update -p Emuhub.Infrastructure -s Emuhub.API --msbuildprojectextensionspath Emuhub.API\obj\local
+dotnet ef database update -p Emuhub.Infrastructure -s Emuhub.API \
+  --msbuildprojectextensionspath Emuhub.API/obj/local
 ```
-**Note**: On the first run, ef core will complain about a `*csproj.EntityFrameworkCore.targets` file, which needs to be created
-in both projects, Infrastructure and API, when you face this issue, chage the param `msbuildprojectextensionspath` to run o the 
-Infrastructure project before finally running in the API project, which will add the migration just fine
+**Note**: On the first run, ef core will complain about a `*csproj.EntityFrameworkCore.targets` file,
+which needs to be created in both projects, Infrastructure and API, when you face this issue,
+change the param `msbuildprojectextensionspath` to run on the Infrastructure project before
+finally running in the API project, which will add the migration just fine.
+**Note 2**: In Ubuntu the EF target files are not being created automatically.
+
+### Running Commands in the Container
+```bash
+docker exec -it <container-hash> /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost -U sa -P '<sa-password>' -Q '<your-sql-command>' -C
+```
 
 ### Workflow
 The Backend project uses Clean Architecture in the following folder structure:
