@@ -1,89 +1,175 @@
-﻿using Emuhub.Application.Serialization;
-using Emuhub.Exceptions;
-using Emuhub.Exceptions.Exceptions;
+﻿using Emuhub.Exceptions.Exceptions;
 using Emuhub.Exceptions.Exceptions.ValidationError;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json.Linq;
 using System.Net;
-using System.Text.Json;
+using Emuhub.Communication.Data.Error;
+using Newtonsoft.Json;
 
-namespace Emuhub.API.Filters
+namespace Emuhub.API.Filters;
+
+public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IExceptionFilter
 {
-    public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IExceptionFilter
+    public void OnException(ExceptionContext context)
     {
-        public void OnException(ExceptionContext context)
+        if (context.Exception is EmuhubCheckedException or FluentValidation.ValidationException)
+            HandleCheckedException(context);
+        else
+            HandleUnknownException(context);
+    }
+
+    private void HandleCheckedException(ExceptionContext context)
+    {
+        switch (context.Exception)
         {
-            if (context.Exception is EmuhubCheckedException)
-                HandleProjectException(context);
-            else
+            case ValidationErrorException validationException:
+                HandleValidationException(context, validationException);
+                break;
+            case FluentValidation.ValidationException fluentValidationException:
+                HandleFluentValidationException(context, fluentValidationException);
+                break;
+            case ResourceNotFoundException notFoundException:
+                HandleResourceNotFoundException(context, notFoundException);
+                break;
+            case DuplicatedResourceException duplicatedException:
+                HandleDuplicatedResourceException(context, duplicatedException);
+                break;
+            default:
                 HandleUnknownException(context);
+                break;
         }
+    }
 
-        private void HandleProjectException(ExceptionContext context)
+    private void HandleUnknownException(ExceptionContext context)
+    {
+        var response = new ErrorResponse()
         {
-            var exception = context.Exception;
+            Message = "Internal Server Error, Try again later.",
+            StatusCode = 500,
+            Errors = []
+        };
+        logger.LogCritical(
+            "InternalServerError: {Errors} \n {Trace}",
+            context.Exception.Message,
+            context.Exception.StackTrace
+        );
 
-            switch (exception)
-            {
-                case ValidationErrorException validationException:
-                    {
-                        var response = ValidationErrorSerializer.ToResponse(validationException.Errors);
-                        logger.LogError("ValidationErrorException: {Errors};", response.ToString());
-
-                        SetContextResponse(context, HttpStatusCode.BadRequest, new BadRequestObjectResult(response));
-                        break;
-                    }
-                case FluentValidation.ValidationException fluentValidationException:
-                    {
-                        var response = JsonSerializer.Serialize(fluentValidationException.Errors);
-                        logger.LogError("ValidationErrorException: {Message};", fluentValidationException.Message);
-
-                        SetContextResponse(context, HttpStatusCode.BadRequest, new BadRequestObjectResult(response));
-                        break;
-                    }
-                case ResourceNotFoundException notFoundException:
-                    {
-                        logger.LogError("ResourceNotFoundException: {Errors};", notFoundException.ErrorMessage);
-
-                        SetContextResponse(context, HttpStatusCode.NotFound, new BadRequestObjectResult(notFoundException.ErrorMessage));
-                        break;
-                    }
-                case DuplicatedResourceException duplicatedException:
-                    {
-                        logger.LogError("ResourceNotFoundException: {Errors};", duplicatedException.ErrorMessage);
-
-                        SetContextResponse(context, HttpStatusCode.Conflict, new BadRequestObjectResult(duplicatedException.ErrorMessage));
-                        break;
-                    }
-                default:
-                    {
-                        HandleUnknownException(context);
-                        break;
-                    }
-            }
-        }
-
-        private void HandleUnknownException(ExceptionContext context)
+        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        context.Result = new ObjectResult(response);
+    }
+    
+    private void HandleDuplicatedResourceException(ExceptionContext context,
+        DuplicatedResourceException duplicatedException)
+    {
+        var response = new ErrorResponse()
         {
-            var response = new JObject()
-            {
-                new JProperty("ServerError", ExceptionMessagesResource.UNKNOWN_ERROR)
-            };
-            logger.LogCritical(
-                "InternalServerError: {Errors} \n {Trace}",
-                context.Exception.Message,
-                context.Exception.StackTrace
-            );
+            Message = duplicatedException.ErrorMessage,
+            StatusCode = 409,
+            Errors =
+            [
+                new ErrorResponseDetail()
+                {
+                    PropertyName = duplicatedException.ResourceName,
+                    Errors = [duplicatedException.ErrorMessage],
+                }
+            ]
+        };
+                
+        logger.LogError(
+            "DuplicatedResourceException: {Errors};",
+            JObject.FromObject(response).ToString(Formatting.Indented));
 
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            context.Result = new ObjectResult(response);
-        }
+        SetContextResponse(
+            context,
+            HttpStatusCode.Conflict,
+            new BadRequestObjectResult(duplicatedException.ErrorMessage));
+    }
 
-        private static void SetContextResponse<T>(ExceptionContext context, HttpStatusCode code, T response) where T : IActionResult
+    private void HandleResourceNotFoundException(
+        ExceptionContext context,
+        ResourceNotFoundException notFoundException)
+    {
+        var response = new ErrorResponse()
         {
-            context.HttpContext.Response.StatusCode = (int)code;
-            context.Result = response;
-        }
+            Message = notFoundException.ErrorMessage,
+            StatusCode = 404,
+            Errors =
+            [
+                new ErrorResponseDetail()
+                {
+                    PropertyName = notFoundException.ResourceName,
+                    Errors = [notFoundException.ErrorMessage],
+                }
+            ]
+        };
+                
+        logger.LogError(
+            "ResourceNotFoundException: {Errors};",
+            JObject.FromObject(response).ToString(Formatting.Indented));
+
+        SetContextResponse(
+            context,
+            HttpStatusCode.NotFound,
+            new BadRequestObjectResult(response));
+    }
+
+    private void HandleFluentValidationException(
+        ExceptionContext context,
+        FluentValidation.ValidationException fluentValidationException)
+    {
+        var response = new ErrorResponse()
+        {
+            Message = "Validation Error",
+            StatusCode = 400,
+            Errors = fluentValidationException.Errors
+                .GroupBy(err => err.PropertyName)
+                .Select(group => new ErrorResponseDetail()
+                {
+                    PropertyName = group.Key,
+                    Errors = group.Select(err => err.ErrorMessage).ToList(),
+                }).ToList()
+        };
+                
+        logger.LogError(
+            "FluentValidation.ValidationErrorException: {Message};",
+            JObject.FromObject(response).ToString(Formatting.Indented));
+                
+        SetContextResponse(
+            context,
+            HttpStatusCode.BadRequest,
+            new BadRequestObjectResult(response));
+    }
+
+    private void HandleValidationException(
+        ExceptionContext context,
+        ValidationErrorException validationException)
+    {
+        var response = new ErrorResponse()
+        {
+            Message = "Validation Error",
+            StatusCode = 400,
+            Errors = validationException.Errors
+                .Select(err => new ErrorResponseDetail()
+                {
+                    PropertyName = err.PropertyName,
+                    Errors = [err.Message],
+                }).ToList()
+        };
+                
+        logger.LogError(
+            "ValidationErrorException: {Errors};",
+            JObject.FromObject(response).ToString(Formatting.Indented));
+
+        SetContextResponse(
+            context,
+            HttpStatusCode.BadRequest,
+            new BadRequestObjectResult(response));
+    }
+
+    private static void SetContextResponse<T>(ExceptionContext context, HttpStatusCode code, T response) where T : IActionResult
+    {
+        context.HttpContext.Response.StatusCode = (int)code;
+        context.Result = response;
     }
 }
