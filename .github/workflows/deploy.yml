@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Show Dockerfile
-        run: cat backend/Dockerfile
-
       - name: Stores the keys in the GitHub Actions Runner's storage
         run: |
           mkdir -p ~/.ssh
@@ -55,6 +52,9 @@ jobs:
               cd Emuhub
             else
               cd Emuhub
+              # navigate to the branch who triggered the CI pipeline
+              git fetch && git checkout ${{ github.ref_name }} 
+              # pull latest
               git pull
             fi            
           EOF
@@ -68,11 +68,12 @@ jobs:
 
       - name: Execute the project in production mode
         run: |
-          ssh -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
-            cd ~/Emuhub
-            sudo docker compose -f docker-compose.infra.yml up --build -d
-
-            sudo docker compose -f docker-compose.yml down
-            sudo docker compose -f docker-compose.yml build --no-cache && \
-              docker compose -f docker-compose.yml up -d
+          ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=5 \
+            -i ~/.ssh/oc-ssh.key ${{ secrets.OC_USER }}@${{ secrets.OC_HOST_IP }} << 'EOF'
+              cd ~/Emuhub
+              sudo docker compose -f docker-compose.infra.yml up --build -d
+  
+              sudo docker compose -f docker-compose.yml down
+              sudo docker compose -f docker-compose.yml build > build.log 2>&1 &&
+                docker compose -f docker-compose.yml up -d > up.log 2>&1
           EOF
