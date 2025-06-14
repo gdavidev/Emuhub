@@ -1,10 +1,5 @@
 services:
-  backend:
-    build:
-      context: ./backend    
-      args:
-        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}  # Default to Release
-      target: ${TARGET_STAGE:-production}  # Default to production
+  backend:    
     image: ghcr.io/gdavidev/emuhub-backend:latest
     env_file:
       - .env
@@ -12,37 +7,29 @@ services:
       - "5000:8080"
     environment:
       DOTNET_RUNNING_IN_CONTAINER: true
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}   
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
       Token__Secret: ${TOKEN_SECRET}
       Token__Issuer: ${TOKEN_ISSUER}
       Token__Audience: ${TOKEN_AUDIENCE}
-      ConnectionStrings__Default: Host=${DATABASE_SERVER};Database=${DATABASE_NAME};Username=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD}
+      ConnectionStrings__Default: Server=${DATABASE_SERVER};Database=${DATABASE_NAME};User ID=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD};TrustServerCertificate=True
       Minio__Endpoint: ${MINIO_ENDPOINT}
       Minio__AccessKey: ${MINIO_ACCESS_KEY}
-      Minio__SecretKey: ${MINIO_SECRET_KEY}      
+      Minio__SecretKey: ${MINIO_SECRET_KEY}
       Mailing__Smtp__Server: ${MAILING_SMTP_SERVER}
       Mailing__Smtp__Port: ${MAILING_SMTP_PORT}
       Mailing__Sender: ${MAILING_SENDER}
       Mailing__Key: ${MAILING_KEY}
-    restart: 
+    restart:
       unless-stopped
     volumes:
-      - ./backend/logs:/app/logs
+      - ./backend/logs:/Emuhub/logs
     networks:
       - app-network
       - minio-network
-    command: >
-      bash -c "
-          /app/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=30 --
-          /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
-          dotnet Emuhub.API.dll"
 
   frontend:
-    build:
-      context: ./webapp
-      target: ${TARGET_STAGE:-production}  # Default to production
     image: ghcr.io/gdavidev/emuhub-frontend:latest
-    restart: 
+    restart:
       unless-stopped
     env_file:
       - .env

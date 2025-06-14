@@ -1,6 +1,6 @@
 ﻿# Emuhub - Backend
 ## Contributing
-### Initilizing The Project
+### Initializing The Project
 ```bash
 # In the project root
 ## Development 
@@ -38,6 +38,29 @@ finally running in the API project, which will add the migration just fine.
 ```bash
 docker exec -it <container-hash> /opt/mssql-tools18/bin/sqlcmd \
   -S localhost -U sa -P '<sa-password>' -Q '<your-sql-command>' -C
+```
+
+### How to send the container to the VPS
+```bash
+docker login \
+  --username <your-github-username> \
+  --password <your-github-token-with-access-to-your-packages>
+
+# Build the production images and push to github container registry
+docker compose -f docker-compose.yml build
+docker push ghcr.io/<your-username>/emuhub-backend:latest
+docker push ghcr.io/<your-username>/emuhub-frontend:latest
+
+# Send required files to the vps (If some of these files changed)
+scp -i <ssh-private-token-file-path> \
+ .env docker-compose.infra.yml docker-compose.deploy.yml \
+  <user>@<vps-ip>:~/Emuhub
+
+# Ssh into the VPS and execute the services
+ssh -i <ssh-private-token> <user>@<vps-ip>
+
+# Start the containers
+docker compose -f docker-compose.infra.yml up -d && docker compose -f docker-compose.deploy.yml up -d
 ```
 
 ### Workflow

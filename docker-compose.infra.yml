@@ -1,21 +1,29 @@
-services:  
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+services:
+  postgres:
+    container_name: postgres
     env_file:
       - .env
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${DATABASE_PASSWORD}
-      MSSQL_PID: "Developer"
-    restart: 
-      unless-stopped
-    ports:
-      - "1433:1433"
-    volumes:
-      - sqlserver-data:/var/opt/mssql
     networks:
       - app-network
+    image: postgres:16
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER_ID}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    command:
+      [
+        "postgres",
+        "-c", "shared_buffers=128MB",
+        "-c", "work_mem=4MB",
+        "-c", "maintenance_work_mem=64MB",
+        "-c", "max_connections=20",
+        "-c", "effective_cache_size=384MB"
+      ]
 
   minio:
     image: minio/minio
@@ -43,5 +51,5 @@ networks:
     name: minio-network
 
 volumes:
-  sqlserver-data:
+  db-data:
   minio-data:  

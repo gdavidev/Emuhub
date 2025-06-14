@@ -27,13 +27,10 @@ public static class DependencyInjection
     private static void AddDbContext(IServiceCollection services, string connectionString)
     {
         services.AddDbContext<ApplicationDbContext>(opt =>
-            opt.UseSqlServer(
+            opt.UseNpgsql(
                 connectionString,
                 options => options
-                    .EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: System.TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null)
+                    .EnableRetryOnFailure(5)
                     .MigrationsAssembly("Emuhub.Infrastructure")
             )
         );
