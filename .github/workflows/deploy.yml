@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Show branch Name
+        run: echo "Running on branch ${{ github.ref }}"
+
       - name: Stores the keys in the GitHub Actions Runner's storage
         run: |
           mkdir -p ~/.ssh
