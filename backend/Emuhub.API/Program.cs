@@ -13,6 +13,15 @@ var config = builder.Configuration;
 builder.Services.ConfigureControllers();
 builder.Services.AddLogger(config, builder.Host);
 
+// Configure CORS
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        name: "local",
+        configurePolicy => configurePolicy
+            .WithOrigins("http://localhost:8080", "https://localhost:8080")
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
+
 // Inject Dependencies.
 builder.Services.AddInfrastructure(config);
 builder.Services.AddApplication();
@@ -40,6 +49,7 @@ app.UseAuthorization();
 
 // Configuration
 app.UseUpdateMigration();
+app.UseCors("local");
 
 // Endpoint mapping
 app.MapControllers();
