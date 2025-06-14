@@ -36,8 +36,8 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
         
-    [HttpPost("ResetPasswordPassword")]
-    public async Task<ActionResult> ResetPasswordPassword(
+    [HttpPost("ResetPassword")]
+    public async Task<ActionResult> ResetPassword(
         [FromServices] UserResetPasswordUseCase useCase,
         [FromBody] UserResetPasswordRequest request)
     {
