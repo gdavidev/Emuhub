@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Show Dockerfile
+        run: cat backend/Dockerfile
+
       - name: Stores the keys in the GitHub Actions Runner's storage
         run: |
           mkdir -p ~/.ssh
@@ -70,5 +73,6 @@ jobs:
             sudo docker compose -f docker-compose.infra.yml up --build -d
 
             sudo docker compose -f docker-compose.yml down
-            sudo docker compose -f docker-compose.yml up --build -d
+            sudo docker compose -f docker-compose.yml build --no-cache && \
+              docker compose -f docker-compose.yml up -d
           EOF
