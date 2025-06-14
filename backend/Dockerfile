@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /app
 COPY . .
-RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish
+RUN dotnet publish Emuhub.API/Emuhub.API.csproj -c $BUILD_CONFIGURATION -o /app/publish
 
 # ======== PRODUCTION TARGET (SERVE) ========
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS production
@@ -23,4 +23,3 @@ RUN apt-get update && \
 COPY --from=build /app/publish .
 COPY ./tools/wait-for-it.sh /app/wait-for-it.sh
 RUN chmod +x /app/wait-for-it.sh
-
