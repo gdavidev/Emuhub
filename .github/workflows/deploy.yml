@@ -24,7 +24,7 @@ jobs:
 
       - name: Add the VPS to the GitHub Actions Runner's known hosts
         run: |
-          ssh-keyscan -H ${{ secrets.OC_HOST_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -v -H ${{ secrets.OC_HOST_IP }} >> ~/.ssh/known_hosts
           
       - name: Auth on the VPS and places the GitHub private key on a directory in it
         run: |          
