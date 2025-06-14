@@ -2,9 +2,9 @@ name: CI/CD Pipeline - Deploy Oracle Cloud
 
 on:
   push:
-    branches:
-      - main
-      - develop-first-delivery
+#    branches:
+#      - main
+#      - develop-first-delivery
 
 jobs:
   build-and-deploy:
