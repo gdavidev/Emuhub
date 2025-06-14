@@ -5,7 +5,8 @@ import { AxiosResponse } from 'axios'
 
 export default class EmulatorApiService {
   private static endpoints = {
-    get: 'api/emuladores/',
+    get: 'api/Emulators/Get',
+    list: 'api/Emulators/List',
     post: 'api/emulador/create/',
     put: 'api/emulador/update/',
     delete: 'api/emulador/delete/',
@@ -13,7 +14,7 @@ export default class EmulatorApiService {
 
   static async getAll(): Promise<Emulator[]> {
     const res: AxiosResponse<DTO.EmulatorGetResponse[]> =
-        await ApiService.get(EmulatorApiService.endpoints.get);
+        await ApiService.get(EmulatorApiService.endpoints.list);
     return res.data.map(dto => Emulator.fromGetDTO(dto));
   }
 
@@ -21,8 +22,8 @@ export default class EmulatorApiService {
     const res: AxiosResponse<DTO.EmulatorGetResponse> =
         await ApiService.get(EmulatorApiService.endpoints.get, { data: { id: id } });
     return Emulator.fromGetDTO(res.data);
-  }  
-  
+  }
+
   static async store(emulator: Emulator, token: string): Promise<Emulator> {
     if (emulator.id === 0) {
       return await this.post(emulator, token);
@@ -43,7 +44,7 @@ export default class EmulatorApiService {
     const res: AxiosResponse<DTO.EmulatorCreateResponse> = await ApiService.post(
       EmulatorApiService.endpoints.post,
       emulator.toCreateDTO(),
-      { headers: { 
+      { headers: {
         'Authorization': "Bearer " + token,
         'Content-type': 'multipart/form-data'
       }}
@@ -52,14 +53,14 @@ export default class EmulatorApiService {
     return emulator;
   }
 
-  private static async put(emulator: Emulator, token: string): Promise<void> {    
+  private static async put(emulator: Emulator, token: string): Promise<void> {
     await ApiService.put(
       EmulatorApiService.endpoints.put,
       emulator.toUpdateDTO(),
-      { headers: { 
+      { headers: {
         'Authorization': "Bearer " + token,
         'Content-type': 'multipart/form-data'
       }}
-    );    
+    );
   }
 }

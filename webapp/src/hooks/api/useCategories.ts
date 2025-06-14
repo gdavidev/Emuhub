@@ -16,7 +16,7 @@ type UseCategoriesOptions<T> = {
 
 const endpoints = {
   [CategoryType.GAMES]: {
-    get: 'api/categorias/',
+    get: 'api/GameCategory/List',
   },
   [CategoryType.POSTS]: {
     get: 'api/topicos/categorias/',

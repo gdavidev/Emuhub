@@ -4,13 +4,12 @@ import ApiService from './ApiService';
 
 export default class UserApiService {
   private static readonly endpoints = {
-    get: 'api/user/',
-    login: 'api/token/',
-    register: 'api/register/',
-    forgotPassword: 'api/forgot-password/',
-    resetPassword: 'api/reset-password/',
-    put: 'api/users/update/',
-    delete: 'api/users/delete/',
+    login: 'api/Auth/Login/',
+    register: 'api/Auth/Register/',
+    forgotPassword: 'api/Auth/ForgotPassword/',
+    resetPassword: 'api/Auth/ResetPassword/',
+    put: 'api/Auth/Update/',
+    delete: 'api/Auth/Delete/',
   }
 
   public static async register(dto: DTO.CurrentUserRegisterRequest): Promise<string> {

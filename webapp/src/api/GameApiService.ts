@@ -5,22 +5,22 @@ import { AxiosResponse } from 'axios'
 
 export default class GameApiService {
   private static readonly endpoints = {
-    get: 'api/roms/',
-    detail: 'api/roms/detail/',
-    search: 'api/roms/search/',
-    post: 'api/roms/create/',
-    put: 'api/roms/update/',
-    delete: 'api/roms/delete/'
+    get: 'api/Games/Get',
+    list: 'api/Games/List',
+    search: 'api/Games/Search',
+    post: 'api/Games/Create',
+    put: 'api/Games/Update',
+    delete: 'api/Games/Delete'
   };
 
   static async getAll(): Promise<Game[]> {
-    const res: AxiosResponse<Requests.GameGetResponse[]> = await ApiService.get(GameApiService.endpoints.get);
+    const res: AxiosResponse<Requests.GameGetResponse[]> = await ApiService.get(GameApiService.endpoints.list);
     return res.data.map(g => Game.fromGetDTO(g))
   }
 
   static async get(id: number): Promise<Game> {
     const res: AxiosResponse<Requests.GameGetResponse> = await ApiService.get(
-        GameApiService.endpoints.detail, {
+        GameApiService.endpoints.get, {
           params: { rom_id: id }
         });
     return Game.fromGetDTO(res.data);
