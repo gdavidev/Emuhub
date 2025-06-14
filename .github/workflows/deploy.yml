@@ -70,5 +70,5 @@ jobs:
             sudo docker compose -f docker-compose.infra.yml up --build -d
 
             sudo docker compose -f docker-compose.yml down
-            sudo docker compose -f docker-compose.yml up --build --no-cache -d
+            sudo docker compose -f docker-compose.yml up --build --force-recreate -d
           EOF
