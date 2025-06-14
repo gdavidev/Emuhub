@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Show Dockerfile
-        run: cat backend/Dockerfile
-
       - name: Stores the keys in the GitHub Actions Runner's storage
         run: |
           mkdir -p ~/.ssh
@@ -55,6 +52,9 @@ jobs:
               cd Emuhub
             else
               cd Emuhub
+              # navigate to the branch who triggered the CI pipeline
+              git fetch && git checkout ${{ github.ref_name }} 
+              # pull latest
               git pull
             fi            
           EOF
