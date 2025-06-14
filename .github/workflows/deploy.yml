@@ -21,10 +21,15 @@ jobs:
 
           # Sets permissions on the SSH keys as a security requirement to be used by SSH
           chmod 600 ~/.ssh/oc-ssh.key
-
-      - name: Add the VPS to the GitHub Actions Runner's known hosts
+          
+      - name: Add the VPS to the GitHub Actions Runner's known hosts with retries
         run: |
-          ssh-keyscan -v -H ${{ secrets.OC_HOST_IP }} >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          for i in {1..5}; do
+            ssh-keyscan -H ${{ secrets.OC_HOST_IP }} >> ~/.ssh/known_hosts && break
+            echo "Retrying ssh-keyscan ($i)..."
+            sleep 5
+          done
           
       - name: Auth on the VPS and places the GitHub private key on a directory in it
         run: |          
