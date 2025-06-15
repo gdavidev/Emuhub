@@ -14,19 +14,13 @@ builder.Services.ConfigureControllers();
 builder.Services.AddLogger(config, builder.Host);
 
 // Configure CORS
-builder.Services.AddCors(options =>
-    options.AddPolicy(
-        name: "local",
-        configurePolicy => configurePolicy
-            .WithOrigins("http://localhost:8080", "https://localhost:8080")
-            .AllowAnyHeader()
-            .AllowAnyMethod()));
+builder.Services.ConfigureCors("local", config);
 
 // Inject Dependencies.
 builder.Services.AddInfrastructure(config);
 builder.Services.AddApplication();
 
-// Configuring Swagger/OpenAPI. Learn more at https://aka.ms/aspnetcore/swashbuckle
+// Configuring Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -41,6 +35,9 @@ var app = builder.Build();
 app.UseSwagger(options => options.RouteTemplate = "/openapi/{documentName}.json");
 app.MapScalarApiReference(options => options.WithTitle("Emuhub - API docs"));
 
+// Apply CORS policy
+app.UseCors("local");
+
 // Middlewares
 app.UseSerilogRequestLogging();
 app.UseMiddleware<CultureMiddleware>();
@@ -49,7 +46,6 @@ app.UseAuthorization();
 
 // Configuration
 app.UseUpdateMigration();
-app.UseCors("local");
 
 // Endpoint mapping
 app.MapControllers();

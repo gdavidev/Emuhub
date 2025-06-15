@@ -23,4 +23,23 @@ public static class DependencyInjection
 
         host.UseSerilog();
     }
+    
+    public static void ConfigureCors(this IServiceCollection services, string policyName, IConfiguration configuration)
+    {
+        var hostIp = configuration.GetValue<string>("HostIp")!;
+        
+        services.AddCors(options =>
+            options.AddPolicy(
+                name: policyName,
+                configurePolicy => configurePolicy
+                    .WithOrigins(
+                        "http://localhost:8080",
+                        "https://localhost:8080",
+                        "http://localhost:5173",
+                        "https://localhost:5173",
+                        $"http://{hostIp}:8080",
+                        $"https://{hostIp}:8080")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()));
+    }
 }

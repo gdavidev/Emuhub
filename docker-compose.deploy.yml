@@ -19,6 +19,7 @@ services:
       Mailing__Smtp__Port: ${MAILING_SMTP_PORT}
       Mailing__Sender: ${MAILING_SENDER}
       Mailing__Key: ${MAILING_KEY}
+      HostIp: ${HOST_IP}
     restart:
       unless-stopped
     volumes:
