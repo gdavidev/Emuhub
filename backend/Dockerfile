@@ -23,3 +23,4 @@ RUN apt-get update && \
 COPY --from=publish /app/publish .
 COPY ./tools/wait-for-it.sh /app/wait-for-it.sh
 RUN chmod +x /app/wait-for-it.sh
+#CMD ["sleep", "infinity"]

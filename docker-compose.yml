@@ -33,9 +33,9 @@ services:
       - minio-network
     command: >
       bash -c "
-          /app/wait-for-it.sh $${DATABASE_SERVER}:1433 --timeout=30 --
+          /app/wait-for-it.sh $${DATABASE_SERVER}:5432 --timeout=30 --
           /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
-          dotnet Emuhub.API.dll"
+          dotnet /app/Emuhub.API.dll"
 
   frontend:
     build:

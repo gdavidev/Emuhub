@@ -11,7 +11,7 @@ services:
       Token__Secret: ${TOKEN_SECRET}
       Token__Issuer: ${TOKEN_ISSUER}
       Token__Audience: ${TOKEN_AUDIENCE}
-      ConnectionStrings__Default: Server=${DATABASE_SERVER};Database=${DATABASE_NAME};User ID=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD};TrustServerCertificate=True
+      ConnectionStrings__Default: Host=${DATABASE_SERVER};Database=${DATABASE_NAME};Username=${DATABASE_USER_ID};Password=${DATABASE_PASSWORD}
       Minio__Endpoint: ${MINIO_ENDPOINT}
       Minio__AccessKey: ${MINIO_ACCESS_KEY}
       Minio__SecretKey: ${MINIO_SECRET_KEY}
@@ -22,10 +22,15 @@ services:
     restart:
       unless-stopped
     volumes:
-      - ./backend/logs:/Emuhub/logs
+      - ./logs:/app/logs
     networks:
       - app-network
       - minio-network
+    command: >
+      bash -c "
+        /app/wait-for-it.sh $${DATABASE_SERVER}:5432 --timeout=30 --
+        /app/wait-for-it.sh $${MINIO_ENDPOINT} --timeout=30 --
+        dotnet /app/Emuhub.API.dll"
 
   frontend:
     image: ghcr.io/gdavidev/emuhub-frontend:latest
