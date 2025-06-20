@@ -33,6 +33,8 @@ public static class DependencyInjection
                 name: policyName,
                 configurePolicy => configurePolicy
                     .WithOrigins(
+                        "http://localhost:80",
+                        "https://localhost:80",
                         "http://localhost:8080",
                         "https://localhost:8080",
                         "http://localhost:5173",
@@ -40,6 +42,7 @@ public static class DependencyInjection
                         $"http://{hostIp}:8080",
                         $"https://{hostIp}:8080")
                     .AllowAnyHeader()
+                    .AllowCredentials()
                     .AllowAnyMethod()));
     }
 }

@@ -14,7 +14,8 @@ builder.Services.ConfigureControllers();
 builder.Services.AddLogger(config, builder.Host);
 
 // Configure CORS
-builder.Services.ConfigureCors("local", config);
+const string corsPolicyName = "local";
+builder.Services.ConfigureCors(corsPolicyName, config);
 
 // Inject Dependencies.
 builder.Services.AddInfrastructure(config);
@@ -36,12 +37,11 @@ app.UseSwagger(options => options.RouteTemplate = "/openapi/{documentName}.json"
 app.MapScalarApiReference(options => options.WithTitle("Emuhub - API docs"));
 
 // Apply CORS policy
-app.UseCors("local");
+app.UseCors(corsPolicyName);
 
 // Middlewares
 app.UseSerilogRequestLogging();
 app.UseMiddleware<CultureMiddleware>();
-app.UseHttpsRedirection();
 app.UseAuthorization();
 
 // Configuration
