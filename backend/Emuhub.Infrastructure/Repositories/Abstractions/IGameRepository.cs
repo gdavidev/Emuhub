@@ -6,6 +6,7 @@ public interface IGameRepository
 {
     public Task<Game?> Get(long id);
     public Task<List<Game>> GetAll(int page);
+    public Task<List<Game>> Search(string term);
     public Task<long> Add(Game game);
     public Task Update(Game game);
     public Task Delete(Game game);

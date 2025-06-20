@@ -30,6 +30,19 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
             .ToListAsync();
     }
 
+    public async Task<List<Game>> Search(string term)
+    {
+        return await context.Games
+            .Include(game => game.Emulator)
+            .Include(game => game.Category)
+            .OrderByDescending(g => g.Name)
+            .Where(g =>
+                g.Name.Contains(term)
+                || (g.Emulator != null && g.Emulator.Name.Contains(term))
+                || (g.Category != null && g.Category.Name.Contains(term)))
+            .ToListAsync();
+    }
+
     public async Task<long> Add(Game game)
     {
         context.Games.Add(game);

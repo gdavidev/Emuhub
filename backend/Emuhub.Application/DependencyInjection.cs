@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<GameGetUseCase>();
         services.AddScoped<GameGetByIdUseCase>();
         services.AddScoped<GameCreateUseCase>();
+        services.AddScoped<GameSearchUseCase>();
         services.AddScoped<GameDownloadUseCase>();
         services.AddScoped<GameUpdateUseCase>();
         services.AddScoped<GameDeleteUseCase>();

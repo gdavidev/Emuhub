@@ -15,11 +15,11 @@ public class GameGetByIdUseCase(
     GameExistingIdValidator validator,
     IFileStorageService fileStorage)
 {
-    public async Task<GameResponse> Execute(EntityIdRequest request)
+    public async Task<GameResponse> Execute(long id)
     {
-        await validator.ValidateAndThrowAsync(request);
+        await validator.ValidateAndThrowAsync(new EntityIdRequest { Id = id });
 
-        var game = await games.Get(request.Id);
+        var game = await games.Get(id);
         if (game is null)
         {
             throw new ResourceNotFoundException(

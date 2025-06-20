@@ -19,15 +19,24 @@ public class GamesController : ControllerBase
         return Ok(result);
     }
 
-	[HttpGet("Get")]    
+	[HttpGet("Get/{id:long}")]    
     public async Task<ActionResult<GameResponse>> GetGame(
         [FromServices] GameGetByIdUseCase useCase,
-        [FromQuery] EntityIdRequest request)
+        [FromRoute] long id)
 	{
-        var result = await useCase.Execute(request);
+        var result = await useCase.Execute(id);
 		return Ok(result);
 	}
-    
+	
+	[HttpGet("Search")]    
+	public async Task<ActionResult<GameResponse>> SearchGame(
+		[FromServices] GameSearchUseCase useCase,
+		[FromQuery] string search)
+	{
+		var result = await useCase.Execute(search);
+		return Ok(result);
+	}
+	
 	[HttpGet("Download/{id:long}")]
 	public async Task<ActionResult<GameResponse>> DownloadGame(
 		[FromServices] GameDownloadUseCase useCase,
