@@ -25,18 +25,18 @@ export default class Emulator {
 
   toCreateDTO(): Requests.EmulatorCreateRequest {
     return { 
-      nome: this.abbreviation,
+      name: this.abbreviation,
       console: this.console,
-      empresa: this.companyName,
+      companyName: this.companyName,
     }
   }
 
   toUpdateDTO(): Requests.EmulatorUpdateRequest {
     return {
       id: this.id,
-      nome: this.abbreviation,
+      name: this.abbreviation,
       console: this.console,
-      empresa: this.companyName,
+      companyName: this.companyName,
     }
   }
 
@@ -44,11 +44,11 @@ export default class Emulator {
     return { id: this.id }
   }
 
-  static fromGetDTO(dto: Requests.EmulatorGetResponse): Emulator {
+  static fromGetResponse(dto: Requests.EmulatorGetResponse): Emulator {
     return new Emulator(
-      dto.nome,
+      dto.name,
       dto.console,
-      dto.empresa,
+      dto.companyName,
       dto.id,
     )
   }

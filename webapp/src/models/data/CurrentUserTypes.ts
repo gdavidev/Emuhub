@@ -1,13 +1,10 @@
-import { UserGetResponse } from '@models/data/UserTypes.ts';
-
 /* REGISTER */
 export type CurrentUserRegisterRequest = {
-  username: string,
+  userName: string,
   email: string,
   password: string,
-  imagem_perfil?: File | undefined,
+  profileImage?: File | undefined,
 }
-export type CurrentUserRegisterResponse = {}
 
 /* LOGIN */
 export type CurrentUserLoginRequest = {
@@ -15,37 +12,36 @@ export type CurrentUserLoginRequest = {
   password: string,
 }
 export type CurrentUserLoginResponse = {
-  token: string
-  user: UserGetResponse
+  id: string,
+  name: string,
+  email: string,
+  role: string,
+  profileImageBase64: string,
+  userTokens: {
+    accessToken: string,
+    refreshToken: string
+  }
 }
 
 /* RESET PASSWORD */
 export type CurrentUserResetPassword = {
   newPassword: string
 }
-export type CurrentUserResetPasswordResponse = {}
 
 /* FORGOT PASSWORD */
 export type CurrentUserForgotPassword = {
   email: string
 }
-export type CurrentUserForgotPasswordResponse = {}
 
 /* DELETE */
 export type CurrentUserDelete = {
-  user_id: number
+  userId: string
 }
-export type CurrentUserDeleteResponse = {}
 
 /* UPDATE */
 export type CurrentUserUpdate = {
-  username?: string,
+  userName?: string,
   email?: string,
   password?: string,
-  imagem_perfil?: File | undefined,
-}
-export type CurrentUserUpdateResponse = {
-  username: string,
-  email: string,
-  password: string,
+  profileImage?: File,
 }

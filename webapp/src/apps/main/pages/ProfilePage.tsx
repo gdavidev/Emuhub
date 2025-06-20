@@ -106,11 +106,11 @@ export default function ProfilePage() {
   // ---- API Executing ----
   const onSubmit = useCallback((data: UserProfileFormData) => {
     update({
-      username: data.username !== user?.userName ? data.username : undefined,
+      userName: data.username !== user?.userName ? data.username : undefined,
       email: data.email !== user?.email ? data.email : undefined,
       password: data.password !== '' ? data.password : undefined,
       token: user?.token!,
-      imagem_perfil: data.profilePic.file ?? undefined,
+      profileImage: data.profilePic.file ?? undefined,
     });
   }, [user]);
 
@@ -124,7 +124,7 @@ export default function ProfilePage() {
       onClick: (result: MessageBoxResult) => {
         if (result === MessageBoxResult.YES)
           deleteAccount({
-            user_id: user.id,
+            userId: user.id,
             token: user.token
           })
       }
@@ -138,12 +138,12 @@ export default function ProfilePage() {
 
     setUser(new CurrentUser(
         user.id,
-        dto.username || user.userName,
+        dto.userName || user.userName,
         user.token,
         dto.email    || user.email,
         user.role,
-        dto.imagem_perfil ?
-            new Thumbnail({ base64: await FileUtil.fileToBase64(dto.imagem_perfil) }) :
+        dto.profileImage ?
+            new Thumbnail({ base64: await FileUtil.fileToBase64(dto.profileImage) }) :
             user.profilePic,
     ));
     success("Usuário alterado com sucesso.")

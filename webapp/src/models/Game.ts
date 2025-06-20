@@ -46,10 +46,10 @@ export default class Game {
 
   toCreateDTO(): Requests.GameCreateRequest {
     return {
-      title: this.name,
+      name: this.name,
       description: this.desc,
-      emulador: this.emulator?.id  || 0,
-      categoria: this.category?.id || 0,
+      emulatorId: this.emulator?.id  || 0,
+      categoryId: this.category?.id || 0,
       image: this.thumbnail?.file  || undefined,
       file: this.rom.file          || undefined,
     }
@@ -57,28 +57,28 @@ export default class Game {
 
   toUpdateDTO(): Requests.GameUpdateRequest {
     return {
-      rom_id: this.id,
-      title: this.name,
+      id: this.id,
+      name: this.name,
       description: this.desc,
-      emulador: this.emulator?.id  || 0,
-      categoria: this.category?.id || 0,
+      emulatorId: this.emulator?.id  || 0,
+      categoryId: this.category?.id || 0,
       image: this.thumbnail?.file  || undefined,
       file: this.rom.file          || undefined,
     }
   }
 
   toDeleteDTO(): Requests.GameDeleteRequest {
-    return { rom_id: this.id };
+    return { id: this.id };
   }
 
-  static fromGetDTO(dto: Requests.GameGetResponse): Game {
+  static fromGetResponse(dto: Requests.GameGetResponse): Game {
     return new Game(
-      dto.title,
+      dto.name,
       dto.description,
-      Emulator.fromGetDTO(dto.emulador),
-      new Thumbnail({ base64: dto.image_base64 }),
-      new FileHolder({ name: dto.file }),
-      new Category(dto.categoria.id, dto.categoria.nome),
+      Emulator.fromGetResponse(dto.emulator),
+      new Thumbnail({ base64: dto.imageBase64 }),
+      new FileHolder({ name: dto.fileName }),
+      Category.fromGetResponse(dto.category),
       dto.id,
     )
   }

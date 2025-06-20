@@ -10,13 +10,13 @@ export default class Category {
   }
 
   toCreateDTO(): Requests.CategoryCreateRequest {
-    return { nome: this.name }
+    return { name: this.name }
   }
 
   toUpdateDTO(): Requests.CategoryUpdateRequest {
     return {
       id: this.id,
-      nome: this.name,
+      name: this.name,
     }
   }
 
@@ -24,10 +24,10 @@ export default class Category {
     return { id: this.id }
   }
 
-  static fromGetDTO(dto: Requests.CategoryGetResponse): Category {
+  static fromGetResponse(dto: Requests.CategoryGetResponse): Category {
     return new Category(
       dto.id,
-      dto.nome,
+      dto.name,
     )
   }
 }

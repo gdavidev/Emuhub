@@ -4,14 +4,14 @@ import Thumbnail from '@models/utility/Thumbnail.ts';
 import userImageNotFound from '@/assets/media/user-image-not-found.webp'
 
 export default class CurrentUser {
-  id: number;
+  id: string;
   userName: string;
   email: string;
   token: string;
   profilePic: Thumbnail;
   role: Role;
 
-  constructor(id: number, userName: string, token: string, email: string, role: Role, profilePic?: Thumbnail) {
+  constructor(id: string, userName: string, token: string, email: string, role: Role, profilePic?: Thumbnail) {
     this.id         = id;
     this.userName   = userName;
     this.token      = token;
@@ -22,12 +22,12 @@ export default class CurrentUser {
 
   static fromLoginResponseDTO(dto: CurrentUserLoginResponse): CurrentUser {
     return new CurrentUser(
-      dto.user.id,
-      dto.user.username,
-      dto.token,
-      dto.user.email,
-      dto.user.admin ? Role.ADMIN : Role.USER,
-      new Thumbnail({ base64: dto.user.img_perfil, fallbackUrl: userImageNotFound }),
+      dto.id,
+      dto.name,
+      dto.userTokens.accessToken,
+      dto.email,
+      dto.role == "Admin" ? Role.ADMIN : Role.USER,
+      new Thumbnail({ base64: dto.profileImageBase64, fallbackUrl: userImageNotFound }),
     )
   }
 }

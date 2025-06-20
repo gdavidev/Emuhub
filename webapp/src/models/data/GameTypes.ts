@@ -3,10 +3,10 @@ import { CategoryGetResponse } from '@models/data/CategoryTypes.ts';
 
 /* CREATE */
 export type GameCreateRequest = {
-  title: string,
+  name: string,
   description: string,
-  emulador: number,
-  categoria: number,
+  emulatorId: number,
+  categoryId: number,
   image?: File,
   file?: File,
 }
@@ -21,34 +21,32 @@ export type GameCreateResponse ={
 
 /* UPDATE */
 export type GameUpdateRequest = {
-  rom_id: number,
-  title: string,
+  id: number,
+  name: string,
   description: string,
-  emulador: number,
-  categoria: number,
+  emulatorId: number,
+  categoryId: number,
   image?: File,
   file?: File,
 }
-export type GameUpdateResponse = {}
 
 /* DELETE */
 export type GameDeleteRequest = {
-  rom_id: number
+  id: number
 }
-export type GameDeleteResponse = {}
 
 /* GET */
 export type GameGetRequest = {
   id: number,
 }
 export type GameGetResponse = {
-  description: string,
   id: number,
-  image_base64: string,
-  file: string,
-  title: string,
-  emulador: EmulatorGetResponse,
-  categoria: CategoryGetResponse,
+  name: string,
+  description: string,
+  imageBase64: string,
+  fileName: string,
+  emulator: EmulatorGetResponse,
+  category: CategoryGetResponse,
 }
 
 

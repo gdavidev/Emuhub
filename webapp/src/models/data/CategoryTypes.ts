@@ -1,24 +1,18 @@
 /* CREATE */
 export type CategoryCreateRequest = {
-  nome: string,
-}
-export type CategoryCreateResponse ={
-  id: number,
-  nome: string,
+  name: string,
 }
 
 /* UPDATE */
 export type CategoryUpdateRequest = {
   id: number,
-  nome: string,
+  name: string,
 }
-export type CategoryUpdateResponse = {}
 
 /* DELETE */
 export type CategoryDeleteRequest = {
   id: number
 }
-export type CategoryDeleteResponse = {}
 
 /* GET */
 export type CategoryGetRequest = {
@@ -26,5 +20,5 @@ export type CategoryGetRequest = {
 }
 export type CategoryGetResponse = {
   id: number,
-  nome: string,
+  name: string,
 }

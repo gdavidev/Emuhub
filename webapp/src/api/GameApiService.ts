@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios'
 
 export default class GameApiService {
   private static readonly endpoints = {
-    get: 'api/Games/Get',
+    get: 'api/Games/Get/',
     list: 'api/Games/List',
     search: 'api/Games/Search',
     post: 'api/Games/Create',
@@ -15,23 +15,21 @@ export default class GameApiService {
 
   static async getAll(): Promise<Game[]> {
     const res: AxiosResponse<Requests.GameGetResponse[]> = await ApiService.get(GameApiService.endpoints.list);
-    return res.data.map(g => Game.fromGetDTO(g))
+    return res.data.map(g => Game.fromGetResponse(g))
   }
 
   static async get(id: number): Promise<Game> {
     const res: AxiosResponse<Requests.GameGetResponse> = await ApiService.get(
-        GameApiService.endpoints.get, {
-          params: { rom_id: id }
-        });
-    return Game.fromGetDTO(res.data);
+        GameApiService.endpoints.get + id.toString());
+    return Game.fromGetResponse(res.data);
   }
 
 	static async search(search: string): Promise<Game[]> {
-		const res: AxiosResponse<{ roms: Requests.GameGetResponse[] }> = await ApiService.get(
+		const res: AxiosResponse<Requests.GameGetResponse[]> = await ApiService.get(
 				GameApiService.endpoints.search, {
 					params: { search: search }
 				});
-		return res.data.roms.map(g => Game.fromGetDTO(g))
+		return res.data.map(g => Game.fromGetResponse(g))
 	}
   
   static async store(game: Game, token: string): Promise<Game> {

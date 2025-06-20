@@ -79,9 +79,9 @@ export default function SignUpLayout(props: PropsWithoutRef<SignUpLayoutProps>):
   const submitForm = useCallback((data: IUserSignUpFormData): void => {
     register({
       email: data.email,
-      username: data.username,
+      userName: data.username,
       password: data.password,
-      imagem_perfil: data.profilePic.file ?? undefined,
+      profileImage: data.profilePic.file ?? undefined,
     });
   }, []);
 

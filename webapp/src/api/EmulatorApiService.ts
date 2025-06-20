@@ -15,13 +15,13 @@ export default class EmulatorApiService {
   static async getAll(): Promise<Emulator[]> {
     const res: AxiosResponse<DTO.EmulatorGetResponse[]> =
         await ApiService.get(EmulatorApiService.endpoints.list);
-    return res.data.map(dto => Emulator.fromGetDTO(dto));
+    return res.data.map(dto => Emulator.fromGetResponse(dto));
   }
 
   static async get(id: number): Promise<Emulator> {
     const res: AxiosResponse<DTO.EmulatorGetResponse> =
         await ApiService.get(EmulatorApiService.endpoints.get, { data: { id: id } });
-    return Emulator.fromGetDTO(res.data);
+    return Emulator.fromGetResponse(res.data);
   }
 
   static async store(emulator: Emulator, token: string): Promise<Emulator> {

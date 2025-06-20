@@ -28,7 +28,7 @@ function useCategories(categoryType: CategoryType, options?: UseCategoriesOption
     queryKey: resolveDependencyArray('FETCH_CATEGORIES', categoryType, deps),
     queryFn: async () => {
       const res: AxiosResponse<DTO.CategoryGetResponse[]> = await ApiService.get(endpoints[categoryType].get);
-      return res.data.map(dto => Category.fromGetDTO(dto));
+      return res.data.map(dto => Category.fromGetResponse(dto));
     },
     onSuccess: options?.onSuccess,
     onError: options?.onError,
@@ -41,7 +41,7 @@ function useCategory(categoryType: CategoryType, id: number, options?: UseCatego
     queryFn: async () => {
       const res: AxiosResponse<DTO.CategoryGetResponse> =
           await ApiService.get(endpoints[categoryType].get, { data: { id: id } });
-      return Category.fromGetDTO(res.data);
+      return Category.fromGetResponse(res.data);
     },
     onSuccess: options?.onSuccess,
     onError: options?.onError,

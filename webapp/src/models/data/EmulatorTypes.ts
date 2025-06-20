@@ -1,38 +1,33 @@
 /* CREATE */
 export type EmulatorCreateRequest = {
-  nome: string,
+  name: string,
   console: string,
-  empresa: string,
+  companyName: string,
 }
 export type EmulatorCreateResponse ={
   id: number,
-  nome: string,
+  name: string,
   console: string,
-  empresa: string,
+  companyName: string,
 }
 
 /* UPDATE */
 export type EmulatorUpdateRequest = {
   id: number,
-  nome: string,
+  name: string,
   console: string,
-  empresa: string,
+  companyName: string,
 }
-export type EmulatorUpdateResponse = {}
 
 /* DELETE */
 export type EmulatorDeleteRequest = {
   id: number
 }
-export type EmulatorDeleteResponse = {}
 
 /* GET */
-export type EmulatorGetRequest = {
-  emulador_id: number,
-}
 export type EmulatorGetResponse = {
   id: number,
-  nome: string,
+  name: string,
   console: string,
-  empresa: string,
+  companyName: string,
 }
