@@ -18,13 +18,10 @@ public class UserLoginUseCase(
 
         var response = await authService.Login(request);            
 
-        var (profile, _) = await storageService.DownloadAsync(
+        response.ProfileImageBase64 = await storageService.GetBase64Async(
             "users",
-            $"{response.UserId}/profile.*"
-        );
-        using var ms = new MemoryStream();
-        await profile.CopyToAsync(ms);
-        response.ProfileImageBase64 = Convert.ToBase64String(ms.ToArray());
+            $"{response.Id}/profile.*"
+        );;
 
         return response;
     }

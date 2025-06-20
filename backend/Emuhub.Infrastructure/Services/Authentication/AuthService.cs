@@ -50,7 +50,10 @@ public class AuthService(IUserRepository userRepository, JwtTokenHandlerService 
 
         return new LoginResponse()
         {
-            UserId = user.Id,
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            Role = user.Role,
             UserTokens = await CreateAndSaveNewUserTokens(user)
         };
     }

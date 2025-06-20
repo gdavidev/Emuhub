@@ -1,11 +1,10 @@
+using System.Security.Claims;
 using Emuhub.Application.Validation.Users;
 using Emuhub.Communication.Data.Users;
 using Emuhub.Domain.Entities.Users;
 using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions;
-using Emuhub.Infrastructure.Repositories;
 using Emuhub.Infrastructure.Repositories.Abstractions;
-using Emuhub.Infrastructure.Services.Authentication;
 using Emuhub.Infrastructure.Services.Storage;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -17,12 +16,14 @@ public class UserUpdateUseCase(
     UserUpdateRequestValidator validator,
     IFileStorageService storageService)
 {
-    public async Task Execute(UserUpdateRequest request)
+    public async Task Execute(UserUpdateRequest request, ClaimsPrincipal sender)
     {
         await validator.ValidateAndThrowAsync(request);
         var sanitizedRequest = Sanitized(request);
+
+        var senderId = Guid.Parse(sender.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
         
-        var user = await users.GetById(request.UserId);
+        var user = await users.GetById(senderId);
         if (user is null)
         {
             throw new ResourceNotFoundException(
@@ -44,10 +45,11 @@ public class UserUpdateUseCase(
         {
             var image = sanitizedRequest.ProfileImage;
             var profileFileName = $"profile{Path.GetExtension(image.FileName)}";
+            await storageService.DeleteAsync("users", $"{user.Id}/profile.*");
             await storageService.UploadAsync(
                 "users",
                 image.OpenReadStream(),
-                $"{request.UserId}/{profileFileName}",
+                $"{senderId}/{profileFileName}",
                 image.ContentType
             );
         }

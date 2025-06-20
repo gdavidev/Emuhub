@@ -9,24 +9,32 @@ internal class MinioStorageService(IConfiguration config) : IFileStorageService
 {
     private readonly IMinioClient _client = new MinioClient()
         .WithEndpoint(config["Minio:Endpoint"]!)
-        .WithCredentials(config["Minio:AccessKey"]!, config["Minio:SecretKey"]!)
+        .WithCredentials(
+            config["Minio:AccessKey"]!,
+            config["Minio:SecretKey"]!)
         .Build();
 
     public async Task DeleteAsync(string bucket, string filePath)
     {
+        var stat = await FindObject(bucket, filePath);
+        if (stat is null)
+            return;
+        
         var args = new RemoveObjectArgs()
             .WithBucket(bucket)
-            .WithObject(filePath);
+            .WithObject(stat.ObjectName);
 
         await _client.RemoveObjectAsync(args);
     }
 
-    public async Task<(Stream, string)> DownloadAsync(string bucket, string filePath)
+    public async Task<(Stream?, string)> DownloadAsync(string bucket, string filePath)
     {
         var memStream = new MemoryStream();
 
         var stat = await FindObject(bucket, filePath);
-
+        if (stat is null)
+            return (null, "");
+        
         string contentType = stat.ContentType ?? "application/octet-stream";
 
         await _client.GetObjectAsync(new GetObjectArgs()
@@ -40,7 +48,10 @@ internal class MinioStorageService(IConfiguration config) : IFileStorageService
 
     public async Task<string> GetBase64Async(string bucket, string filePath)
     {
-        var (stream, mimeType) = await DownloadAsync(bucket, filePath);
+        var (stream, _) = await DownloadAsync(bucket, filePath);
+        if (stream is null)
+            return "";
+            
         using var memStream = new MemoryStream();
         await stream.CopyToAsync(memStream);
 
@@ -73,10 +84,10 @@ internal class MinioStorageService(IConfiguration config) : IFileStorageService
         }
     }
 
-    private async Task<ObjectStat> FindObject(string bucket, string filePath)
+    private async Task<ObjectStat?> FindObject(string bucket, string filePath)
     {
         var finalTargetPath = filePath;
-            
+        
         if (filePath.EndsWith('*'))
         {
             var prefix = filePath[..filePath.IndexOf('*')];
@@ -89,7 +100,9 @@ internal class MinioStorageService(IConfiguration config) : IFileStorageService
                 .ListObjectsEnumAsync(args)
                 .GetAsyncEnumerator();
             await files.MoveNextAsync();
-                
+
+            if (files.Current is null)
+                return null;
             finalTargetPath = files.Current.Key;
         }
             

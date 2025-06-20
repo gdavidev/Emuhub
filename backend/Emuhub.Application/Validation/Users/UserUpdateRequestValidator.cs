@@ -9,8 +9,6 @@ public class UserUpdateRequestValidator : AbstractValidator<UserUpdateRequest>
 {
     public UserUpdateRequestValidator()
     {
-        RuleFor(x => x.UserId).NotNullOrEmpty();
-
         When(req => req.UserName is not null, () =>
         {
             RuleFor(req => req.UserName!)

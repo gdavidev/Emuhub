@@ -54,7 +54,6 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<UserResetPasswordRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UserForgotPasswordRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UserUpdateRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<UserDeleteRequestValidator>();
 
         services.AddScoped<UserRegisterUseCase>();
         services.AddScoped<UserLoginUseCase>();

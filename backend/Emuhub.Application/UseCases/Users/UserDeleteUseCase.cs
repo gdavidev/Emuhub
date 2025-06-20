@@ -1,22 +1,26 @@
-using Emuhub.Application.Validation.Users;
-using Emuhub.Communication.Data.Users;
+using System.Security.Claims;
 using Emuhub.Exceptions;
 using Emuhub.Exceptions.Exceptions;
-using Emuhub.Infrastructure.Repositories;
 using Emuhub.Infrastructure.Repositories.Abstractions;
-using FluentValidation;
 
 namespace Emuhub.Application.UseCases.Users;
 
 public class UserDeleteUseCase(
-    IUserRepository users,
-    UserDeleteRequestValidator validator)
+    IUserRepository users)
 {
-    public async Task Execute(UserDeleteRequest request)
+    public async Task Execute(Guid targetId, ClaimsPrincipal sender)
     {
-        await validator.ValidateAndThrowAsync(request);
+        var userId = Guid.Parse(sender.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+        var userRole = sender.FindFirst(ClaimTypes.Role)?.Value!;
 
-        var userToBeDeleted = await users.GetById(request.UserId);
+        if (userId != targetId && userRole != "Admin")
+        {
+            throw new ResourceNotFoundException(
+                "User",
+                ExceptionMessagesResource.USER_NOT_FOUND);
+        }
+
+        var userToBeDeleted = await users.GetById(userId);
         if (userToBeDeleted is null)
         {
             throw new ResourceNotFoundException(

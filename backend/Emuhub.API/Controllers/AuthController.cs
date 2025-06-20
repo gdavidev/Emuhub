@@ -1,6 +1,7 @@
 ﻿using Emuhub.Application.UseCases.Users;
 using Emuhub.Communication.Data.Auth;
 using Emuhub.Communication.Data.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.API.Controllers;
@@ -54,21 +55,23 @@ public class AuthController : ControllerBase
         return NoContent();
     }
         
-    [HttpDelete("Delete")]
+    [Authorize]
+    [HttpDelete("Delete/{id:guid}")]
     public async Task<ActionResult> DeleteUser(
         [FromServices] UserDeleteUseCase useCase,
-        [FromBody] UserDeleteRequest request) 
+        [FromRoute] Guid id) 
     {
-        await useCase.Execute(request);
+        await useCase.Execute(id, User);
         return NoContent();
     }
 
+    [Authorize]
     [HttpPatch("Update")]
     public async Task<ActionResult> UpdateUser(
         [FromServices] UserUpdateUseCase useCase,
-        [FromBody] UserUpdateRequest request) 
+        [FromForm] UserUpdateRequest request) 
     {
-        await useCase.Execute(request);
+        await useCase.Execute(request, User);
         return NoContent();
     }
 }
