@@ -15,9 +15,9 @@
   - Libraries: EF Core, MailKit, FluentValidation
   - Testing: xUnit
 - **Infrastructure**:
-  - Cloud Provider: Hosted at a OracleCloud instance on Docker
+  - Cloud Provider: Hosted at a AWS EC2 instance on Docker
   - Database: PostgresSQL
-  - Storage: Minio Container
+  - File Storage: Minio Container
 - **Desktop Client:** 
   - Main Tech: Delphi
   - Download link: https://github.com/Denis-Saavedra/EmuHub-Desktop
@@ -68,7 +68,7 @@ finally running in the API project, which will add the migration just fine.
 ### Running Commands in the Container
 ```bash
 docker exec -it <container-hash-or-name> psql \
-  -h localhost -U postgres -d <database-name> -c "<your-sql-command>"
+  -h localhost -U <username> -d <database-name> -c "<your-sql-command>"
 ```
 
 ### How to send the container to the VPS
