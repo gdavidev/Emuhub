@@ -1,19 +1,22 @@
 ﻿using Emuhub.Application.Serialization;
-using Emuhub.Application.Validation.Emulators;
-using Emuhub.Communication.Data;
 using Emuhub.Communication.Data.Emulators;
-using FluentValidation;
+using Emuhub.Exceptions.Exceptions.ValidationError;
 using Emuhub.Infrastructure.Repositories.Abstractions;
 
 namespace Emuhub.Application.UseCases.Emulators;
 
-public class EmulatorGetByIdUseCase(IEmulatorRepository emulators, EmulatorExistingIdValidator validator)
+public class EmulatorGetByIdUseCase(IEmulatorRepository emulators)
 {
-    public async Task<EmulatorResponse> Execute(EntityIdRequest request)
+    public async Task<EmulatorResponse> Execute(long emulatorId)
     {
-        await validator.ValidateAndThrowAsync(request);
+        if (emulatorId <= 0)
+        {
+            throw new ValidationErrorException(new ValidationErrorItem(
+                "EmulatorId",
+                "EmulatorId must be greater than zero"));
+        }
 
-        var emulator = (await emulators.Get(request.Id))!;
+        var emulator = (await emulators.Get(emulatorId))!;
 
         return EmulatorSerializer.ToResponse(emulator);
     }

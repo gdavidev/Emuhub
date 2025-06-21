@@ -2,7 +2,6 @@
 using Emuhub.Application.UseCases.GameCategories;
 using Emuhub.Application.UseCases.Games;
 using Emuhub.Application.UseCases.Users;
-using Emuhub.Application.Validation.Emulators;
 using Emuhub.Application.Validation.Games;
 using Emuhub.Application.Validation.Users;
 using FluentValidation;
@@ -42,8 +41,6 @@ public static class DependencyInjection
 
     private static void AddEmulators(IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblyContaining<EmulatorExistingIdValidator>();
-
         services.AddScoped<EmulatorGetByIdUseCase>();
         services.AddScoped<EmulatorGetUseCase>();
     }

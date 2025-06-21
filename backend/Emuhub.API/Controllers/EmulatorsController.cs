@@ -1,5 +1,4 @@
 ﻿using Emuhub.Application.UseCases.Emulators;
-using Emuhub.Communication.Data;
 using Emuhub.Communication.Data.Emulators;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +17,12 @@ public class EmulatorsController : ControllerBase
         return result;
     }
 
-    [HttpGet("Get")]
+    [HttpGet("Get/{id:long}")]
     public async Task<ActionResult<EmulatorResponse>> GetEmulator(
         [FromServices] EmulatorGetByIdUseCase useCase,
-        [FromQuery] EntityIdRequest request)
+        [FromRoute] long id)
     {
-        var result = await useCase.Execute(request);
+        var result = await useCase.Execute(id);
 
         return result;
     }
