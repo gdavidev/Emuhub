@@ -19,7 +19,7 @@ vi.mock('@/hooks/useEmergencyExit.ts');
 vi.mock('@/hooks/feedback/useAlert.tsx');
 
 const sampleCurrentUser = new CurrentUser(
-		16,
+		'd0b03c80-9357-4dce-bd2f-a88e292626f7',
 		'Gabriel',
 		'RandomLongStringForToken',
 		'gabriel@gmail.com',
