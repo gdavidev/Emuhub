@@ -16,8 +16,6 @@ import { useStoreGame } from '@/hooks/api/useGames.ts';
 import { AxiosError } from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import TextInput from '@/apps/shared/components/formComponents/TextInput';
-import StringFormatter from '@/libs/StringFormatter';
-import FileUtil from '@/libs/FileUtil';
 import useAlert from '@/hooks/feedback/useAlert.tsx';
 import useNotification from '@/hooks/feedback/useNotification.tsx';
 import useRequestErrorHandler from '@/hooks/useRequestErrorHandler.ts';
@@ -115,11 +113,6 @@ export default function GameEditModal(props: GameEditModalProps) {
   const submitGame = useCallback((data: GameEditModalFormData) => {    
     const emulator: Emulator = emulatorList.find((emu: Emulator) => data.emulatorId == emu.id)!;
     const category: Category = categoryList.find((cat: Category) => data.categoryId == cat.id)!;
-
-    if (data.thumbnail && data.thumbnail.file)
-      data.thumbnail.file = FileUtil.renamed(data.thumbnail.file, StringFormatter.toUrlSafe(data.name))
-    if (data.fileHolder)
-      data.fileHolder.rename(StringFormatter.toUrlSafe(data.name))
 
     storeGame(new Game(
       data.name,
