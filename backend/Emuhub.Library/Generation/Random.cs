@@ -4,7 +4,7 @@ namespace Emuhub.Library.Generation;
 
 public class Random
 {
-    private static string GenerateBase64String(int lenght)
+    public static string GenerateBase64String(int lenght)
     {
         using var rng = RandomNumberGenerator.Create();
         

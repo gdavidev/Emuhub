@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Emuhub.Library.Transformation;
 
-public class StringCase
+public static class StringCase
 {
     public static string ToKebabCase(string input)
     {

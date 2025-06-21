@@ -1,7 +1,6 @@
 using Emuhub.API.Controllers;
 using Emuhub.Application.UseCases.Games;
 using Emuhub.Communication.Data.Games;
-using Emuhub.TestingUtilities.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Emuhub.APITest.Controllers.GameController;

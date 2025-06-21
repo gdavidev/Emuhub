@@ -1,5 +1,4 @@
 ﻿using Emuhub.Application.Validation;
-using Emuhub.TestingUtilities.Data;
 using FluentValidation;
 
 namespace Emuhub.ApplicationTest.Validation;
