@@ -78,9 +78,10 @@ docker login \
   --password <your-github-token-with-access-to-your-packages>
 
 # Build the production images and push to github container registry
-docker compose -f docker-compose.yml build
-docker push ghcr.io/<your-username>/emuhub-backend:latest
-docker push ghcr.io/<your-username>/emuhub-frontend:latest
+UserName=<your-username> ; \
+docker compose -f docker-compose.yml build && \
+docker push ghcr.io/$UserName/emuhub-backend:latest && \
+docker push ghcr.io/$UserName/emuhub-frontend:latest
 
 # Send required files to the vps (If some of these files changed)
 scp -i <ssh-private-token-file-path> \
@@ -89,6 +90,11 @@ scp -i <ssh-private-token-file-path> \
 
 # Ssh into the VPS and execute the services
 ssh -i <ssh-private-token> <user>@<vps-ip>
+
+# Pull the latest images (If not the first time pushing)
+UserName=<your-username> ; \
+docker pull ghcr.io/$UserName/emuhub-backend:latest && \
+docker pull ghcr.io/$UserName/emuhub-frontend:latest
 
 # Start the containers
 docker compose -f docker-compose.infra.yml up -d && docker compose -f docker-compose.deploy.yml up -d
