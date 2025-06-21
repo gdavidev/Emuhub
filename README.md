@@ -15,7 +15,7 @@
   - Libraries: EF Core, MailKit, FluentValidation
   - Testing: xUnit
 - **Infrastructure**:
-  - Cloud Provider: Hosted at a AWS EC2 instance on Docker
+  - Cloud Provider: Hosted at AWS EC2 instance on Docker
   - Database: PostgresSQL
   - File Storage: Minio Container
 - **Desktop Client:** 
@@ -71,33 +71,12 @@ docker exec -it <container-hash-or-name> psql \
   -h localhost -U <username> -d <database-name> -c "<your-sql-command>"
 ```
 
-### How to send the container to the VPS
+### How deploy the application
 ```bash
-docker login \
-  --username <your-github-username> \
-  --password <your-github-token-with-access-to-your-packages>
-
-# Build the production images and push to github container registry
-UserName=<your-username> ; \
-docker compose -f docker-compose.yml build && \
-docker push ghcr.io/$UserName/emuhub-backend:latest && \
-docker push ghcr.io/$UserName/emuhub-frontend:latest
-
-# Send required files to the vps (If some of these files changed)
-scp -i <ssh-private-token-file-path> \
- .env docker-compose.infra.yml docker-compose.deploy.yml \
-  <user>@<vps-ip>:~/Emuhub
-
-# Ssh into the VPS and execute the services
-ssh -i <ssh-private-token> <user>@<vps-ip>
-
-# Pull the latest images (If not the first time pushing)
-UserName=<your-username> ; \
-docker pull ghcr.io/$UserName/emuhub-backend:latest && \
-docker pull ghcr.io/$UserName/emuhub-frontend:latest
-
-# Start the containers
-docker compose -f docker-compose.infra.yml up -d && docker compose -f docker-compose.deploy.yml up -d
+# Connect via SSH to the VPS
+# Then execute the start script at the /home/ubuntu/Project directory
+#   it will update the dependencies, set environment variables and start the containers
+sudo sh /home/ubuntu/Project/start.sh
 ```
 
 ### Workflow
