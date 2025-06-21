@@ -166,7 +166,7 @@
     <value>A pagina não pode ser um numero negativo</value>
   </data>
   <data name="PASSWORD_INVALID" xml:space="preserve">
-    <value>A senha tem que conter no mínimo 6 caracteres</value>
+    <value>A senha esta em um formato inválido</value>
   </data>
   <data name="PASSWORD_TOO_SHORT" xml:space="preserve">
     <value>Senha muito curta</value>
@@ -176,5 +176,8 @@
   </data>
   <data name="USER_NOT_FOUND" xml:space="preserve">
     <value>Usuário não encontrado.</value>
+  </data>
+  <data name="TOKEN_INVALID" xml:space="preserve">
+    <value>Token inválido.</value>
   </data>
 </root>

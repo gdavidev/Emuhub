@@ -14,7 +14,8 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .MinimumLength(6).WithMessage(string.Format(ExceptionMessagesResource.MINIMUN_LENGTH, 6));
 
         RuleFor(req => req.Email)
-            .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_EMPTY);
+            .NotNullOrEmpty()
+            .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_INVALID);
 
         RuleFor(req => req.Password)
             .Password();

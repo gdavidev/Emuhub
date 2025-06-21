@@ -6,8 +6,8 @@ namespace Emuhub.Application.Validation.ValidatorExtensions;
 
 public static class FileValidationExtensions
 {
-    public static IRuleBuilder<T, IFormFile> FileOfType<T>(
-        this IRuleBuilder<T, IFormFile> rule,
+    public static IRuleBuilder<T, IFormFile?> FileOfType<T>(
+        this IRuleBuilder<T, IFormFile?> rule,
         string[] allowedExtensions)
     {
         rule.Must(file =>

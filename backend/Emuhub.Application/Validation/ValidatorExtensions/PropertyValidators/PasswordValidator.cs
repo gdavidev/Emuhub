@@ -7,7 +7,7 @@ namespace Emuhub.Application.Validation.ValidatorExtensions.PropertyValidators;
 
 public partial class PasswordValidator<T> : IPropertyValidator<T, string>
 {
-    [GeneratedRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")]
+    [GeneratedRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$#!%*?&])[A-Za-z\\d@$#!%*?&]{8,}$")]
     private static partial Regex PasswordPattern();
 
     public string Name => "PasswordValidator";
@@ -29,7 +29,7 @@ public partial class PasswordValidator<T> : IPropertyValidator<T, string>
             context.AddFailure(ExceptionMessagesResource.PASSWORD_TOO_SHORT);
             return false;
         }
-        if (PasswordPattern().IsMatch(password))
+        if (!PasswordPattern().IsMatch(password))
         {
             context.AddFailure(ExceptionMessagesResource.PASSWORD_INVALID);
             return false;
@@ -40,6 +40,6 @@ public partial class PasswordValidator<T> : IPropertyValidator<T, string>
 
     public string GetDefaultMessageTemplate(string errorCode)
     {
-        throw new NotImplementedException();
+        return "Invalid password format";
     }
 }

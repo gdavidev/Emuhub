@@ -10,8 +10,8 @@ public class UserRegisterUseCase(AuthService authService, RegisterRequestValidat
 {
     public async Task Execute(RegisterRequest request)
     {
-        request = Sanitized(request);
         await validator.ValidateAndThrowAsync(request);
+        request = Sanitized(request);
 
         var userGuid = await authService.Register(request);
 

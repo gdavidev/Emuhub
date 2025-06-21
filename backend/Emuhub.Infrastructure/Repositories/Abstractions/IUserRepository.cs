@@ -10,5 +10,6 @@ public interface IUserRepository
     public Task Update(User user);
     public Task Delete(User user);
     public Task<bool> IsUserNameAndEmailAvailable(string userName, string email);
+    public Task<User?> GetByPasswordResetToken(string token);
     public Task<bool> Exists(Guid id);
 }

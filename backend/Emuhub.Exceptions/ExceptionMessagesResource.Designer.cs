@@ -164,5 +164,11 @@ namespace Emuhub.Exceptions {
                 return ResourceManager.GetString("USER_NOT_FOUND", resourceCulture);
             }
         }
+        
+        public static string TOKEN_INVALID {
+            get {
+                return ResourceManager.GetString("TOKEN_INVALID", resourceCulture);
+            }
+        }
     }
 }

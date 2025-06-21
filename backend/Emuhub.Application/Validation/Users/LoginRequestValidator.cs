@@ -14,6 +14,6 @@ public class LoginRequestValidator : AbstractValidator<LoginRequest>
             .EmailAddress().WithMessage(ExceptionMessagesResource.EMAIL_INVALID);
 
         RuleFor(req => req.Password)
-            .Password();
+            .NotNullOrEmpty();
     }
 }

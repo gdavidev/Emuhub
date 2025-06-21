@@ -18,12 +18,13 @@ public class EmailService(IConfiguration configuration) : IEmailService
         email.From.Add(MailboxAddress.Parse(sender));
         email.To.Add(MailboxAddress.Parse(targetAddress));
         email.Subject = subject;
-        email.Body = new TextPart("plain") { Text = body };
-
+        email.Body = new TextPart("html") { Text = body };
+        
         using var smtp = new SmtpClient();
         await smtp.ConnectAsync(server, port, SecureSocketOptions.StartTls);
         await smtp.AuthenticateAsync(sender, key);
         await smtp.SendAsync(email);
+        
         await smtp.DisconnectAsync(true);
     }
 }

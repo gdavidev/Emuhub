@@ -40,6 +40,12 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
         return await context.Users.AnyAsync(u => u.Name == userName || u.Email == email);
     }
 
+    public async Task<User?> GetByPasswordResetToken(string token)
+    {
+        return await context.Users.SingleOrDefaultAsync(
+            u => u.PasswordRetrievalToken == token);
+    }
+    
     public async Task<bool> Exists(Guid id)
     {
         return await context.Users.AnyAsync(e => e.Id == id);
