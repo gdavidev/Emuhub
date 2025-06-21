@@ -22,7 +22,7 @@ export const MainContext =
     createContext<MainContextProps>(defaultMainContextProps);
 
 type UserCookie = {
-  id: number
+  id: string,
   token: string,
   userName: string,
   email: string,
