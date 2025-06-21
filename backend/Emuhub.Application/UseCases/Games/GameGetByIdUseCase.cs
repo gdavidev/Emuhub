@@ -15,7 +15,7 @@ public class GameGetByIdUseCase(
     GameExistingIdValidator validator,
     IFileStorageService fileStorage)
 {
-    public async Task<GameResponse> Execute(long id)
+    public async Task<GameResponse> Execute(Guid id)
     {
         await validator.ValidateAndThrowAsync(new EntityIdRequest { Id = id });
 

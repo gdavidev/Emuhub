@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Emuhub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614215745_MigratedFromSqlServerToPostgreSqlInitial")]
-    partial class MigratedFromSqlServerToPostgreSqlInitial
+    [Migration("20250621223750_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,11 +56,9 @@ namespace Emuhub.Infrastructure.Migrations
 
             modelBuilder.Entity("Emuhub.Domain.Entities.Games.Game", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");

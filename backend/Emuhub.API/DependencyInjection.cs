@@ -26,9 +26,7 @@ public static class DependencyInjection
     
     public static void ConfigureCors(this IServiceCollection services, string policyName, IConfiguration configuration)
     {
-        var hostIp = configuration.GetValue<string>("HostIp")!;
-        
-        services.AddCors(options =>
+       services.AddCors(options =>
             options.AddPolicy(
                 name: policyName,
                 configurePolicy => configurePolicy

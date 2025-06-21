@@ -5,7 +5,7 @@ namespace Emuhub.Communication.Data.Games;
 
 public class GameResponse
 {
-    public required long  Id { get; set; }
+    public required Guid  Id { get; set; }
     public required string  Name { get; set; }
     public required string  Description { get; set; }
     public string ImageBase64 { get; set; } = string.Empty;

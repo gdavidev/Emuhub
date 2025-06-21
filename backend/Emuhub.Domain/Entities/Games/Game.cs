@@ -2,7 +2,7 @@
 
 public class Game
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
     public string ImageName { get; set; } = "";

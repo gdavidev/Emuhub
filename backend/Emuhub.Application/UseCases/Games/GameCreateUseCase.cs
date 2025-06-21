@@ -14,19 +14,19 @@ public class GameCreateUseCase(
     GameCreateRequestValidator validator,
     IFileStorageService storage) 
 {
-    public async Task<long> Execute(GameCreateRequest request)
+    public async Task<Guid> Execute(GameCreateRequest request)
     {
         await validator.ValidateAndThrowAsync(request);
-        var sanitizedGameName = StringCase.ToKebabCase(request.Name);
 
-        var imageName = $"{sanitizedGameName}{Path.GetExtension(request.Image.Name)}";
-        var fileName = $"{sanitizedGameName}{Path.GetExtension(request.File.Name)}";
+        var newGuid = Guid.NewGuid();
+        var imageName = $"{newGuid}{Path.GetExtension(request.Image.Name)}";
+        var fileName = $"{newGuid}{Path.GetExtension(request.File.Name)}";
             
         try
         {
             var game = new Game()
             {
-                Id = 0,
+                Id = newGuid,
                 Name = request.Name,
                 Description = request.Description,
                 CategoryId = request.CategoryId,
@@ -37,7 +37,9 @@ public class GameCreateUseCase(
 
             await UploadFileAsync(request.File, "files/", fileName);
             await UploadFileAsync(request.Image, "thumbs/", imageName);
-            return await games.Add(game);
+            await games.Add(game);
+            
+            return newGuid;
         }
         catch
         {

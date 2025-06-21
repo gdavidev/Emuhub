@@ -9,7 +9,7 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
 {
     private static readonly int pageSize = 10;
 
-    public async Task<Game?> Get(long id)
+    public async Task<Game?> Get(Guid id)
     {
         return await context.Games
             .Include(game => game.Emulator)
@@ -32,22 +32,23 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
 
     public async Task<List<Game>> Search(string term)
     {
+        var pattern = $"%{term}%";
+        
         return await context.Games
             .Include(game => game.Emulator)
             .Include(game => game.Category)
             .OrderByDescending(g => g.Name)
             .Where(g =>
-                g.Name.Contains(term)
-                || (g.Emulator != null && g.Emulator.Name.Contains(term))
-                || (g.Category != null && g.Category.Name.Contains(term)))
+                EF.Functions.ILike(g.Name, pattern)
+                || (g.Emulator != null && EF.Functions.ILike(g.Emulator.Name, pattern))
+                || (g.Category != null && EF.Functions.ILike(g.Category.Name, pattern)))
             .ToListAsync();
     }
 
-    public async Task<long> Add(Game game)
+    public async Task Add(Game game)
     {
         context.Games.Add(game);
         await context.SaveChangesAsync();
-        return game.Id;
     }
 
     public async Task Update(Game game)
@@ -62,7 +63,7 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task<bool> Exists(long id)
+    public async Task<bool> Exists(Guid id)
     {
         return await context.Games
             .AsNoTracking()

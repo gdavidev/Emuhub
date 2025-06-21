@@ -10,7 +10,7 @@ namespace Emuhub.API.Controllers;
 [ApiController]
 public class GamesController : ControllerBase
 {
-	[HttpGet("List")]    
+	[HttpGet("List")]
     public async Task<ActionResult<IEnumerable<GameResponse>>> GetGames(
         [FromServices] GameGetUseCase useCase,
         [FromQuery] int page)
@@ -19,10 +19,10 @@ public class GamesController : ControllerBase
         return Ok(result);
     }
 
-	[HttpGet("Get/{id:long}")]    
+	[HttpGet("Get/{id:Guid}")]    
     public async Task<ActionResult<GameResponse>> GetGame(
         [FromServices] GameGetByIdUseCase useCase,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
 	{
         var result = await useCase.Execute(id);
 		return Ok(result);
@@ -37,10 +37,11 @@ public class GamesController : ControllerBase
 		return Ok(result);
 	}
 	
-	[HttpGet("Download/{id:long}")]
+	[Authorize(Roles = "Common,Admin")]
+	[HttpGet("Download/{id:Guid}")]
 	public async Task<ActionResult<GameResponse>> DownloadGame(
 		[FromServices] GameDownloadUseCase useCase,
-		[FromRoute] int id)
+		[FromRoute] Guid id)
 	{
 		var (fileStream, contentType) = await useCase.Execute(id);
 		return File(fileStream, contentType);
@@ -63,7 +64,7 @@ public class GamesController : ControllerBase
         [FromForm] GameCreateRequest request)
 	{
         var result = await useCase.Execute(request);
-		return CreatedAtAction(nameof(GetGame), new { id = result });
+		return Created("/Get/{id:long}", new { id = result });
 	}
 
 	[Authorize(Roles = "Admin")]

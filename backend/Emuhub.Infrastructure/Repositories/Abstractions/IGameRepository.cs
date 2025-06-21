@@ -4,11 +4,11 @@ namespace Emuhub.Infrastructure.Repositories.Abstractions;
 
 public interface IGameRepository
 {
-    public Task<Game?> Get(long id);
+    public Task<Game?> Get(Guid id);
     public Task<List<Game>> GetAll(int page);
     public Task<List<Game>> Search(string term);
-    public Task<long> Add(Game game);
+    public Task Add(Game game);
     public Task Update(Game game);
     public Task Delete(Game game);
-    public Task<bool> Exists(long id);
+    public Task<bool> Exists(Guid id);
 }

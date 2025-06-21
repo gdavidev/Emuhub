@@ -9,7 +9,7 @@ public class GameDownloadUseCase(
     IGameRepository games,
     IFileStorageService fileStorage)
 {
-    public async Task<(Stream, string)> Execute(int gameId)
+    public async Task<(Stream, string)> Execute(Guid gameId)
     {
         var game = await games.Get(gameId);
         if (game is null)
@@ -20,7 +20,17 @@ public class GameDownloadUseCase(
         }
 
         var fileName = game.FileName;
+
+        var (stream, mimeType) = await fileStorage.DownloadAsync(
+            "games",
+            $"files/{fileName}");
+        if (stream is null)
+        {
+            throw new ResourceNotFoundException(
+                "File",
+                ExceptionMessagesResource.UNKNOWN_ERROR);    
+        }
         
-        return await fileStorage.DownloadAsync("games", $"files/{fileName}");
+        return (stream, mimeType);
     }
 }

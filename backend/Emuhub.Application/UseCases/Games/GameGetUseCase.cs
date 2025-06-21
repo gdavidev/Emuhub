@@ -18,10 +18,9 @@ public class GameGetUseCase(
     {
         Validate(page);
         
-        List<Game> gameList = await games.GetAll(page);
-        Console.WriteLine(JsonSerializer.Serialize(gameList, new JsonSerializerOptions() { WriteIndented = true }));
+        var gameList = await games.GetAll(page);
+        
         var response = new ConcurrentBag<GameResponse>();
-
         var tasks = gameList.Select(async game =>
             {
                 var gameDto = GameSerializer.ToResponse(game);

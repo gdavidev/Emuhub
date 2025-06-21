@@ -14,7 +14,12 @@ public class GameExistingIdValidator : AbstractValidator<EntityIdRequest>
         [FromServices] IGameRepository games)
     {
         RuleFor(request => request.Id)
-            .DatabaseIdentity()
-            .MustAsync(async (id, _) => await games.Exists(id)).WithMessage(ExceptionMessagesResource.GAME_NOT_FOUND);
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
+                .WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_NULL)
+            .Must(id => id != Guid.Empty)
+                .WithMessage(ExceptionMessagesResource.FIELD_CANNOT_BE_EMPTY)
+            .MustAsync(async (id, _) => await games.Exists(id))
+                .WithMessage(ExceptionMessagesResource.GAME_NOT_FOUND);
     }
 }

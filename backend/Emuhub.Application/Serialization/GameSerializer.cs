@@ -8,7 +8,7 @@ public class GameSerializer
 	public static Game ParseRequest(GameCreateRequest request) => 
 		new Game()
 		{
-			Id = 0,
+			Id = Guid.Empty,
 			Name = request.Name,
 			Description = request.Description,
 			CategoryId = request.CategoryId,
