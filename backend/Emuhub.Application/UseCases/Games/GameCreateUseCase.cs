@@ -19,8 +19,8 @@ public class GameCreateUseCase(
         await validator.ValidateAndThrowAsync(request);
 
         var newGuid = Guid.NewGuid();
-        var imageName = $"{newGuid}{Path.GetExtension(request.Image.Name)}";
-        var fileName = $"{newGuid}{Path.GetExtension(request.File.Name)}";
+        var imageName = $"{newGuid}{Path.GetExtension(request.Image.FileName)}";
+        var fileName = $"{newGuid}{Path.GetExtension(request.File.FileName)}";
             
         try
         {

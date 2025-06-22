@@ -78,8 +78,7 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
             .Include(game => game.Emulator)
             .FirstOrDefaultAsync(g =>
                 EF.Functions.ILike(g.Name, gameName)
-                || (g.Emulator != null 
-                    && EF.Functions.ILike(g.Emulator.Abbreviation, emulatorAbbreviation))
+                && EF.Functions.ILike(g.Emulator!.Abbreviation, emulatorAbbreviation)
             );
     }
 }
