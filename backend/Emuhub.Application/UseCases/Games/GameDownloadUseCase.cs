@@ -9,9 +9,11 @@ public class GameDownloadUseCase(
     IGameRepository games,
     IFileStorageService fileStorage)
 {
-    public async Task<(Stream, string)> Execute(Guid gameId)
+    public async Task<(Stream, string)> Execute(string emulatorAbbreviation, string gameName)
     {
-        var game = await games.Get(gameId);
+        var game = await games.GetByEmulatorAbbreviationAndGameName(
+            emulatorAbbreviation,
+            gameName);
         if (game is null)
         {
             throw new ResourceNotFoundException(

@@ -69,4 +69,17 @@ public class GameRepository(ApplicationDbContext context) : IGameRepository
             .AsNoTracking()
             .AnyAsync(e => e.Id == id);
     }
+    
+    public async Task<Game?> GetByEmulatorAbbreviationAndGameName(
+        string emulatorAbbreviation,
+        string gameName)
+    {
+        return await context.Games
+            .Include(game => game.Emulator)
+            .FirstOrDefaultAsync(g =>
+                EF.Functions.ILike(g.Name, gameName)
+                || (g.Emulator != null 
+                    && EF.Functions.ILike(g.Emulator.Abbreviation, emulatorAbbreviation))
+            );
+    }
 }

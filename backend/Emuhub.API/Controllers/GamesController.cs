@@ -37,13 +37,15 @@ public class GamesController : ControllerBase
 		return Ok(result);
 	}
 	
-	[Authorize(Roles = "Common,Admin")]
-	[HttpGet("Download/{id:Guid}")]
+	[HttpGet("Download/{emulatorAbbreviation}/{gameName}")]
 	public async Task<ActionResult<GameResponse>> DownloadGame(
 		[FromServices] GameDownloadUseCase useCase,
-		[FromRoute] Guid id)
+		[FromRoute] string emulatorAbbreviation,
+		[FromRoute] string gameName)
 	{
-		var (fileStream, contentType) = await useCase.Execute(id);
+		var (fileStream, contentType) = await useCase.Execute(
+			emulatorAbbreviation,
+			gameName);
 		return File(fileStream, contentType);
 	}
 

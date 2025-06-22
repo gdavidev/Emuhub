@@ -7,37 +7,64 @@ internal static class EmulatorsSeeder
 {
     public static void Seed(DbContext context)
     {
-        if (context.Set<GameCategory>().Any())
+        if (context.Set<Emulator>().Any())
             return;
         
         context.Set<Emulator>().AddRange([
             new Emulator()
             {
-                Name = "Super Nintendo",
-                CompanyName = "Nintendo",
-                Abbreviation = "snes",
-                Console = "Super Nintendo",
+                Abbreviation = "GB",
+                Name = "GAME BOY",            
             },
             new Emulator()
             {
-                Name = "Nintendo 64",
-                CompanyName = "Nintendo",
-                Abbreviation = "n64",
-                Console = "Nintendo 64",
+                Abbreviation = "GBC",
+                Name = "GAME BOY COLOR",            
             },
             new Emulator()
             {
-                Name = "Nintendo",
-                CompanyName = "Nintendo",
-                Abbreviation = "nes",
-                Console = "Nintendo",
+                Abbreviation = "GBA",
+                Name = "GAME BOY ADVANCED",            
             },
             new Emulator()
             {
-                Name = "PlayStation 1",
-                CompanyName = "Sony",
-                Abbreviation = "ps1",
-                Console = "PlayStation 1",
+                Abbreviation = "DS",
+                Name = "NINTENDO DS",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "NES",
+                Name = "NINTENDINHO",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "SNES",
+                Name = "SUPER NINTENDO",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "N64",
+                Name = "NINTENDO 64",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "PS",
+                Name = "PLAYSTATION",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "P2",
+                Name = "PLAYSTATION 2",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "SMS",
+                Name = "MASTER SYSTEM",            
+            },
+            new Emulator()
+            {
+                Abbreviation = "DC",
+                Name = "DREAM CAST",  
             }
         ]);
     }

@@ -10,8 +10,6 @@ public static class EmulatorSerializer
 		{
 			Id = emulator.Id,
 			Name = emulator.Name,
-			CompanyName = emulator.CompanyName,
 			Abbreviation = emulator.Abbreviation,
-			Console = emulator.Console,
 		};
 }

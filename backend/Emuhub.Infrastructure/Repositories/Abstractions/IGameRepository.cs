@@ -11,4 +11,7 @@ public interface IGameRepository
     public Task Update(Game game);
     public Task Delete(Game game);
     public Task<bool> Exists(Guid id);
+    public Task<Game?> GetByEmulatorAbbreviationAndGameName(
+        string emulatorAbbreviation,
+        string gameName);
 }
