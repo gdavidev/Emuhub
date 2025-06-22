@@ -57,7 +57,8 @@ export default function GameEditModal(props: GameEditModalProps) {
   // ---- API Calls Setup ----
   useEmulators({
     onSuccess: (emulators: Emulator[]) => {
-      const emulatorSelectSourceRaw = emulators.map(em => ({ value: em.id, name: em.console }));
+      const emulatorSelectSourceRaw =
+          emulators.map(em => ({ value: em.id, name: em.console }));
       setEmulatorList(emulators);
       setEmulatorSelectSource(emulatorSelectSourceRaw);
     },
@@ -65,7 +66,8 @@ export default function GameEditModal(props: GameEditModalProps) {
   });
   useCategories(CategoryType.GAMES, {
     onSuccess: (categories: Category[]) => {
-      const source = categories.map(cat => ({ value: cat.id, name: cat.name }));
+      const source =
+          categories.map(cat => ({ value: cat.id, name: cat.name }));
       setCategoryList(categories);
       setCategorySelectSource(source);
     },
@@ -94,7 +96,7 @@ export default function GameEditModal(props: GameEditModalProps) {
   useEffect(() => {
     if (!props.isOpen) return;
 
-    if (props.game && (props.game.id !== 0)) {
+    if (props.game && (props.game.id !== "")) {
       setFormData({
         name: props.game.name,
         desc: props.game.desc,
@@ -111,8 +113,10 @@ export default function GameEditModal(props: GameEditModalProps) {
   
   // ---- API Calls Execution ----
   const submitGame = useCallback((data: GameEditModalFormData) => {    
-    const emulator: Emulator = emulatorList.find((emu: Emulator) => data.emulatorId == emu.id)!;
-    const category: Category = categoryList.find((cat: Category) => data.categoryId == cat.id)!;
+    const emulator: Emulator =
+        emulatorList.find((emu: Emulator) => data.emulatorId == emu.id)!;
+    const category: Category =
+        categoryList.find((cat: Category) => data.categoryId == cat.id)!;
 
     storeGame(new Game(
       data.name,
@@ -121,7 +125,7 @@ export default function GameEditModal(props: GameEditModalProps) {
       data.thumbnail ?? null,
       data.fileHolder ?? null,
       category,
-      props.game?.id ?? 0,
+      props.game?.id ?? "",
     ));
   }, [props.game, emulatorList, categoryList]);
 
@@ -129,7 +133,7 @@ export default function GameEditModal(props: GameEditModalProps) {
   const onStoreGameSuccess = useCallback((game: Game) => {
       props.onChange?.(game);
       props.onCloseRequest?.();
-      notifySuccess((props.game && props.game.id !== 0) ?
+      notifySuccess((props.game && props.game.id !== "") ?
           'Jogo criado com sucesso' :
           'Jogo alterado com sucesso'
       );
@@ -156,7 +160,7 @@ export default function GameEditModal(props: GameEditModalProps) {
 
   return (
     <ModalPopup 
-      title={ (props.game && props.game.id !== 0) ? "Editar Jogo" : "Adicionar Jogo" }
+      title={ (props.game && props.game.id !== "") ? "Editar Jogo" : "Adicionar Jogo" }
       isOpen={ props.isOpen } 
       bottomText={ props.bottomText } 
       topText={ props.topText }
@@ -209,7 +213,7 @@ export default function GameEditModal(props: GameEditModalProps) {
               <span className="truncate">{ watch("fileHolder")?.name }</span>
             </div>
             <Controller name="fileHolder" control={ control }
-                rules={{ required: (props.game && props.game.id !== 0) || 'É necessário enviar um arquivo.' }}
+                rules={{ required: (props.game && props.game.id !== "") || 'É necessário enviar um arquivo.' }}
                 render={ ({field}) => (
                   <FileInput {...field}
                       onChange={ (e) => field.onChange(new FileHolder({ file: e?.[0] })) }
@@ -224,7 +228,7 @@ export default function GameEditModal(props: GameEditModalProps) {
             />
 
             <Controller name="thumbnail" control={ control } 
-                rules={{ required: (props.game && props.game.id !== 0) || 'É necessário enviar uma imagem.' }}
+                rules={{ required: (props.game && props.game.id !== "") || 'É necessário enviar uma imagem.' }}
                 render={ ({field}) => (
                 <FileInput {...field}
                     buttonText='Arquivo de imagem'

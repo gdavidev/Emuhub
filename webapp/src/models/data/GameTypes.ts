@@ -11,17 +11,12 @@ export type GameCreateRequest = {
   file?: File,
 }
 export type GameCreateResponse ={
-  rom_id: number,
-  title: string,
-  description: string,
-  emulador: string,
-  image_name: string,
-  file_name: string,
+  id: string,
 }
 
 /* UPDATE */
 export type GameUpdateRequest = {
-  id: number,
+  id: string,
   name: string,
   description: string,
   emulatorId: number,
@@ -32,15 +27,15 @@ export type GameUpdateRequest = {
 
 /* DELETE */
 export type GameDeleteRequest = {
-  id: number
+  id: string
 }
 
 /* GET */
 export type GameGetRequest = {
-  id: number,
+  id: string,
 }
 export type GameGetResponse = {
-  id: number,
+  id: string,
   name: string,
   description: string,
   imageBase64: string,

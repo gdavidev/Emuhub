@@ -33,7 +33,7 @@ export default class GameApiService {
 	}
   
   static async store(game: Game, token: string): Promise<Game> {
-    if (game.id === 0) {
+    if (game.id === "") {
       return await this.post(game, token);
     } else {
       await this.put(game, token);
@@ -58,7 +58,7 @@ export default class GameApiService {
           'Content-Type': 'multipart/form-data'
         }}
       );
-    game.id = res.data.rom_id;
+    game.id = res.data.id;
     return game;
   }
 

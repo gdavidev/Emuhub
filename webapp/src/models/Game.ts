@@ -6,7 +6,7 @@ import imageNotFound from '@/assets/media/image-not-found.png'
 import FileHolder from '@models/utility/FileHolder.ts';
 
 export default class Game {
-  id: number;
+  id: string;
   name: string;
   desc: string;
   emulator: Emulator;
@@ -21,7 +21,7 @@ export default class Game {
       thumbnail: Thumbnail | null,
       rom: FileHolder | null,
       category: Category,
-      id?: number)
+      id?: string)
   constructor(
       name: string,
       desc: string,
@@ -29,7 +29,7 @@ export default class Game {
       thumbnail: Thumbnail | null,
       rom: FileHolder | null,
       category: Category,
-      id: number = 0)
+      id: string = "")
     {
     this.id           = id;
     this.name         = name;

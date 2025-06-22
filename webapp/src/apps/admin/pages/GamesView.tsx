@@ -22,7 +22,7 @@ export default function GamesView() {
   });
 
   const { refetch: refetchGames } = useGames({
-    onSuccess: (games: Game[]) => gameList.set(games.sort((prev, curr) => prev.id - curr.id))
+    onSuccess: (games: Game[]) => gameList.set(games)
   });
   const { mutate: deleteGame } = useDeleteGame(user?.token!, {
     onSuccess: (game: Game) => gameList.remove(game),
@@ -120,7 +120,7 @@ export default function GamesView() {
           onCloseRequest={ () => { setIsGameModalOpen(false) } }
           isOpen={ isGameModalOpen }
           onChange={ (game: Game) => {
-            if (gameModalData && gameModalData.id === 0)
+            if (gameModalData && gameModalData.id === "")
                return gameList.append(game)
             updateGameOnGameList(game)
           } } />
