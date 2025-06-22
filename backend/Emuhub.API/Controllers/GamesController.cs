@@ -38,8 +38,20 @@ public class GamesController : ControllerBase
 	}
 	
 	[HttpGet("Download/{emulatorAbbreviation}/{gameName}")]
-	public async Task<ActionResult<GameResponse>> DownloadGame(
+	public async Task<ActionResult> DownloadGame(
 		[FromServices] GameDownloadUseCase useCase,
+		[FromRoute] string emulatorAbbreviation,
+		[FromRoute] string gameName)
+	{
+		var (fileStream, contentType) = await useCase.Execute(
+			emulatorAbbreviation,
+			gameName);
+		return File(fileStream, contentType);
+	}
+	
+	[HttpGet("DownloadImage/{emulatorAbbreviation}/{gameName}")]
+	public async Task<ActionResult> DownloadImage(
+		[FromServices] GameImageDownloadUseCase useCase,
 		[FromRoute] string emulatorAbbreviation,
 		[FromRoute] string gameName)
 	{

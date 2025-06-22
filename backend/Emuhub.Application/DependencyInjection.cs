@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<GameCreateUseCase>();
         services.AddScoped<GameSearchUseCase>();
         services.AddScoped<GameDownloadUseCase>();
+        services.AddScoped<GameImageDownloadUseCase>();
         services.AddScoped<GameUpdateUseCase>();
         services.AddScoped<GameDeleteUseCase>();
     }
