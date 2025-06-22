@@ -14,15 +14,19 @@ public class UserRegisterUseCase(AuthService authService, RegisterRequestValidat
         request = Sanitized(request);
 
         var userGuid = await authService.Register(request);
+        
+        if (request.ProfileImage is not null)
+        {
+            var image = request.ProfileImage;
+            var profileFileName = $"profile{Path.GetExtension(image.FileName)}";
 
-        var image = request.ProfileImage;
-        var profileFileName = $"profile{Path.GetExtension(image.FileName)}";
-        await storageService.UploadAsync(
-            "users",
-            image.OpenReadStream(),
-            $"{userGuid}/{profileFileName}",
-            image.ContentType
-        );
+            await storageService.UploadAsync(
+                "users",
+                image.OpenReadStream(),
+                $"{userGuid}/{profileFileName}",
+                image.ContentType
+            );
+        }
     }
 
     private static RegisterRequest Sanitized(RegisterRequest request)

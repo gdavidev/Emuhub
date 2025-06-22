@@ -20,7 +20,10 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
         RuleFor(req => req.Password)
             .Password();
 
-        RuleFor(req => req.ProfileImage)
-            .FileOfType([".png", ".jpg", ".jpeg", ".gif"]);
+        When(req => req.ProfileImage is not null, () =>
+        {
+            RuleFor(req => req.ProfileImage)
+                .FileOfType([".png", ".jpg", ".jpeg", ".gif"]);
+        });
     }
 }
