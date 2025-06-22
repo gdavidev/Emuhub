@@ -18,9 +18,9 @@ export default class GameApiService {
     return res.data.map(g => Game.fromGetResponse(g))
   }
 
-  static async get(id: number): Promise<Game> {
+  static async get(id: string): Promise<Game> {
     const res: AxiosResponse<Requests.GameGetResponse> = await ApiService.get(
-        GameApiService.endpoints.get + id.toString());
+        GameApiService.endpoints.get + id);
     return Game.fromGetResponse(res.data);
   }
 

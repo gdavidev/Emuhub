@@ -16,7 +16,7 @@ export default function useGames(options?: UseGameOptions<Game[]> & { enabled?: 
   });
 }
 
-export function useGame(id: number, options?: UseGameOptions<Game> & { enabled?: boolean }): UseQueryResult<Game> {
+export function useGame(id: string, options?: UseGameOptions<Game> & { enabled?: boolean }): UseQueryResult<Game> {
   return useQuery(['FETCH_GAME', id], {
     queryFn: async () => await GameApiService.get(id),
     enabled: options ? options.enabled ?? true : true,

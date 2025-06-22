@@ -13,7 +13,12 @@ export default  function GameViewPage() {
   const { exit } = useEmergencyExit();
   const params = useParams<GameViewPageParams>();
 
-  const { data: game, isLoading } = useGame(Number(params.gameId), {
+  if (!params.gameId) {
+    exit('/', 'Não foi possível carregar esse jogo, tente mais tarde.')
+    return <></>
+  }
+
+  const { data: game, isLoading } = useGame(params.gameId, {
     onError: () => exit('/', 'Não foi possível carregar esse jogo, tente mais tarde.')
   });
 

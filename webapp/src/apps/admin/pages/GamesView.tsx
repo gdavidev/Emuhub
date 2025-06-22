@@ -65,7 +65,6 @@ export default function GamesView() {
 
   const templateHeader: {colName: string, colWidth: string}[] = [
     {colName: ''            , colWidth: 'fit-content' },
-    {colName: '#'           , colWidth: '30px'        },
     {colName: 'Name'        , colWidth: '230px'       },
     {colName: 'Description' , colWidth: '400px'       },
     {colName: 'Emulador'    , colWidth: '160px'       }, 
@@ -150,7 +149,6 @@ function GameDataTableRow(props: GameDataTableRowProps): React.ReactElement {
             className='object-cover h-16 w-16 bg-slate-600'
             src={ props.game.thumbnail.toDisplayable("https://placehold.co/16") } />
       </td>
-      <td className={ cellClassName }>{ game.id                     }</td>
       <td className={ cellClassName }>{ game.name                   }</td>
       <td className={ cellClassName }>{ game.desc                   }</td>
       <td className={ cellClassName }>{ game.emulator?.abbreviation }</td>
