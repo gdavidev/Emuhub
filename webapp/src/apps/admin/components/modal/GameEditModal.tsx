@@ -58,7 +58,7 @@ export default function GameEditModal(props: GameEditModalProps) {
   useEmulators({
     onSuccess: (emulators: Emulator[]) => {
       const emulatorSelectSourceRaw =
-          emulators.map(em => ({ value: em.id, name: em.console }));
+          emulators.map(em => ({ value: em.id, name: em.name }));
       setEmulatorList(emulators);
       setEmulatorSelectSource(emulatorSelectSourceRaw);
     },

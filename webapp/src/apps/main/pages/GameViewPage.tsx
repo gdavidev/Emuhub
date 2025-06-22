@@ -53,7 +53,7 @@ export default  function GameViewPage() {
 
         <div className='flex gap-x-16 mt-6'>
           <p className='font-bold'>Emulador</p>
-          <p>{game.emulator.console}</p>
+          <p>{game.emulator.name}</p>
         </div>
       </div>
     </section>

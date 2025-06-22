@@ -7,9 +7,6 @@ export default class EmulatorApiService {
   private static endpoints = {
     get: 'api/Emulators/Get',
     list: 'api/Emulators/List',
-    post: 'api/emulador/create/',
-    put: 'api/emulador/update/',
-    delete: 'api/emulador/delete/',
   };
 
   static async getAll(): Promise<Emulator[]> {
@@ -22,45 +19,5 @@ export default class EmulatorApiService {
     const res: AxiosResponse<DTO.EmulatorGetResponse> =
         await ApiService.get(EmulatorApiService.endpoints.get, { data: { id: id } });
     return Emulator.fromGetResponse(res.data);
-  }
-
-  static async store(emulator: Emulator, token: string): Promise<Emulator> {
-    if (emulator.id === 0) {
-      return await this.post(emulator, token);
-    } else {
-      await this.put(emulator, token);
-      return emulator;
-    }
-  }
-
-  public static async delete(emulator: Emulator, token: string): Promise<void> {
-    await ApiService.delete(EmulatorApiService.endpoints.delete, {
-       params: emulator.toDeleteDTO(),
-       headers: { 'Authorization': "Bearer " + token }
-      });
-  }
-
-  private static async post(emulator: Emulator, token: string): Promise<Emulator> {
-    const res: AxiosResponse<DTO.EmulatorCreateResponse> = await ApiService.post(
-      EmulatorApiService.endpoints.post,
-      emulator.toCreateDTO(),
-      { headers: {
-        'Authorization': "Bearer " + token,
-        'Content-type': 'multipart/form-data'
-      }}
-    );
-    emulator.id = res.data.id;
-    return emulator;
-  }
-
-  private static async put(emulator: Emulator, token: string): Promise<void> {
-    await ApiService.put(
-      EmulatorApiService.endpoints.put,
-      emulator.toUpdateDTO(),
-      { headers: {
-        'Authorization': "Bearer " + token,
-        'Content-type': 'multipart/form-data'
-      }}
-    );
   }
 }

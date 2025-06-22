@@ -17,7 +17,7 @@ export default function GameCard(props: GameCardProps) {
 				</div>
 				<div className="flex flex-col flex-none justify-between align-middle bg-primary px-2 py-1">
 					<h3 className="font-bold text-white line-clamp-1">{props.game.name}</h3>
-					<span className="text-white text-sm line-clamp-1">{props.game.emulator.companyName}</span>
+					<span className="text-white text-sm line-clamp-1">{props.game.emulator.name}</span>
 				</div>
 			</div>
 		</Link>

@@ -1,7 +1,7 @@
 import EmulatorApiService from '@api/EmulatorApiService.ts';
 import Emulator from '@models/Emulator.ts';
 import { AxiosError } from 'axios';
-import { useMutation, useQuery, UseQueryResult } from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 
 type UseEmulatorsOptions<T> = {
   onSuccess?: (emulators: T) => void,
@@ -24,20 +24,4 @@ export function useEmulator(id: number, options?: UseEmulatorsOptions<Emulator>,
     onSuccess: options?.onSuccess,
     onError: options?.onError,
   });
-}
-
-export function useStoreEmulator(token: string, options?: UseEmulatorsOptions<Emulator>) {
-  return useMutation('MUTATE_EMULATOR',
-      (emulator: Emulator) => EmulatorApiService.store(emulator, token), {
-      onSuccess: options?.onSuccess,
-      onError: options?.onError
-    });
-}
-
-export function useDeleteEmulator(token: string, options?: UseEmulatorsOptions<Emulator>) {
-  return useMutation('DELETE_EMULATOR',
-      (emulator: Emulator) => EmulatorApiService.delete(emulator, token), {
-      onSuccess: (_: any, emulator: Emulator) => options?.onSuccess?.(emulator),
-      onError: options?.onError
-    });
 }
