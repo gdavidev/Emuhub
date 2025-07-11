@@ -55,6 +55,7 @@ begin
 
   if not TDirectory.Exists(Diretorio) then
   begin
+    sbPrincipal.Visible := False;
     pnlPrincipal.Caption := 'Nenhuma Rom de GBA';
     Exit;
   end;

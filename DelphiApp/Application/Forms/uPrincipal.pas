@@ -71,7 +71,7 @@ begin
   if Length(Parametros) < 3 then
   begin
     ShowMessage('Número insuficiente de parâmetros.');
-    Exit;
+    formPrincipal.Close;
   end;
 
   // Atribui os parâmetros

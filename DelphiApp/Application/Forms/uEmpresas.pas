@@ -92,6 +92,7 @@ end;
 procedure TformEmpresas.FormCreate(Sender: TObject);
 begin
   DiretorioPadrao := PegaDiretorio;
+
   if TDirectory.Exists(DiretorioPadrao + '\Nintendo') then
     btnNintendo.Enabled := True;
 

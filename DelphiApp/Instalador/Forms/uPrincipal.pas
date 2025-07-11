@@ -72,7 +72,7 @@ begin
             if Reg.OpenKey('command', True) then
             begin
               // Define o valor da cadeia padrão
-              Reg.WriteString('', Diretorio + '\EmuHub\EmuHub.exe');
+              Reg.WriteString('', Diretorio + '\EmuHub\EmuHub.exe %1');
               Reg.CloseKey;
             end;
             Reg.CloseKey;

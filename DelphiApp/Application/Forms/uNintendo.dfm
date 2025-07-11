@@ -26,12 +26,13 @@ object formNintendo: TformNintendo
       Top = 1
       Width = 721
       Height = 451
+      VertScrollBar.Position = 24
       Align = alClient
       TabOrder = 0
       UseWheelForScrolling = True
       object btnGBA: TSpeedButton
         Left = 0
-        Top = 290
+        Top = 266
         Width = 700
         Height = 145
         Align = alTop
@@ -53,7 +54,7 @@ object formNintendo: TformNintendo
       end
       object btnGBC: TSpeedButton
         Left = 0
-        Top = 145
+        Top = 121
         Width = 700
         Height = 145
         Align = alTop
@@ -75,7 +76,7 @@ object formNintendo: TformNintendo
       end
       object btnGB: TSpeedButton
         Left = 0
-        Top = 0
+        Top = -24
         Width = 700
         Height = 145
         Align = alTop
@@ -96,7 +97,7 @@ object formNintendo: TformNintendo
       end
       object btnDS: TSpeedButton
         Left = 0
-        Top = 1015
+        Top = 991
         Width = 700
         Height = 145
         Align = alTop
@@ -118,7 +119,7 @@ object formNintendo: TformNintendo
       end
       object btnGC: TSpeedButton
         Left = 0
-        Top = 870
+        Top = 846
         Width = 700
         Height = 145
         Align = alTop
@@ -140,7 +141,7 @@ object formNintendo: TformNintendo
       end
       object btnN64: TSpeedButton
         Left = 0
-        Top = 725
+        Top = 701
         Width = 700
         Height = 145
         Align = alTop
@@ -162,7 +163,7 @@ object formNintendo: TformNintendo
       end
       object btnSNES: TSpeedButton
         Left = 0
-        Top = 580
+        Top = 556
         Width = 700
         Height = 145
         Align = alTop
@@ -184,7 +185,7 @@ object formNintendo: TformNintendo
       end
       object btnNES: TSpeedButton
         Left = 0
-        Top = 435
+        Top = 411
         Width = 700
         Height = 145
         Align = alTop

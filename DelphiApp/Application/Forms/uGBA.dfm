@@ -20,6 +20,7 @@ object formGBA: TformGBA
     Width = 640
     Height = 480
     Align = alClient
+    Caption = 'sasdasdadad,'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -29
